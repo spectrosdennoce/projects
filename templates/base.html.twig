@@ -6,7 +6,14 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+        <form method="POST">
+            <input name="nom" type="text" placeholder="Nom" value=""/>
+            <input name="prenom" type="text" placeholder="prenom" value=""/>
+            <input name="mail" type="email" placeholder="mail" value=""/>
+            <input name="mdp" type="password" placeholder="mdp" value=""/>
+        </form>
+        {% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>
