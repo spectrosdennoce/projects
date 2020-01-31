@@ -2,10 +2,10 @@ index:
     path: /
     controller: App\Controller\Menu::index
 login:
-    path: /Login
+    path: /Login/
     controller: App\Controller\Menu::Login
 register:
-    path: /Register
+    path: /Register/
     controller: App\Controller\Menu::Register
 tester:
     path: /test_object/
