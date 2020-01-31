@@ -1,8 +1,14 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
 index:
     path: /
+    controller: App\Controller\Menu::index
+login:
+    path: /Login
+    controller: App\Controller\Menu::Login
+register:
+    path: /Register
+    controller: App\Controller\Menu::Register
+tester:
+    path: /test_object/
     controller: App\Controller\LuckyController::number
 add_user:
     path: /adduser/
