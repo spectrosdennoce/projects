@@ -1,5 +1,4 @@
 <?php
-// src/Controller/LuckyController.php
 namespace App\Controller;
 
 use App\Entity\Utils;
@@ -19,5 +18,13 @@ class Menu extends AbstractController
     public function Register()
     {
         return $this->render('Register.html.twig');
+    }
+    public function Add_Formulaire()
+    {
+        return $this->render('Add.Formulaire.html.twig');
+    }
+    public function Read_Formulaire()
+    {
+        return $this->render('Read.Formulaire.html.twig');
     }
 }
