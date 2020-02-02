@@ -7,6 +7,26 @@ $('#exampleModal').on('show.bs.modal', function (event) {
   modal.find('.modal-title').text('New message to ' + recipient)
   modal.find('.modal-body input').val(recipient)
 })
+$('#formulaire').submit(function(event) {
+
+  // Stop la propagation par défaut
+  event.preventDefault();
+
+  // Récupération des valeurs
+  var $form = $(this),
+       term = $form.find( "input[name='text']" ).val(),
+       url = $form.attr( "action" );
+
+  // Envoie des données
+  var posting = $.ajax(  
+  type: "POST",
+  url: url,
+  data: term
+});
+
+  });
+
+});
 {% endblock %}
 {% block body %}
 <div class="container">
@@ -25,7 +45,7 @@ $('#exampleModal').on('show.bs.modal', function (event) {
           <p>Some text in the modal.</p>
         </div>
         <div class="modal-footer">
-        <form method="POST">
+        <form action="/index.php/Formulaire/Read" id='formulaire'>
         <input name="text" type="text" placeholder="text" value=""/>
         <input name="text3" type="text" placeholder="text" value=""/>
         <button  class="btn btn-dark"> truc</button>
