@@ -1,0 +1,137 @@
+<?php //%255BApp%255CEntity%255CUtils%2524CLASSMETADATA%255D%255B1%255D
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\ClassMetadata')),
+        clone ($p['Doctrine\\ORM\\Id\\IdentityGenerator'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Id\\IdentityGenerator')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\Utils',
+            ],
+            'namespace' => [
+                'App\\Entity',
+            ],
+            'rootEntityName' => [
+                'App\\Entity\\Utils',
+            ],
+            'identifier' => [
+                [
+                    'ID',
+                ],
+            ],
+            'generatorType' => [
+                4,
+            ],
+            'fieldMappings' => [
+                [
+                    'ID' => [
+                        'fieldName' => 'ID',
+                        'type' => 'integer',
+                        'scale' => 0,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => 0,
+                        'id' => true,
+                        'columnName' => 'id',
+                    ],
+                    'T_Nom' => [
+                        'fieldName' => 'T_Nom',
+                        'type' => 'string',
+                        'scale' => 0,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => 0,
+                        'columnName' => 't_nom',
+                    ],
+                    'T_Prenom' => [
+                        'fieldName' => 'T_Prenom',
+                        'type' => 'string',
+                        'scale' => 0,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => 0,
+                        'columnName' => 't_prenom',
+                    ],
+                    'T_Email' => [
+                        'fieldName' => 'T_Email',
+                        'type' => 'string',
+                        'scale' => 0,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => 0,
+                        'columnName' => 't_email',
+                    ],
+                    'T_Mdp' => [
+                        'fieldName' => 'T_Mdp',
+                        'type' => 'string',
+                        'scale' => 0,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => 0,
+                        'columnName' => 't_mdp',
+                    ],
+                    'B_Admin' => [
+                        'fieldName' => 'B_Admin',
+                        'type' => 'boolean',
+                        'scale' => 0,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => true,
+                        'precision' => 0,
+                        'columnName' => 'b_admin',
+                    ],
+                    'D_Crea' => [
+                        'fieldName' => 'D_Crea',
+                        'type' => 'date',
+                        'scale' => 0,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => 0,
+                        'columnName' => 'd_crea',
+                    ],
+                ],
+            ],
+            'fieldNames' => [
+                [
+                    'id' => 'ID',
+                    't_nom' => 'T_Nom',
+                    't_prenom' => 'T_Prenom',
+                    't_email' => 'T_Email',
+                    't_mdp' => 'T_Mdp',
+                    'b_admin' => 'B_Admin',
+                    'd_crea' => 'D_Crea',
+                ],
+            ],
+            'columnNames' => [
+                [
+                    'ID' => 'id',
+                    'T_Nom' => 't_nom',
+                    'T_Prenom' => 't_prenom',
+                    'T_Email' => 't_email',
+                    'T_Mdp' => 't_mdp',
+                    'B_Admin' => 'b_admin',
+                    'D_Crea' => 'd_crea',
+                ],
+            ],
+            'table' => [
+                [
+                    'name' => 'Utils',
+                ],
+            ],
+            'idGenerator' => [
+                $o[1],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];
