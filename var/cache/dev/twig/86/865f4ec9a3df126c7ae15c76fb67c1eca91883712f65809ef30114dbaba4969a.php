@@ -67,10 +67,9 @@ class __TwigTemplate_b67d7d7ded7f9a2e6ff7e6b1174175eec1484c77732db384895faf2254f
 
         // line 3
         echo "        <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">
-           <a href='/index.php/Register' class=\"btn btn-dark\">Register</a>
-           <a href='/index.php/Login' class=\"btn btn-dark\">Log-In</a>
-           <a href='/index.php/Formulaire/Create' class=\"btn btn-dark\">Create</a>
-           <a href='/index.php/Formulaire/Read' class=\"btn btn-dark\">Liste Formulaire</a>
+           <a href='/Login' class=\"btn btn-dark\">Log-In</a>
+           <a href='/Formulaire/Create' class=\"btn btn-dark\">Create</a>
+           <a href='/Formulaire/Read' class=\"btn btn-dark\">Liste Formulaire</a>
         </div>
     ";
         
@@ -81,7 +80,7 @@ class __TwigTemplate_b67d7d7ded7f9a2e6ff7e6b1174175eec1484c77732db384895faf2254f
 
     }
 
-    // line 10
+    // line 9
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -111,7 +110,7 @@ class __TwigTemplate_b67d7d7ded7f9a2e6ff7e6b1174175eec1484c77732db384895faf2254f
 
     public function getDebugInfo()
     {
-        return array (  85 => 10,  69 => 3,  59 => 2,  36 => 1,);
+        return array (  84 => 9,  69 => 3,  59 => 2,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -119,10 +118,9 @@ class __TwigTemplate_b67d7d7ded7f9a2e6ff7e6b1174175eec1484c77732db384895faf2254f
         return new Source("{% extends \"Header-Footer.html.twig\" %}
     {% block body %}
         <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">
-           <a href='/index.php/Register' class=\"btn btn-dark\">Register</a>
-           <a href='/index.php/Login' class=\"btn btn-dark\">Log-In</a>
-           <a href='/index.php/Formulaire/Create' class=\"btn btn-dark\">Create</a>
-           <a href='/index.php/Formulaire/Read' class=\"btn btn-dark\">Liste Formulaire</a>
+           <a href='/Login' class=\"btn btn-dark\">Log-In</a>
+           <a href='/Formulaire/Create' class=\"btn btn-dark\">Create</a>
+           <a href='/Formulaire/Read' class=\"btn btn-dark\">Liste Formulaire</a>
         </div>
     {% endblock %}
     {% block javascripts %}{% endblock %}", "Menu.html.twig", "/var/www/projects/templates/Menu.html.twig");

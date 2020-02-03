@@ -90,8 +90,6 @@ class __TwigTemplate_8ea80ac3fb8845dcc6e9c248225e3a5d84ae20bb1123c9b50590a00be38
   data: term
 });
 
-  });
-
 });
 ";
         
@@ -102,7 +100,7 @@ class __TwigTemplate_8ea80ac3fb8845dcc6e9c248225e3a5d84ae20bb1123c9b50590a00be38
 
     }
 
-    // line 31
+    // line 29
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -112,7 +110,7 @@ class __TwigTemplate_8ea80ac3fb8845dcc6e9c248225e3a5d84ae20bb1123c9b50590a00be38
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 32
+        // line 30
         echo "<div class=\"container\">
   <h2>Modal Example</h2>
   <button type=\"button\" class=\"btn btn-info btn-lg\" data-toggle=\"modal\" data-target=\"#myModal\">Open Modal</button>
@@ -161,7 +159,7 @@ class __TwigTemplate_8ea80ac3fb8845dcc6e9c248225e3a5d84ae20bb1123c9b50590a00be38
 
     public function getDebugInfo()
     {
-        return array (  116 => 32,  106 => 31,  69 => 3,  59 => 2,  36 => 1,);
+        return array (  114 => 30,  104 => 29,  69 => 3,  59 => 2,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -191,8 +189,6 @@ class __TwigTemplate_8ea80ac3fb8845dcc6e9c248225e3a5d84ae20bb1123c9b50590a00be38
   url: url,
   data: term
 });
-
-  });
 
 });
 {% endblock %}
