@@ -53,11 +53,50 @@ class Formulaire
      */
     public $B_Visible;
     
-    function getTitre(){
+    /*function getTitre(){
         $result = $this->T_Titre;
         return $result;
     }
     public function __construct(){
         $this->O_Groups = new ArrayCollection();
+    }*/
+    function setTitre($T_Titre)
+    {
+        $this->t_titre = $T_Titre;
+    }
+    function setIdUtilsCrea($N_ID_Utils_Crea)
+    {
+        $this->n_id_utils_crea = $N_ID_Utils_Crea;
+    }
+    function setDateCrea($D_Crea)
+    {
+        $this->d_crea = $D_Crea;
+    }
+    function setDateDele($D_Dele)
+    {
+        $this->d_dele = $D_Dele;
+    }
+    function setVisible($B_Visible)
+    {
+        $this->b_visible = $B_Visible;
+    }
+
+    function getID(){
+        return $this->id;
+    }
+    function getTitre(){
+        return $this->T_Titre;
+    }
+    function getIdUtilsCrea(){
+        return $this->N_ID_Utils_Crea;
+    }
+    function getDateCrea(){
+        return $this->D_Crea;
+    }
+    function getDateDele(){
+        return $this->D_Dele;
+    }
+    function getVisible(){
+        return $this->B_Visible;
     }
 }
