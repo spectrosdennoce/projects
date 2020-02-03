@@ -1,5 +1,5 @@
 
-<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#Login">Login</button>
+
 
   <div class="modal fade" id="Login" role="dialog">
     <div class="modal-dialog">
@@ -15,11 +15,9 @@
                     <label for="T_Pseudo">Pseudonyme/Pseudo</label>
                     <input name="T_Pseudo" class="form-control" type="text" placeholder="Email / Pseudo" value=""/>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="T_Mdp">mot de passe</label>
-                        <input name="T_Mdp" class="form-control" type="password" placeholder="mot de passe" value=""/>
-                    </div>
+                <div class="form-group">
+                    <label for="T_Mdp">mot de passe</label>
+                    <input name="T_Mdp" class="form-control" type="password" placeholder="mot de passe" value=""/>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-info"> Validate</button>
@@ -27,6 +25,7 @@
             </form>
         </div>
         <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal" data-toggle="modal" data-target="#Register">Register</button>
           <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
         </div>
       </div>
