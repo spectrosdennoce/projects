@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}BTS_PROJECT{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}
-            <a href='bonjuor'><button>Register</button></a>
-            <a href='Login'><button>Log-In</button></a>
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+{% extends "Header-Footer.html.twig" %}
+    {% block body %}
+        <div class="btn-group" role="group" aria-label="Basic example">
+           <a href='/index.php/Register' class="btn btn-dark">Register</a>
+           <a href='/index.php/Login' class="btn btn-dark">Log-In</a>
+           <a href='/index.php/Formulaire/Create' class="btn btn-dark">Create</a>
+           <a href='/index.php/Formulaire/Read' class="btn btn-dark">Liste Formulaire</a>
+        </div>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}

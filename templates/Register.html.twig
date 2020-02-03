@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}
-        <form method="POST">
-            <input name="nom" type="text" placeholder="Nom" value=""/>
-            <input name="prenom" type="text" placeholder="prenom" value=""/>
-            <input name="mail" type="email" placeholder="mail" value=""/>
-            <input name="mdp" type="password" placeholder="mdp" value=""/>
-        </form>
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+{% extends "Header-Footer.html.twig" %}
+{% block body %}
+
+    <form method="POST">
+        <input name="T_Titre" type="test" placeholder="test" value=""/>
+        <input name="D_Crea" type="date" placeholder="date" value=""/>
+        <button name="save" Value="true">validate</button>
+    </form>
+{% endblock %}

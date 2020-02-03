@@ -1,0 +1,59 @@
+{% extends "Header-Footer.html.twig" %}
+{% block javascripts %}
+$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var recipient = button.data('whatever')
+  var modal = $(this)
+  modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
+$('#formulaire').submit(function(event) {
+
+  // Stop la propagation par défaut
+  event.preventDefault();
+
+  // Récupération des valeurs
+  var $form = $(this),
+       term = $form.find( "input[name='text']" ).val(),
+       url = $form.attr( "action" );
+
+  // Envoie des données
+  var posting = $.ajax(  
+  type: "POST",
+  url: url,
+  data: term
+});
+
+  });
+
+});
+{% endblock %}
+{% block body %}
+<div class="container">
+  <h2>Modal Example</h2>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Header</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+        <form action="/index.php/Formulaire/Read" id='formulaire'>
+        <input name="text" type="text" placeholder="text" value=""/>
+        <input name="text3" type="text" placeholder="text" value=""/>
+        <button  class="btn btn-dark"> truc</button>
+        </form>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
