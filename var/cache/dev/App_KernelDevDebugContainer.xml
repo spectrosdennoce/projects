@@ -306,13 +306,6 @@
     <service id="EasyCorp\EasyLog\EasyLogHandler" class="EasyCorp\EasyLog\EasyLogHandler" public="false">
       <argument>/var/www/projects/var/log/dev.log</argument>
     </service>
-    <service id="App\Controller\LuckyController" class="App\Controller\LuckyController" public="true" autowire="true" autoconfigure="true">
-      <tag name="controller.service_arguments"/>
-      <tag name="container.service_subscriber"/>
-      <call method="setContainer">
-        <argument type="service" id=".service_locator.SXie53V.App\Controller\LuckyController"/>
-      </call>
-    </service>
     <service id="App\Controller\Menu" class="App\Controller\Menu" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -2354,14 +2347,6 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
-        <argument type="collection">
-          <argument type="service" id="debug.debug_handlers_listener"/>
-          <argument>configure</argument>
-        </argument>
-        <argument>2048</argument>
-      </call>
-      <call method="addListener">
-        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -4539,9 +4524,6 @@
       <tag name="maker.command"/>
       <argument>/var/www/projects</argument>
     </service>
-    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\LuckyController" class="App\Controller\LuckyController" autowire="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\LuckyController" class="App\Controller\LuckyController" autowire="true" abstract="true"/>
-    <service id=".abstract.instanceof.App\Controller\LuckyController" class="App\Controller\LuckyController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\Menu" class="App\Controller\Menu" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\Menu" class="App\Controller\Menu" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\Menu" class="App\Controller\Menu" autowire="true" autoconfigure="true" abstract="true"/>
@@ -5006,12 +4988,6 @@
         <argument key="session" type="service" id="session" on-invalid="ignore"/>
         <argument key="twig" type="service" id="twig" on-invalid="ignore"/>
       </argument>
-    </service>
-    <service id=".service_locator.SXie53V.App\Controller\LuckyController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator_context" id="App\Controller\LuckyController"/>
-      <argument>App\Controller\LuckyController</argument>
-      <argument type="service" id="service_container"/>
-      <factory service=".service_locator.SXie53V" method="withContext"/>
     </service>
     <service id=".service_locator.SXie53V.App\Controller\Menu" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\Menu"/>
