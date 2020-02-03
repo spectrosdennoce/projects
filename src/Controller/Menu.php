@@ -21,21 +21,15 @@ class Menu extends AbstractController
     {
         if($request->request->has('save'))
         {
-            $T_Pseudo = $request->request->get('T_Pseudo');
-            $T_Nom = $request->request->get('T_Nom');
-            $T_Prenom = $request->request->get('T_Prenom');
-            $T_Email = $request->request->get('T_Email');
-            $T_Mdp = $request->request->get('T_Mdp');
-            $T_Confirmed_Mdp = $request->request->get('T_Confirmed_Mdp');
-
-
+            $T_Titre = $request->request->get('T_Titre');
+            $D_Crea = $request->request->get('D_Crea');
             $Utils = new Utils;
-            $Utils->setNom($T_Nom);
-            $Utils->setPseudo($T_Pseudo);
-            $Utils->setPrenom($T_Prenom);
-            $Utils->setEmail($T_Email);
+            $Utils->setNom($T_Titre);
+            $Utils->setPseudo($T_Titre);
+            $Utils->setPrenom($T_Titre);
+            $Utils->setEmail($T_Titre);
             $Utils->setMdp($T_Titre);
-            $Utils->setDateCrea(date ('d/m/Y'));
+            $Utils->setDateCrea($D_Crea);
             $Utils->setAdmin(1);
             $em = $this->getDoctrine()->getManager();
             $em->persist($Utils);
