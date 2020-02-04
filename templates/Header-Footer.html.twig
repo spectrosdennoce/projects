@@ -11,7 +11,7 @@
         </head>
     <body>
       {% block javascripts %}{% endblock %}
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav class="navbar navbar-expand navbar-dark bg-primary">
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
@@ -22,8 +22,8 @@
             <button type="button" class="btn btn-primary mr-sm-2" data-toggle="modal" data-target="#Register">Register</button>
             <button type="button" class="btn btn-primary my-2 my-sm-0" data-toggle="modal" data-target="#Login">Login</button>
           </div>
-          {{ include('Register.html.twig') }}
-          {{ include('Login.html.twig') }}
+          {{ include('Utilisateur/Register.html.twig') }}
+          {{ include('Utilisateur/Login.html.twig') }}
         </div>
       </nav>
       {% block body %}{% endblock %}
