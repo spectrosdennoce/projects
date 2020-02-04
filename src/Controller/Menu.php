@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class Menu extends AbstractController
 {
     public function index()
@@ -17,7 +18,7 @@ class Menu extends AbstractController
     {
         return $this->render('Login.html.twig');
     }
-    public function Register(Request $request)
+    public function Register(Request $request,UserPasswordEncoderInterface $passwordEncode)
     {
         if($request->request->has('save'))
         {
