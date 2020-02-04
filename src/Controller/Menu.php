@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class Menu extends AbstractController
 {
     public function index(Request $request)
@@ -29,7 +28,7 @@ class Menu extends AbstractController
             }
         }
     }
-    public function Register(Request $request,UserPasswordEncoderInterface $passwordEncode)
+    public function Register(Request $request)
     {
         if($request->request->has('save'))
         {
@@ -39,17 +38,17 @@ class Menu extends AbstractController
             $T_Email = $request->request->get('T_Email');
             $T_Mdp = $request->request->get('T_Mdp');
             $T_Confirmed_Mdp = $request->request->get('T_Confirmed_Mdp');
-            $Utils = new Utils;
-            $Hash =  password_hash($T_Mdp ,PASSWORD_BCRYPT);
-            $Utils->setNom($T_Nom);
-            $Utils->setPseudo($T_Pseudo);
-            $Utils->setPrenom($T_Prenom);
-            $Utils->setEmail($T_Email);
-            $Utils->setMdp($T_Mdp);
-            $Utils->setDateCrea(date('d/m/Y'));
-            $Utils->setAdmin(1);
+            $O_Utils = new Utils;
+            $T_Hash =  password_hash($T_Mdp ,PASSWORD_BCRYPT);
+            $O_Utils->setNom($T_Nom);
+            $O_Utils->setPseudo($T_Pseudo);
+            $O_Utils->setPrenom($T_Prenom);
+            $O_Utils->setEmail($T_Email);
+            $O_Utils->setMdp($T_Hash);
+            $O_Utils->setDateCrea(date('d/m/Y'));
+            $O_Utils->setAdmin(1);
             $em = $this->getDoctrine()->getManager();
-            $em->persist($Utils);
+            $em->persist($O_Utils);
             try {
                 $em->flush();
             }
