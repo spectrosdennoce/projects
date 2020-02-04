@@ -13,3 +13,7 @@ Create_Formulaire:
 Read_Formulaire:
     path: /Formulaire/Read
     controller: App\Controller\Menu::Read_Formulaire
+
+#nom de la route:
+#   path: lien url
+#   controller: chemin controller :: nom fonction
