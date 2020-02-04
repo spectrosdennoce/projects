@@ -29,9 +29,10 @@ class Menu extends AbstractController
             $Utils->setPseudo($T_Titre);
             $Utils->setPrenom($T_Titre);
             $Utils->setEmail($T_Titre);
+            $Hash =  password_hash($T_Mdp ,PASSWORD_BCRYPT);
             $Utils->setMdp($T_Titre);
             $Utils->setDateCrea($D_Crea);
-            $Utils->setAdmin(1);
+            $Utils->setAdmin(1);  
             $em = $this->getDoctrine()->getManager();
             $em->persist($Utils);
             try {
