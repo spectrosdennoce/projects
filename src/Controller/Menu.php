@@ -47,13 +47,6 @@ class Menu extends AbstractController
         $task = new Formulaire();
         $task->setTitre('Write a blog post');
         $task->setDateCrea(new \DateTime('tomorrow'));
-
-        $form = $this->createFormBuilder($task)
-            ->add('T_Titre', TextType::class)
-            ->add('D_Crea', DateType::class)
-            ->add('save', SubmitType::class, ['label' => 'Create Task'])
-            ->getForm();
-        // ...
         return $this->render('Add.Formulaire.html.twig');
     }
     public function Read_Formulaire()
