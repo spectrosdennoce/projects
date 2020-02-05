@@ -24,7 +24,7 @@ class Utils
     public $T_Nom;
 
     /**
-     * @ORM\Column(type="string", nullable=false, unique=true, name="t_pseudo")
+     * @ORM\Column(type="string", nullable=false, unique=true, name="t_pseudo", unique=true)
      */
     public $T_Pseudo;
 
@@ -34,12 +34,12 @@ class Utils
     public $T_Prenom;
 
     /**
-     * @ORM\Column(type="string", nullable=false, name="t_email")
+     * @ORM\Column(type="string", nullable=false, name="t_email", unique=true)
      */
     public $T_Email;
 
     /**
-     * @ORM\Column(type="string", nullable=false, unique=true, name="t_mdp")
+     * @ORM\Column(type="string", nullable=false, name="t_mdp")
      */
     public $T_Mdp;
 

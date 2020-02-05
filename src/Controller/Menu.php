@@ -18,7 +18,7 @@ class Menu extends AbstractController
     }
     public function Login(Request $request)
     {
-        if($request->request->has('save'))
+        if($request->request->get('save') == 'login')
         {
             $T_Pseudo = $request->request->get('T_Pseudo');
             $T_Mdp = $request->request->get('T_Mdp');
@@ -30,7 +30,7 @@ class Menu extends AbstractController
     }
     public function Register(Request $request)
     {
-        if($request->request->has('save'))
+        if($request->request->get('save') == 'register')
         {
             $T_Pseudo = $request->request->get('T_Pseudo');
             $T_Nom = $request->request->get('T_Nom');

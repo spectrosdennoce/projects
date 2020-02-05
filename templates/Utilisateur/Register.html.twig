@@ -9,43 +9,70 @@
         <form method="POST" class="needs-validation" novalidation>
           <div class="form-group">
             <label for="T_Pseudo">Pseudonyme</label>
-            <input name="T_Pseudo" class="form-control" type="text" placeholder="Pseudonyme" required="required" value=""/>
+	          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-user"></i></span>
+              </div>
+              <input name="T_Pseudo" class="form-control" type="text" placeholder="Pseudonyme" required="required" value=""/>
+            </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="T_Nom">Nom</label>
-              <input name="T_Nom" class="form-control" type="text" placeholder="Nom" required="required" value=""/>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                </div>
+                <input name="T_Nom" class="form-control" type="text" placeholder="Nom" required="required" value=""/>
+              </div>
             </div>
               <div class="form-group col-md-6">
                 <label for="T_Prenom">Prenom</label>
-                <input name="T_Prenom" class="form-control" type="text" placeholder="Prenom" required="required" value=""/>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-user"></i></span>
+                  </div>
+                  <input name="T_Prenom" class="form-control" type="text" placeholder="Prenom" required="required" value=""/>
+                </div>
               </div>
           </div>
           <div class="form-group">
             <label for="T_Email">Email</label>
-            <input name="T_Email" class="form-control" type="EMAIL" placeholder="Email" required="required" value=""/>
-            <div class="invalid-feedback">
-                Veuiller entrez une email.
+	          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
               </div>
+              <input name="T_Email" class="form-control" type="EMAIL" placeholder="Email" required="required" value=""/>
+            </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputT_MdpEmail4">mot de passe</label>
-              <input name="T_Mdp" id="password" class="form-control Pas-Toucher" type="password" placeholder="mot de passe" required="required" value=""/>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                </div>
+                <input name="T_Mdp" id="password" class="form-control Pas-Toucher" type="password" placeholder="mot de passe" required="required" value=""/>
+              </div>
               <div class="invalid-feedback">
-                Les mots de passe doivent etre identique
+                Veuiller rentrer un mot de passe.
               </div>
             </div>
             <div class="form-group col-md-6">
               <label for="T_Confirmed_Mdp">Confirmation mot de passe</label>
-              <input name="T_Confirmed_Mdp" id="cpassword" class="form-control Pas-Toucher" type="password" required="required" placeholder="Confirmation mot de passe" value=""/>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                </div>
+                <input name="T_Confirmed_Mdp" id="cpassword" class="form-control Pas-Toucher" type="password" required="required" placeholder="Confirmation mot de passe" value=""/>
+              </div>
               <div class="invalid-feedback">
                 Les mots de passe doivent etre identique
               </div>
             </div>
           </div>
           <div class="form-group">
-            <button name="save" id="submit" value="true" disabled class="btn btn-info"> Validate</button>
+            <button name="save" id="submit" value="register" class="btn btn-info disabled"> Validate</button>
           </div>
         </form>
       </div>
@@ -60,28 +87,24 @@
 <script>
 
 $(document).ready(function(){
-  $("#password").focusout(function (event) {
-    if ($("#password").val() != $("#cpassword").val()) {
-      $("#password").addClass("is-invalid").removeClass("is-valid");
-      $("#cpassword").addClass("is-invalid").removeClass("is-valid");
-      $("#submit").attr('disabled');
-    } else {
-      $("#password").addClass("is-valid").removeClass("is-invalid");
-      $("#cpassword").addClass("is-valid").removeClass("is-invalid");
-      $("#submit").removeAttr('disabled');
-    }
-  });
-  $("#cpassword").keyup(function () {
-    if ($("#password").val() != $("#cpassword").val()) {
-      $("#password").addClass("is-invalid").removeClass("is-valid");
-      $("#cpassword").addClass("is-invalid").removeClass("is-valid");
-      $("#submit").attr('disabled');
-    } else {
-      $("#password").addClass("is-valid").removeClass("is-invalid");
-      $("#cpassword").addClass("is-valid").removeClass("is-invalid");
-      $("#submit").removeAttr('disabled');
-    }
-  });
+    $("#password").focusout(function (event) {
+      if ($("#password").val() != $("#cpassword").val() & $("#password").val() != null) {
+        $("#password").addClass("is-valid").removeClass("is-invalid");
+        $("#cpassword").addClass("is-invalid").removeClass("is-valid");
+        $("#submit").addClass('disabled');
+      } else {
+        $("#password").addClass("is-invalid").removeClass("is-valid");
+      }
+    });
+    $("#cpassword").keyup(function () {
+      if ($("#password").val() != $("#cpassword").val()) {
+        $("#cpassword").addClass("is-invalid").removeClass("is-valid");
+        $("#submit").addClass('disabled');
+      } else {
+        $("#cpassword").addClass("is-valid").removeClass("is-invalid");
+        $("#submit").removeClass('disabled');
+      }
+    });
 });
 </script>
 {% endblock %}
