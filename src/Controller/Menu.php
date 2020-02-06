@@ -14,7 +14,10 @@ class Menu extends AbstractController
     {
         self::Login($request);
         self::Register($request);
-        return $this->render('Menu.html.twig');
+        $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+        $formulaires = $repository->findAll();
+        //dd($formulaires);
+        return $this->render('Menu.html.twig',['formulaires'=>$formulaires]);
     }
     public function Login(Request $request)
     {
@@ -56,16 +59,5 @@ class Menu extends AbstractController
                 error_log($e->getMessage());
             }
         }
-    }
-    public function Add_Formulaire(Request $request)
-    {
-        $task = new Formulaire();
-        $task->setTitre('Write a blog post');
-        $task->setDateCrea(new \DateTime('tomorrow'));
-        return $this->render('Formulaire/Add.Formulaire.html.twig');
-    }
-    public function Read_Formulaire()
-    {
-        return $this->render('Formulaire/Read.Formulaire.html.twig');
     }
 }

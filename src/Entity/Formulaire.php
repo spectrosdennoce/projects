@@ -16,7 +16,7 @@ class Formulaire
     public $ID;
 
     /**
-     * @ORM\Column(type="string", nullable=false, name="t_titre")
+     * @ORM\Column(type="string", nullable=true, name="t_titre")
      */
     public $T_Titre;
 

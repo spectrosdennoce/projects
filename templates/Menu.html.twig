@@ -1,91 +1,50 @@
 {% extends "Header-Footer.html.twig" %}
     {% block body %}
-        <div class="btn-group" role="group" aria-label="Basic example">
-           <a href='/Formulaire/Create' class="btn btn-dark">Create</a>
-           <a href='/Formulaire/Read' class="btn btn-dark">Liste Formulaire</a>
-        </div>
         
         <div class="container">
-            <div class="row">
-                <a class="btn btn-outline-link col-sm-3" href="#" role="button">
+            {% for formulaire in formulaires %}
+                {% if loop.index0 % 4 == 0 %}
+                    <div class="row">
+                {% endif %}
+                <a class="btn btn-outline-link col-sm-3" href="/Formulaire/Read/{{ formulaire.getSlug() }}" role="button">
                     <div class="card">
                         <div class="card-inner">
                             <div class="header">
-                                <h3>Formulaire N1</h3>
+                                <h3>{{formulaire.getTitre()}}</h3>
                             </div>
                             <div class="image">
                                 <img src="{{ asset('template.png') }}" alt="">
                             </div>
                             <div class="content">
-                                <h5>Creator:lorem ipsum</h5>
-                                <span>Date:19/10/2020</span>
+                                <h5>{{formulaire.getIdUtilsCrea().getPrenom()}}</h5>
+                                <span>{{formulaire.getDateCrea()|date("d/m/Y")}}</span>
                             </div>
                         </div>
                     </div>
                 </a>
-                <a class="btn btn-outline-link col-sm-3" href="#" role="button">
-                    <div class="card">
-                        <div class="card-inner">
-                            <div class="header">
-                                <h3>Formulaire N1</h3>
-                            </div>
-                            <div class="image">
-                                <img src="{{ asset('template.png') }}" alt="">
-                            </div>
-                            <div class="content">
-                                <h5>Creator:lorem ipsum</h5>
-                                <span>Date:19/10/2020</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a class="btn btn-outline-link col-sm-3" href="#" role="button">
-                    <div class="card">
-                        <div class="card-inner">
-                            <div class="header">
-                                <h3>Formulaire N2</h3>
-                            </div>
-                            <div class="image">
-                                <img src="{{ asset('template.png') }}" alt="">
-                            </div>
-                            <div class="content">
-                                <h5>Creator:lorem ipsum</h5>
-                                <span>Date:19/10/2020</span>
+                {% if loop.index0 % 4 > 3 and loop.last %}
+                    <div class="row">
+                {% endif %}
+                {% if loop.last %}
+                    <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
+                        <div class="card">
+                            <div class="card-inner">
+                                <div class="header">
+                                    <h3>Crée Formulaire</h3>
+                                </div>
+                                <div class="image">
+                                    <img src="{{ asset('plus.png') }}" alt="">
+                                </div>
                             </div>
                         </div>
+                    </a>
+                {% endif %}
+                {% if loop.index0 % 4 > 3 and loop.last %}
                     </div>
-                </a>
-                <a class="btn btn-outline-link col-sm-3" href="#" role="button">
-                    <div class="card">
-                        <div class="card-inner">
-                            <div class="header">
-                                <h3>Formulaire N3</h3>
-                            </div>
-                            <div class="image">
-                                <img src="{{ asset('template.png') }}" alt="">
-                            </div>
-                            <div class="content">
-                                <h5>Creator:lorem ipsum</h5>
-                                <span>Date:19/10/2020</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="row">
-                <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
-                    <div class="card">
-                        <div class="card-inner">
-                            <div class="header">
-                                <h3>Crée Formulaire</h3>
-                            </div>
-                            <div class="image">
-                                <img src="https://ssl.gstatic.com/docs/templates/thumbnails/forms-blank-googlecolors.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+                {% endif %}
+                {% if loop.index0 % 4 == 3 or loop.last %}
+                </div>
+                {% endif %}
+            {% endfor %}
     {% endblock %}
     {% block javascripts %}{% endblock %}
