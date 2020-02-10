@@ -10,21 +10,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 class Forms_Editing extends AbstractController
 {
-    public function Creation()
+    public function Creation(Request $request)
     {
+        //create formulaire
         $O_Forms = new Formulaire;
-        
         $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+        //call unique slug
         $T_Slug = $this->getRandString(15);
         while($repository->findOneBy(['T_Slug' => $T_Slug])){
             $T_Slug = $this->getRandString(15);
         }
         $repository = $this->getDoctrine()->getRepository(Utils::class);
-        if($O_Utils = $repository->findOneBy(['T_Pseudo' => 'yolo'])){
-            $O_Forms->setIdUtilsCrea($O_Utils);
-        }
+        //get session actif
+        $session = $request->getSession();
+        //set createur date slug
+        $O_Utils = $repository->find($session->get('id'));
+        $O_Forms->setIdUtilsCrea($O_Utils);
         $O_Forms->setDateCrea(date('d/m/Y'));
         $O_Forms->setSlug($T_Slug);
+        //envoyer en bdd avec un try catch exeption (a voir interer)
         $em = $this->getDoctrine()->getManager();
         $em->persist($O_Forms);
         try {
@@ -33,16 +37,18 @@ class Forms_Editing extends AbstractController
         catch(EntityNotFoundException $e){
             error_log($e->getMessage());
         }
+        //redirige vers Menu.html.twig
         return $this->redirectToRoute('index');
     }
-    public function Read(string $T_Slug)
+    public function Read(Request $request,string $T_Slug)
     {
         return $this->render('\Formulaire\Read.Formulaire.html.twig',['T_Slug'=>$T_Slug]);
     }
     function getRandString($n) { 
+        //generer slug unique
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
         $randomString = ''; 
-      
+        //enleve x lettre aleatoir dans characters
         for ($i = 0; $i < $n; $i++) { 
             $index = rand(0, strlen($characters) - 1); 
             $randomString .= $characters[$index]; 
