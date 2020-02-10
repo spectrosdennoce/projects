@@ -14,10 +14,11 @@ class Menu extends AbstractController
     {
         self::Login($request);
         self::Register($request);
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $O_Utils = $repository->findAll();
         $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-        $formulaires = $repository->findAll();
-        //dd($formulaires);
-        return $this->render('Menu.html.twig',['formulaires'=>$formulaires]);
+        $O_Formulaires = $repository->findAll();
+        return $this->render('Menu.html.twig',['formulaires'=>$O_Formulaires,'utils'=>$O_Utils]);
     }
     public function Login(Request $request)
     {
@@ -26,8 +27,8 @@ class Menu extends AbstractController
             $T_Pseudo = $request->request->get('T_Pseudo');
             $T_Mdp = $request->request->get('T_Mdp');
             $repository = $this->getDoctrine()->getRepository(Utils::class);
-            if($formulaires = $repository->findOneBy(['T_Pseudo' => $T_Pseudo])){
-                dd($formulaires);
+            if($O_Formulaires = $repository->findOneBy(['T_Pseudo' => $T_Pseudo])){
+                dd($O_Formulaires);
             }
         }
     }
@@ -52,12 +53,7 @@ class Menu extends AbstractController
             $O_Utils->setAdmin(1);
             $em = $this->getDoctrine()->getManager();
             $em->persist($O_Utils);
-            try {
-                $em->flush();
-            }
-            catch(EntityNotFoundException $e){
-                error_log($e->getMessage());
-            }
+            $em->flush();
         }
     }
 }

@@ -28,3 +28,6 @@ body {
   .card img{
     width:100%;
   }
+  input:invalid {
+    background-color: #ffdddd;
+  }
