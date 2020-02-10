@@ -9,34 +9,64 @@
         <form method="POST">
           <div class="form-group">
             <label for="T_Pseudo">Pseudonyme</label>
-            <input name="T_Pseudo" class="form-control" type="text" placeholder="Pseudonyme" required="required" value=""/>
+	          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-user"></i></span>
+              </div>
+              <input name="T_Pseudo" class="form-control" type="text" placeholder="Pseudonyme" required="required" value=""/>
+            </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="T_Nom">Nom</label>
-              <input name="T_Nom" class="form-control" type="text" placeholder="Nom" required="required" value=""/>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                </div>
+                <input name="T_Nom" class="form-control" type="text" placeholder="Nom" required="required" value=""/>
+              </div>
             </div>
               <div class="form-group col-md-6">
                 <label for="T_Prenom">Prenom</label>
-                <input name="T_Prenom" class="form-control" type="text" placeholder="Prenom" required="required" value=""/>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-user"></i></span>
+                  </div>
+                  <input name="T_Prenom" class="form-control" type="text" placeholder="Prenom" required="required" value=""/>
+                </div>
               </div>
           </div>
           <div class="form-group">
             <label for="T_Email">Email</label>
-            <input name="T_Email" class="form-control" type="EMAIL" placeholder="Email" required="required" value=""/>
+	          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+              </div>
+              <input name="T_Email" class="form-control" type="EMAIL" placeholder="Email" required="required" value=""/>
+            </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputT_MdpEmail4">mot de passe</label>
-              <input name="T_Mdp" class="form-control" type="password" placeholder="mot de passe" required="required" value=""/>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                </div>
+                <input name="T_Mdp" id="password" class="form-control" type="password" placeholder="mot de passe" required="required" value=""/>
+              </div>
             </div>
             <div class="form-group col-md-6">
               <label for="T_Confirmed_Mdp">Confirmation mot de passe</label>
-              <input name="T_Confirmed_Mdp" class="form-control"  type="password" required="required" placeholder="Confirmation mot de passe" value=""/>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                </div>
+                <input name="T_Confirmed_Mdp" id="cpassword" class="form-control" type="password" required="required" placeholder="Confirmation mot de passe" value=""/>
+              </div>
             </div>
           </div>
           <div class="form-group">
-            <button name="save" value="true" class="btn btn-info"> Validate</button>
+            <button name="save" id="submit" value="register" class="btn btn-info"disabled> Validate</button>
           </div>
         </form>
       </div>
@@ -47,3 +77,31 @@
     </div>
   </div>
 </div>
+{% block javascripts %}
+<script>
+$(document).ready(function(){
+    $("#password").keyup(function (event) {
+      if ($("#password").val() != $("#cpassword").val() & $("#password").val() != null) {
+        $("#password").addClass("is-invalid").removeClass("is-valid");
+        $("#cpassword").addClass("is-invalid").removeClass("is-valid");
+        $("#submit").attr('disabled','disabled');
+      } else {
+        $("#password").addClass("is-valid").removeClass("is-invalid");
+        $("#cpassword").addClass("is-valid").removeClass("is-invalid");
+        $("#submit").removeAttr('disabled');
+      }
+    });
+    $("#cpassword").keyup(function () {
+      if ($("#password").val() != $("#cpassword").val() & $("#cpassword").val() != null) {
+        $("#password").addClass("is-invalid").removeClass("is-valid");
+        $("#cpassword").addClass("is-invalid").removeClass("is-valid");
+        $("#submit").attr('disabled','disabled');
+      } else {
+        $("#password").addClass("is-valid").removeClass("is-invalid");
+        $("#cpassword").addClass("is-valid").removeClass("is-invalid");
+        $("#submit").removeAttr('disabled');
+      }
+    });
+});
+</script>
+{% endblock %}

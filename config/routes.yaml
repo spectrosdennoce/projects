@@ -8,11 +8,11 @@ register:
     path: /Register/
     controller: App\Controller\Menu::Register
 Create_Formulaire:
-    path: /Formulaire/Create
-    controller: App\Controller\Menu::Add_Formulaire
+    path: /Formulaire/Create/
+    controller: App\Controller\Forms_Editing::Creation
 Read_Formulaire:
-    path: /Formulaire/Read
-    controller: App\Controller\Menu::Read_Formulaire
+    path: /Formulaire/Read/{T_Slug}
+    controller: App\Controller\Forms_Editing::Read
 
 #nom de la route:
 #   path: lien url

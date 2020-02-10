@@ -16,9 +16,14 @@ class Formulaire
     public $ID;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true, name="t_titre")
      */
     public $T_Titre;
+
+    /**
+     * @ORM\Column(type="string", nullable=false, unique=true, name="t_slug")
+     */
+    public $T_Slug;
 
     /**
      * @ORM\OneToMany(targetEntity="Assoc_Formulaires_Groups",mappedBy="N_ID_Formulaires")
@@ -39,46 +44,43 @@ class Formulaire
     public $N_ID_Utils_Crea;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="date", nullable=false, name="d_crea")
      */
     public $D_Crea;
     
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true, name="d_dele")
      */
     public $D_Dele;
     
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true, name="b_visible")
      */
     public $B_Visible;
-    
-    /*function getTitre(){
-        $result = $this->T_Titre;
-        return $result;
-    }
-    public function __construct(){
-        $this->O_Groups = new ArrayCollection();
-    }*/
-    function setTitre($T_Titre)
+
+    function setTitre($T_data)
     {
-        $this->t_titre = $T_Titre;
+        $this->T_Titre = $T_data;
     }
-    function setIdUtilsCrea($N_ID_Utils_Crea)
+    function setIdUtilsCrea($N_data)
     {
-        $this->n_id_utils_crea = $N_ID_Utils_Crea;
+        $this->N_ID_Utils_Crea = $N_data;
     }
-    function setDateCrea($D_Crea)
+    function setDateCrea($D_data)
     {
-        $this->d_crea = $D_Crea;
+        $this->D_Crea = new \DateTime($D_data);
     }
-    function setDateDele($D_Dele)
+    function setDateDele($D_data)
     {
-        $this->d_dele = $D_Dele;
+        $this->D_Crea = new \DateTime($D_data);
     }
-    function setVisible($B_Visible)
+    function setVisible($B_data)
     {
-        $this->b_visible = $B_Visible;
+        $this->B_Visible = $B_data;
+    }
+    function setSlug($T_data)
+    {
+        $this->T_Slug = $T_data;
     }
 
     function getID(){
@@ -98,5 +100,8 @@ class Formulaire
     }
     function getVisible(){
         return $this->B_Visible;
+    }
+    function getSlug(){
+        return $this->T_Slug;
     }
 }

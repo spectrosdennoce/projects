@@ -1,8 +1,50 @@
 {% extends "Header-Footer.html.twig" %}
     {% block body %}
-        <div class="btn-group" role="group" aria-label="Basic example">
-           <a href='/Formulaire/Create' class="btn btn-dark">Create</a>
-           <a href='/Formulaire/Read' class="btn btn-dark">Liste Formulaire</a>
-        </div>
+        
+        <div class="container">
+            {% for formulaire in formulaires %}
+                {% if loop.index0 % 4 == 0 %}
+                    <div class="row">
+                {% endif %}
+                <a class="btn btn-outline-link col-sm-3" href="/Formulaire/Read/{{ formulaire.getSlug() }}" role="button">
+                    <div class="card">
+                        <div class="card-inner">
+                            <div class="header">
+                                <h3>{{formulaire.getTitre()}}</h3>
+                            </div>
+                            <div class="image">
+                                <img src="{{ asset('template.png') }}" alt="">
+                            </div>
+                            <div class="content">
+                                <h5>{{formulaire.getIdUtilsCrea().getPrenom()}}</h5>
+                                <span>{{formulaire.getDateCrea()|date("d/m/Y")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% if loop.index0 % 4 > 3 and loop.last %}
+                    <div class="row">
+                {% endif %}
+                {% if loop.last %}
+                    <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
+                        <div class="card">
+                            <div class="card-inner">
+                                <div class="header">
+                                    <h3>Crée Formulaire</h3>
+                                </div>
+                                <div class="image">
+                                    <img src="{{ asset('plus.png') }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endif %}
+                {% if loop.index0 % 4 > 3 and loop.last %}
+                    </div>
+                {% endif %}
+                {% if loop.index0 % 4 == 3 or loop.last %}
+                </div>
+                {% endif %}
+            {% endfor %}
     {% endblock %}
     {% block javascripts %}{% endblock %}

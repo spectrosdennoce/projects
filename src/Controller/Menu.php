@@ -8,30 +8,33 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class Menu extends AbstractController
 {
     public function index(Request $request)
     {
         self::Login($request);
         self::Register($request);
-        return $this->render('Menu.html.twig');
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $O_Utils = $repository->findAll();
+        $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+        $O_Formulaires = $repository->findAll();
+        return $this->render('Menu.html.twig',['formulaires'=>$O_Formulaires,'utils'=>$O_Utils]);
     }
     public function Login(Request $request)
     {
-        if($request->request->has('save'))
+        if($request->request->get('save') == 'login')
         {
             $T_Pseudo = $request->request->get('T_Pseudo');
             $T_Mdp = $request->request->get('T_Mdp');
             $repository = $this->getDoctrine()->getRepository(Utils::class);
-            if($formulaires = $repository->findOneBy(['T_Pseudo' => $T_Pseudo])){
-                dd($formulaires);
+            if($O_Formulaires = $repository->findOneBy(['T_Pseudo' => $T_Pseudo])){
+                dd($O_Formulaires);
             }
         }
     }
-    public function Register(Request $request,UserPasswordEncoderInterface $passwordEncode)
+    public function Register(Request $request)
     {
-        if($request->request->has('save'))
+        if($request->request->get('save') == 'register')
         {
             $T_Pseudo = $request->request->get('T_Pseudo');
             $T_Nom = $request->request->get('T_Nom');
@@ -39,34 +42,18 @@ class Menu extends AbstractController
             $T_Email = $request->request->get('T_Email');
             $T_Mdp = $request->request->get('T_Mdp');
             $T_Confirmed_Mdp = $request->request->get('T_Confirmed_Mdp');
-            $Utils = new Utils;
-            $Hash =  password_hash($T_Mdp ,PASSWORD_BCRYPT);
-            $Utils->setNom($T_Nom);
-            $Utils->setPseudo($T_Pseudo);
-            $Utils->setPrenom($T_Prenom);
-            $Utils->setEmail($T_Email);
-            $Utils->setMdp($T_Mdp);
-            $Utils->setDateCrea(date('d/m/Y'));
-            $Utils->setAdmin(1);
+            $O_Utils = new Utils;
+            $T_Hash =  password_hash($T_Mdp ,PASSWORD_BCRYPT);
+            $O_Utils->setNom($T_Nom);
+            $O_Utils->setPseudo($T_Pseudo);
+            $O_Utils->setPrenom($T_Prenom);
+            $O_Utils->setEmail($T_Email);
+            $O_Utils->setMdp($T_Hash);
+            $O_Utils->setDateCrea(date('d/m/Y'));
+            $O_Utils->setAdmin(1);
             $em = $this->getDoctrine()->getManager();
-            $em->persist($Utils);
-            try {
-                $em->flush();
-            }
-            catch(EntityNotFoundException $e){
-                error_log($e->getMessage());
-            }
+            $em->persist($O_Utils);
+            $em->flush();
         }
-    }
-    public function Add_Formulaire(Request $request)
-    {
-        $task = new Formulaire();
-        $task->setTitre('Write a blog post');
-        $task->setDateCrea(new \DateTime('tomorrow'));
-        return $this->render('Formulaire/Add.Formulaire.html.twig');
-    }
-    public function Read_Formulaire()
-    {
-        return $this->render('Formulaire/Read.Formulaire.html.twig');
     }
 }

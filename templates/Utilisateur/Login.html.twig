@@ -9,14 +9,31 @@
         <form method="POST">
           <div class="form-group">
             <label for="T_Pseudo">Pseudonyme/Pseudo</label>
-            <input name="T_Pseudo" class="form-control" type="text" placeholder="Email / Pseudo" required="required" value=""/>
+	          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-user"></i></span>
+              </div>
+              <input name="T_Pseudo" class="form-control" type="text" placeholder="Email / Pseudo" required="required" value=""/>
+            </div>
           </div>
           <div class="form-group">
             <label for="T_Mdp">mot de passe</label>
-            <input name="T_Mdp" class="form-control" type="password" placeholder="mot de passe" required="required" value=""/>
+	          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-lock"></i></span>
+              </div>
+              <input name="T_Mdp" class="form-control" type="password" placeholder="mot de passe" required="required" value=""/>
+            </div>
           </div>
-          <div class="form-group">
-            <button name="save" value="true" class="btn btn-info"> Validate</button>
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <button name="save" value="login" class="btn btn-info"> Validate</button>
+                  </div>
+              </div>
+              <div class="col-md-6 text-right">
+                  <a class="small" href="#">Mot de passe oublier</a>
+              </div>
           </div>
         </form>
       </div>

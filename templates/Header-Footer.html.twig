@@ -4,28 +4,32 @@
         <meta charset="UTF-8">
         <title>{% block title %}PROJECT BTS{% endblock %}</title>
         <script src="{{ asset('popper.js') }}"></script>
-        <script src="{{ asset('jquerry.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('bootstrap.css') }}">
-        <link rel="stylesheet" href="{{ asset('fontawesome/css/all.css') }}">
+        <script src="{{ asset('jquerry.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('fontawesome/css/fontawesome.css') }}">
+        <link rel="stylesheet" href="{{ asset('fontawesome/css/brands.css') }}">
+        <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
+        <link rel="stylesheet" href="{{ asset('main.css') }}">
         <script src="{{ asset('bootstrap.js') }}"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         </head>
     <body>
-      {% block javascripts %}{% endblock %}
-      <nav class="navbar navbar-expand navbar-dark bg-primary">
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-          </ul>
-          <div class="form-inline btn-group" role="group">
-            <button type="button" class="btn btn-primary mr-sm-2" data-toggle="modal" data-target="#Register">Register</button>
-            <button type="button" class="btn btn-primary my-2 my-sm-0" data-toggle="modal" data-target="#Login">Login</button>
-          </div>
-          {{ include('Utilisateur/Register.html.twig') }}
-          {{ include('Utilisateur/Login.html.twig') }}
+    {% block javascripts %}{% endblock %}
+    <nav class="navbar navbar-expand navbar-dark bg-primary">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+                </li>
+            </ul>
+            <div class="form-inline btn-group" role="group">
+                <button type="button" class="btn btn-primary mr-sm-2" data-toggle="modal" data-target="#Register">Register</button>
+                <button type="button" class="btn btn-primary my-2 my-sm-0" data-toggle="modal" data-target="#Login">Login</button>
+            </div>
+            {{ include('Utilisateur/Register.html.twig') }}
+            {{ include('Utilisateur/Login.html.twig') }}
         </div>
-      </nav>
-      {% block body %}{% endblock %}
+    </nav>
+    {% block body %}{% endblock %}
     </body>
 </html>
