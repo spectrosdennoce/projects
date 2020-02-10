@@ -82,8 +82,10 @@ class Utils
     {
         $this->D_Crea = new \DateTime($D_data);
     }
-
-
+    public function getID()
+    {
+        return $this->ID;
+    }
     public function getNom()
     {
         return $this->T_Nom;
