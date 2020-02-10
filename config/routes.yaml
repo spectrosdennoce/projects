@@ -1,12 +1,9 @@
 index:
     path: /
     controller: App\Controller\Menu::index
-login:
-    path: /Login/
-    controller: App\Controller\Menu::Login
-register:
-    path: /Register/
-    controller: App\Controller\Menu::Register
+Deconnexion:
+    path: /Deconnexion/
+    controller: App\Controller\Menu::Deconnexion
 Create_Formulaire:
     path: /Formulaire/Create/
     controller: App\Controller\Forms_Editing::Creation

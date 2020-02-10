@@ -12,17 +12,16 @@ class Menu extends AbstractController
 {
     public function index(Request $request)
     {
+        $O_Utils = NULL;
         //call login et register function
         self::Login($request);
         self::Register($request);
+        self::ForgotPass($request);
         //check si utils connecter
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
         if($session->has('id')){
             $O_Utils = $repository->find($session->get('id'));
-        }
-        else{
-            $O_Utils = NULL;
         }
         //get all formulaire
         // a changer ajouter condition pour delegué
@@ -71,26 +70,69 @@ class Menu extends AbstractController
             $T_Email = $request->request->get('T_Email');
             $T_Mdp = $request->request->get('T_Mdp');
             $T_Confirmed_Mdp = $request->request->get('T_Confirmed_Mdp');
+            if($T_Mdp == $T_Confirmed_Mdp){
             //cree un nouvelle utilisateur
-            $O_Utils = new Utils;
-            //hash mdp
-            $T_Hash =  password_hash($T_Mdp ,PASSWORD_BCRYPT);
-            $O_Utils->setNom($T_Nom);
-            $O_Utils->setPseudo($T_Pseudo);
-            $O_Utils->setPrenom($T_Prenom);
-            $O_Utils->setEmail($T_Email);
-            $O_Utils->setMdp($T_Hash);
-            $O_Utils->setDateCrea(date('d/m/Y'));
-            //1 = pas admin
-            $O_Utils->setAdmin(1);
-            //actualliser bdd
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($O_Utils);
-            $em->flush();
-            //login
-            $repository = $this->getDoctrine()->getRepository(Utils::class);
-            $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
-            $session->set('id', $O_Utils->getID());
+                $O_Utils = new Utils;
+                //hash mdp
+                $T_Hash = password_hash($T_Mdp ,PASSWORD_BCRYPT);
+                $O_Utils->setNom($T_Nom);
+                $O_Utils->setPseudo($T_Pseudo);
+                $O_Utils->setPrenom($T_Prenom);
+                $O_Utils->setEmail($T_Email);
+                $O_Utils->setMdp($T_Hash);
+                $O_Utils->setDateCrea(date('d/m/Y'));
+                //1 = pas admin
+                $O_Utils->setAdmin(1);
+                //actualliser bdd
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($O_Utils);
+                $em->flush();
+                //login
+                $repository = $this->getDoctrine()->getRepository(Utils::class);
+                $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
+                $session->set('id', $O_Utils->getID());
+            }
         }
+    }
+
+
+    public function ForgotPass(Request $request)
+    {
+        if($request->request->get('save') == 'Forgot_Pass')
+        {
+            //get session actif
+            $session = $request->getSession();
+            //get post data
+            $T_Pseudo = $request->request->get('T_Pseudo');
+            $T_Old_Mdp = $request->request->get('T_Old_Mdp');
+            $T_Mdp = $request->request->get('T_Mdp');
+            $T_Confirmed_Mdp = $request->request->get('T_Confirmed_Mdp');
+            //cree un nouvelle utilisateur
+            $em = $this->getDoctrine()->getManager();
+            $repository = $this->getDoctrine()->getRepository(Utils::class);
+            if($repository->findOneBy(['T_Pseudo' => $T_Pseudo]))
+            {
+                $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
+            }
+            else{
+                $O_Utils = $repository->findOneBy(['T_Email' => $T_Pseudo]);
+            }
+            if($O_Utils && $T_Mdp == $T_Confirmed_Mdp){
+                //check password et set session utils
+                if(password_verify($T_Old_Mdp,$O_Utils->getMdp())){
+                    $T_Hash =  password_hash($T_Mdp ,PASSWORD_BCRYPT);
+                    //actualliser bdd
+                    //login
+                    $O_Utils->setMdp($T_Hash);
+                    $em->flush();
+                    $session->set('id', $O_Utils->getID());
+                }
+            }
+        }
+    }
+    public function Deconnexion(Request $request)
+    {
+        $request->getSession()->clear();
+        return $this->redirectToRoute('index');
     }
 }
