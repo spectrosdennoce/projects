@@ -1,0 +1,89 @@
+<div class="modal fade" id="forgot_password" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">forgot_password</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <div class="form-group">
+            <label for="T_Pseudo">Email</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                </div>
+                <input name="T_Pseudo" class="form-control" type="text" placeholder="Email / Pseudo" required="required" value=""/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="T_Old_Mdp">mot de passe</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                </div>
+                <input name="T_Old_Mdp" class="form-control" type="password" placeholder="mot de passe" required="required" value=""/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="T_Mdp">mot de passe</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-lock"></i></span>
+              </div>
+              <input name="T_Mdp" id="password" class="form-control" type="password" placeholder="mot de passe" required="required" value=""/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="T_Confirmed_Mdp">mot de passe confirmation</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-lock"></i></span>
+              </div>
+              <input name="T_Confirmed_Mdp" id="cpassword" class="form-control" type="password" placeholder="mot de passe Confirmation" required="required" value=""/>
+            </div>
+          </div>
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <button name="save" id="submit" value="Forgot_Pass" class="btn btn-info"> Validate</button>
+                  </div>
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block javascripts %}
+<script>
+$(document).ready(function(){
+    $("#password").keyup(function (event) {
+      if ($("#password").val() != $("#cpassword").val() & $("#password").val() != null) {
+        $("#password").addClass("is-invalid").removeClass("is-valid");
+        $("#cpassword").addClass("is-invalid").removeClass("is-valid");
+        $("#submit").attr('disabled','disabled');
+      } else {
+        $("#password").addClass("is-valid").removeClass("is-invalid");
+        $("#cpassword").addClass("is-valid").removeClass("is-invalid");
+        $("#submit").removeAttr('disabled');
+      }
+    });
+    $("#cpassword").keyup(function () {
+      if ($("#password").val() != $("#cpassword").val() & $("#cpassword").val() != null) {
+        $("#password").addClass("is-invalid").removeClass("is-valid");
+        $("#cpassword").addClass("is-invalid").removeClass("is-valid");
+        $("#submit").attr('disabled','disabled');
+      } else {
+        $("#password").addClass("is-valid").removeClass("is-invalid");
+        $("#cpassword").addClass("is-valid").removeClass("is-invalid");
+        $("#submit").removeAttr('disabled');
+      }
+    });
+});
+</script>
+{% endblock %}

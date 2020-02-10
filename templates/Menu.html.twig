@@ -1,8 +1,6 @@
 {% extends "Header-Footer.html.twig" %}
     {% block body %}
-        
         <div class="container">
-            {{ utils.getEmail() }}
             {% for formulaire in formulaires %}
                 {% if loop.index0 % 4 == 0 %}
                     <div class="row">
