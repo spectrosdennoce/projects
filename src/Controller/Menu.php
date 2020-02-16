@@ -80,7 +80,7 @@ class Menu extends AbstractController
                 $O_Utils->setPrenom($T_Prenom);
                 $O_Utils->setEmail($T_Email);
                 $O_Utils->setMdp($T_Hash);
-                $O_Utils->setDateCrea(date('d/m/Y'));
+                $O_Utils->setDateCrea(date('d-m-Y'));
                 //1 = pas admin
                 $O_Utils->setAdmin(1);
                 //actualliser bdd
