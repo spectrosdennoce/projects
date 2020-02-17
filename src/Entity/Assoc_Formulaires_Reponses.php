@@ -40,4 +40,49 @@ class Assoc_Formulaires_Reponses
      * @ORM\Column(type="date")
      */
     public $D_Dele;
+
+    public function __construct(){
+        $this->N_ID_Formulaires = new ArrayCollection();
+        $this->N_ID_Reponses = new ArrayCollection();
+        $this->N_ID_Utils_Crea = new ArrayCollection();
+    }
+    function setIdFormulaires($N_data)
+    {
+        $this->N_ID_Formulaires = $N_data;
+    }
+    function setIdReponses($N_data)
+    {
+        $this->N_ID_Reponses = $N_data;
+    }
+    function setIdUtilsCrea($N_data)
+    {
+        $this->N_ID_Utils_Crea = $N_data;
+    }
+    function setDateCrea($D_data)
+    {
+        $this->D_Crea = new \DateTime($D_data);
+    }
+    function setDateDele($D_data)
+    {
+        $this->D_Dele = new \DateTime($D_data);
+    }
+
+    function getID(){
+        return $this->id;
+    }
+    function getID_Formulaires(){
+        return $this->N_ID_Formulaires;
+    }
+    function getID_Reponses(){
+        return $this->N_ID_Reponses;
+    }
+    function getIdUtilsCrea(){
+        return $this->N_ID_Utils_Crea;
+    }
+    function getDateCrea(){
+        return $this->D_Crea;
+    }
+    function getDateDele(){
+        return $this->D_Dele;
+    }
 }

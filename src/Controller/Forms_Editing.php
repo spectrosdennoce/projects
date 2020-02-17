@@ -26,7 +26,7 @@ class Forms_Editing extends AbstractController
         //set createur date slug
         $O_Utils = $repository->find($session->get('id'));
         $O_Forms->setIdUtilsCrea($O_Utils);
-        $O_Forms->setDateCrea(date('d/m/Y'));
+        $O_Forms->setDateCrea(date('d-m-Y'));
         $O_Forms->setSlug($T_Slug);
         //envoyer en bdd avec un try catch exeption (a voir interer)
         $em = $this->getDoctrine()->getManager();

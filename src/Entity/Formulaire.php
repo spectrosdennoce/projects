@@ -56,6 +56,7 @@ class Formulaire
     /**
      * @ORM\Column(type="boolean", nullable=true, name="b_visible")
      */
+    
     public $B_Visible;
 
     function setTitre($T_data)
@@ -72,7 +73,7 @@ class Formulaire
     }
     function setDateDele($D_data)
     {
-        $this->D_Crea = new \DateTime($D_data);
+        $this->D_Dele = new \DateTime($D_data);
     }
     function setVisible($B_data)
     {

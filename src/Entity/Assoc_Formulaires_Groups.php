@@ -50,5 +50,43 @@ class Assoc_Formulaires_Groups
 
     public function __construct(){
         $this->N_ID_Formulaires = new ArrayCollection();
+        $this->N_ID_Groups = new ArrayCollection();
+        $this->N_ID_Utils_Crea = new ArrayCollection();
+    }
+    function setIdFormulaires($N_data)
+    {
+        $this->N_ID_Formulaires = $N_data;
+    }
+    function setIdGroups($N_data)
+    {
+        $this->N_ID_Groups = $N_data;
+    }
+    function setIdUtilsCrea($N_data)
+    {
+        $this->N_ID_Utils_Crea = $N_data;
+    }
+    function setDateCrea($D_data)
+    {
+        $this->D_Crea = new \DateTime($D_data);
+    }
+    function setDateDele($D_data)
+    {
+        $this->D_Dele = new \DateTime($D_data);
+    }
+
+    function getID(){
+        return $this->id;
+    }
+    function getIdForm(){
+        return $this->N_ID_Formulaires;
+    }
+    function getIdUtilsCrea(){
+        return $this->N_ID_Utils_Crea;
+    }
+    function getDateCrea(){
+        return $this->D_Crea;
+    }
+    function getDateDele(){
+        return $this->D_Dele;
     }
 }

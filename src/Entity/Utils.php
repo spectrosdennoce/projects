@@ -32,7 +32,11 @@ class Utils
      * @ORM\Column(type="string", nullable=false, name="t_prenom")
      */
     public $T_Prenom;
-
+    /**
+     * @ORM\OneToMany(targetEntity="Assoc_Utilisateurs_Groups",mappedBy="N_ID_Utils")
+     * @ORM\JoinColumn(name="Assoc_Utilisateurs_Groups",referencedColumnName="Utils")
+     */
+    public $O_Groups;
     /**
      * @ORM\Column(type="string", nullable=false, name="t_email", unique=true)
      */
@@ -57,6 +61,10 @@ class Utils
     public function setNom($T_data)
     {
         $this->T_Nom = $T_data;
+    }
+    function setGroups($O_data)
+    {
+        $this->O_Groups = $O_data;
     }
     public function setPseudo($T_data)
     {
@@ -113,5 +121,9 @@ class Utils
     public function getDateCrea()
     {
         return $this->D_Crea;
+    }
+    function getGroups()
+    {
+        return $this->O_Groups;
     }
 }

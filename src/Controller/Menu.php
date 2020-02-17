@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utils;
 use App\Entity\Formulaire;
+use App\Entity\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,7 @@ class Menu extends AbstractController
     public function index(Request $request)
     {
         $O_Utils = NULL;
+        $O_Formulaires = NULL;
         //call login et register function
         self::Login($request);
         self::Register($request);
@@ -22,11 +24,16 @@ class Menu extends AbstractController
         $session = $request->getSession();
         if($session->has('id')){
             $O_Utils = $repository->find($session->get('id'));
-        }
         //get all formulaire
         // a changer ajouter condition pour delegué
-        $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-        $O_Formulaires = $repository->findAll();
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            if($O_Utils->getAdmin() == 1){
+                $O_Formulaires = $repository->findAll();
+            }
+            else{
+                $O_Formulaires = $repository->findBy(array('N_ID_Utils_Crea' => $O_Utils->getId()));
+            }
+        }
         //call twig
         return $this->render('Menu.html.twig',['formulaires'=>$O_Formulaires,'utils'=>$O_Utils]);
     }
@@ -136,3 +143,15 @@ class Menu extends AbstractController
         return $this->redirectToRoute('index');
     }
 }
+
+
+
+//methode get fomulaire by association
+/*$repository = $this->getDoctrine()->getRepository(Groups::class);
+            $O_Formulaires = $repository->findAll();
+            foreach($O_Formulaires as $A_formulaires){
+                $tests = $A_formulaires->getForms();
+                foreach($tests as $test){
+                    dd($test->getIdForm()->getSlug());
+                }
+            }*/

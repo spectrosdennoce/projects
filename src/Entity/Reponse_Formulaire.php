@@ -45,4 +45,58 @@ class Reponse_Formulaire
      * @ORM\Column(type="boolean", nullable=true)
      */
     public $B_Visible;
+    
+    function setReponse($T_data)
+    {
+        $this->T_Reponse = $T_data;
+    }
+    function setIdUtilsCrea($N_data)
+    {
+        $this->N_ID_Utils_Crea = $N_data;
+    }
+    function setForms($O_data)
+    {
+        $this->O_Forms = $O_data;
+    }
+    function setGroups($O_data)
+    {
+        $this->O_Groups = $O_data;
+    }
+    function setDateCrea($D_data)
+    {
+        $this->D_Crea = new \DateTime($D_data);
+    }
+    function setDateDele($D_data)
+    {
+        $this->D_Dele = new \DateTime($D_data);
+    }
+    function setVisisble($D_data)
+    {
+        $this->B_Visible = $B_Visible;
+    }
+
+    function getID(){
+        return $this->id;
+    }
+    function getReponse(){
+        return $this->T_Reponse;
+    }
+    function getIdUtilsCrea(){
+        return $this->N_ID_Utils_Crea;
+    }
+    function getForm(){
+        return $this->O_Forms;
+    }
+    function getGroups(){
+        return $this->O_Groups;
+    }
+    function getDateCrea(){
+        return $this->D_Crea;
+    }
+    function getDateDele(){
+        return $this->D_Dele;
+    }
+    function getVisible(){
+        return $this->B_Visible;
+    }
 }
