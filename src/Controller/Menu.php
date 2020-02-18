@@ -22,16 +22,26 @@ class Menu extends AbstractController
         //check si utils connecter
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
-        if($session->has('id')){
-            $O_Utils = $repository->find($session->get('id'));
-        //get all formulaire
-        // a changer ajouter condition pour delegué
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            $O_Groups = $O_Utils->getGroups();
+            //get all formulaire
+            // a changer ajouter condition pour delegué
             $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-            if($O_Utils->getAdmin() == 1){
+            if($O_Utils->getAdmin() == 1)
+            {
                 $O_Formulaires = $repository->findAll();
             }
             else{
-                $O_Formulaires = $repository->findBy(array('N_ID_Utils_Crea' => $O_Utils->getId()));
+                //get all formulaire by groups
+                foreach ($O_Groups as $O_Group)
+                {
+                    $O_Forms = $O_Group->getIdGroups()->getForms();
+                    foreach ($O_Forms as $O_Form)
+                    {
+                        $O_Formulaires[] = $O_Form->getIdForm();
+                    }
+                }
             }
         }
         //call twig
@@ -53,13 +63,14 @@ class Menu extends AbstractController
             {
                 $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
             }
-            else{
+            else
+            {
                 $O_Utils = $repository->findOneBy(['T_Email' => $T_Pseudo]);
             }
             if($O_Utils){
                 //check password et set session utils
                 if(password_verify($T_Mdp,$O_Utils->getMdp())){
-                    $session->set('id', $O_Utils->getID());
+                    $session->set('utils', $O_Utils);
                 }
             }
         }
@@ -97,7 +108,7 @@ class Menu extends AbstractController
                 //login
                 $repository = $this->getDoctrine()->getRepository(Utils::class);
                 $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
-                $session->set('id', $O_Utils->getID());
+                $session->set('utils', $O_Utils);
             }
         }
     }

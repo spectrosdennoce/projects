@@ -24,7 +24,7 @@ class Forms_Editing extends AbstractController
         //get session actif
         $session = $request->getSession();
         //set createur date slug
-        $O_Utils = $repository->find($session->get('id'));
+        $O_Utils = $repository->find($session->get('utils'));
         $O_Forms->setIdUtilsCrea($O_Utils);
         $O_Forms->setDateCrea(date('d-m-Y'));
         $O_Forms->setSlug($T_Slug);
@@ -42,7 +42,16 @@ class Forms_Editing extends AbstractController
     }
     public function Read(Request $request,string $T_Slug)
     {
-        return $this->render('\Formulaire\Read.Formulaire.html.twig',['T_Slug'=>$T_Slug]);
+        $O_Utils = null;
+        $O_Forms = new Formulaire;
+        $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+        $O_Forms = $repository->findOneBy(['T_Slug' => $T_Slug]);
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+        }
+        return $this->render('\Formulaire\Read.Formulaire.html.twig',['O_Forms'=>$O_Forms,'utils'=>$O_Utils]);
     }
     function getRandString($n) { 
         //generer slug unique

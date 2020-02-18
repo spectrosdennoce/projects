@@ -25,29 +25,6 @@
                                 </div>
                             </div>
                         </a>
-                            {% if loop.index0 % 4 > 3 and loop.last %}
-                                <div class="row">
-                            {% endif %}
-                            {% if loop.last %}
-                                <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
-                                    <div class="card">
-                                        <div class="card-inner">
-                                            <div class="header">
-                                                <h3>Crée Formulaire</h3>
-                                            </div>
-                                            <div class="image">
-                                                <img src="{{ asset('plus.png') }}" alt="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            {% endif %}
-                            {% if loop.index0 % 4 > 3 and loop.last %}
-                                </div>
-                            {% endif %}
-                            {% if loop.index0 % 4 == 3 or loop.last %}
-                            </div>
-                            {% endif %}
                     {% endfor %} 
                 {% endif %}
             {% endif %}
