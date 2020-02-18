@@ -37,9 +37,13 @@ class Menu extends AbstractController
                 foreach ($O_Groups as $O_Group)
                 {
                     $O_Forms = $O_Group->getIdGroups()->getForms();
-                    foreach ($O_Forms as $O_Form)
-                    {
-                        $O_Formulaires[] = $O_Form->getIdForm();
+                    if($O_Group->getDelegue()){
+                        foreach ($O_Forms as $O_Form)
+                        {
+                            if($O_Form->getIdForm()->getVisible()==true){
+                                $O_Formulaires[] = $O_Form->getIdForm();
+                            }
+                        }
                     }
                 }
             }

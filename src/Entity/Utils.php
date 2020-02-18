@@ -48,7 +48,7 @@ class Utils
     public $T_Mdp;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true, name="b_admin")
+     * @ORM\Column(type="boolean", nullable=false, name="b_admin")
      */
     public $B_Admin;
 

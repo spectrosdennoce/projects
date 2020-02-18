@@ -37,7 +37,7 @@ class Assoc_Formulaires_Reponses
     public $D_Crea;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     public $D_Dele;
 

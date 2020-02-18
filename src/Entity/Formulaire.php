@@ -54,7 +54,7 @@ class Formulaire
     public $D_Dele;
     
     /**
-     * @ORM\Column(type="boolean", nullable=true, name="b_visible")
+     * @ORM\Column(type="boolean", nullable=false, name="b_visible")
      */
     
     public $B_Visible;

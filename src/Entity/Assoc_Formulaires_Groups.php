@@ -39,7 +39,7 @@ class Assoc_Formulaires_Groups
     public $D_Crea;
     
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     public $D_Dele;
     

@@ -43,7 +43,7 @@ class Assoc_Utilisateurs_Groups
     public $D_Crea;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     public $D_Dele;
     
