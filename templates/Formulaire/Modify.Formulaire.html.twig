@@ -1,0 +1,55 @@
+{% extends "Header-Footer.html.twig" %}
+{% block javascripts %}
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $.ajax({
+        url: "/Formulaire/Create_Ligne/",
+        type:"POST",
+        data:{
+        id: {{ formulaire.getID() }},
+        },
+        success:function(response) {
+            console.log("OK");
+            setTimeout(
+            function() 
+            {
+                location.reload();
+            }, 0001);
+        },
+        error:function(){
+            alert("KO");
+        }
+
+        });
+
+      });
+
+
+  $("input[type=text] , input[type=date]").focusout(function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
+  });
+  $("input[type=checkbox] , input[type=radio]").change(function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
+  });
+  $("select").change(function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id : $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).find(':selected').val() } );
+  });
+});
+</script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Option
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Formulaire
+            </div>
+                {{ include('Formulaire/ligne.html.twig') }}
+            <button>clone</button>
+        </div>
+{% endblock %}

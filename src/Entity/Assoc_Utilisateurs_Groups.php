@@ -78,7 +78,7 @@ class Assoc_Utilisateurs_Groups
     }
 
     function getID(){
-        return $this->id;
+        return $this->ID;
     }
     function getIdGroups(){
         return $this->N_ID_Groups;

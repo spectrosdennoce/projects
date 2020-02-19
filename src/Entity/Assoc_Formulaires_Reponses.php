@@ -68,7 +68,7 @@ class Assoc_Formulaires_Reponses
     }
 
     function getID(){
-        return $this->id;
+        return $this->ID;
     }
     function getID_Formulaires(){
         return $this->N_ID_Formulaires;

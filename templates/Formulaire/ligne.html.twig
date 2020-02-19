@@ -1,0 +1,23 @@
+<ul class="list-group" id='ul-line'>
+    {% for Ligne in Lignes %}
+        <li class="list-group-item" id='li-line'>
+            <div class="input-group mb-3">
+                <input name="T_Titre" data-id="{{ Ligne.getID() }}" type="text" class="form-control" placeholder="titre" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input name="B_Obli" type="checkbox" class="custom-control-input" id="defaultChecked2" data-id="{{ Ligne.getID() }}" checked>
+                <label class="custom-control-label" for="defaultChecked2">Obligatoire ?</label>
+            </div>
+            <select name="N_Type" data-id="{{ Ligne.getID() }}" class="custom-select mb-3">
+                <option selected>Choose...</option>
+                <option value="1">text</option>
+                <option value="2">date</option>
+                <option value="3">radio</option>
+                <option value="4">checkbox</option> <!--add multiple checkbox and radio-->
+            </select>
+            <div class="input-group mb-3">
+                <input name="none" disabled type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            </div>
+        </li>
+    {% endfor %}
+</ul>

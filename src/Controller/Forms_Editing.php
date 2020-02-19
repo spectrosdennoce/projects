@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utils;
 use App\Entity\Formulaire;
+use App\Entity\Ligne_Formulaire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,7 @@ class Forms_Editing extends AbstractController
     {
         //create formulaire
         $O_Forms = new Formulaire;
+        $O_Forms_Ligne = new Ligne_Formulaire;
         $repository = $this->getDoctrine()->getRepository(Formulaire::class);
         //call unique slug
         $T_Slug = $this->getRandString(15);
@@ -28,9 +30,16 @@ class Forms_Editing extends AbstractController
         $O_Forms->setIdUtilsCrea($O_Utils);
         $O_Forms->setDateCrea(date('d-m-Y'));
         $O_Forms->setSlug($T_Slug);
+        $O_Forms->setVisible(1);
+        $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
+        $O_Forms_Ligne->setVisible(1);
+        $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
+        $O_Forms_Ligne->setForms($O_Forms);
+
         //envoyer en bdd avec un try catch exeption (a voir interer)
         $em = $this->getDoctrine()->getManager();
         $em->persist($O_Forms);
+        $em->persist($O_Forms_Ligne);
         try {
             $em->flush();
         }
@@ -40,18 +49,46 @@ class Forms_Editing extends AbstractController
         //redirige vers Menu.html.twig
         return $this->redirectToRoute('index');
     }
+    public function Create_Ligne(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        $O_Utils = $repository->find($session->get('utils'));
+        $O_Forms_Ligne = new Ligne_Formulaire;
+        $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+        $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
+        $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
+        $O_Forms_Ligne->setVisible(1);
+        $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
+        $O_Forms_Ligne->setForms($O_Forms);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($O_Forms_Ligne);
+        try {
+            $em->flush();
+        }
+        catch(EntityNotFoundException $e){
+            error_log($e->getMessage());
+        }
+
+        $O_Ligne = $O_Forms->getLigne();
+        return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
+    }
+    public function Change_Ligne(Request $request)
+    {
+        //$T_Titre = $request->request->get('T_Titre');
+        return new Response('ok', 200, array('Content-Type' => 'text/html'));
+    }
     public function Read(Request $request,string $T_Slug)
     {
         $O_Utils = null;
-        $O_Forms = new Formulaire;
         $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-        $O_Forms = $repository->findOneBy(['T_Slug' => $T_Slug]);
-        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $O_Formulaire = $repository->findOneBy(['T_Slug' => $T_Slug]);
         $session = $request->getSession();
         if($session->has('utils')){
-            $O_Utils = $repository->find($session->get('utils'));
+            $O_Utils = $session->get('utils');
         }
-        return $this->render('\Formulaire\Read.Formulaire.html.twig',['O_Forms'=>$O_Forms,'utils'=>$O_Utils]);
+        $O_Ligne = $O_Formulaire->getLigne();
+        return $this->render('\Formulaire\Modify.Formulaire.html.twig',['formulaire'=>$O_Formulaire,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
     }
     function getRandString($n) { 
         //generer slug unique

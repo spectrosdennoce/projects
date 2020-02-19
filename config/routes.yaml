@@ -10,6 +10,12 @@ Create_Formulaire:
 Read_Formulaire:
     path: /Formulaire/Read/{T_Slug}
     controller: App\Controller\Forms_Editing::Read
+Change_Ligne:
+    path: /Formulaire/Change_Ligne/
+    controller: App\Controller\Forms_Editing::Change_Ligne
+Create_Ligne:
+    path: /Formulaire/Create_Ligne/
+    controller: App\Controller\Forms_Editing::Create_Ligne
 
 #nom de la route:
 #   path: lien url

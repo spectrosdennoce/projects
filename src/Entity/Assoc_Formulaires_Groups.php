@@ -75,7 +75,7 @@ class Assoc_Formulaires_Groups
     }
 
     function getID(){
-        return $this->id;
+        return $this->ID;
     }
     function getIdForm(){
         return $this->N_ID_Formulaires;

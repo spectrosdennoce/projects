@@ -20,10 +20,9 @@ class Menu extends AbstractController
         self::Register($request);
         self::ForgotPass($request);
         //check si utils connecter
-        $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
         if($session->has('utils')){
-            $O_Utils = $repository->find($session->get('utils'));
+            $O_Utils = $session->get('utils');
             $O_Groups = $O_Utils->getGroups();
             //get all formulaire
             // a changer ajouter condition pour delegué

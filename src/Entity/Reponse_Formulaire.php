@@ -76,7 +76,7 @@ class Reponse_Formulaire
     }
 
     function getID(){
-        return $this->id;
+        return $this->ID;
     }
     function getReponse(){
         return $this->T_Reponse;
