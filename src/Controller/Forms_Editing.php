@@ -33,6 +33,9 @@ class Forms_Editing extends AbstractController
         $O_Forms->setVisible(1);
         $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
         $O_Forms_Ligne->setVisible(1);
+        $O_Forms_Ligne->setObli(0);
+        $O_Forms_Ligne->setType(1);
+        $O_Forms_Ligne->setSelect(1);
         $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
         $O_Forms_Ligne->setForms($O_Forms);
 
@@ -49,34 +52,117 @@ class Forms_Editing extends AbstractController
         //redirige vers Menu.html.twig
         return $this->redirectToRoute('index');
     }
+    public function Delete_Ligne(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            if($O_Utils->getAdmin() == 1){
+                $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
+                $O_Forms_Ligne = $repository->findOneBy(['ID' => $request->request->get('id')]);
+                $O_Forms = $O_Forms_Ligne->getForms();
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($O_Forms_Ligne);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+
+                $O_Ligne = $O_Forms->getLigne();
+                return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
     public function Create_Ligne(Request $request)
     {
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
-        $O_Utils = $repository->find($session->get('utils'));
-        $O_Forms_Ligne = new Ligne_Formulaire;
-        $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-        $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
-        $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
-        $O_Forms_Ligne->setVisible(1);
-        $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
-        $O_Forms_Ligne->setForms($O_Forms);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($O_Forms_Ligne);
-        try {
-            $em->flush();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            if($O_Utils->getAdmin() == 1){
+                $O_Forms_Ligne = new Ligne_Formulaire;
+                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+                $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
+                $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
+                $O_Forms_Ligne->setVisible(1);
+                $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
+                $O_Forms_Ligne->setObli(0);
+                $O_Forms_Ligne->setType(1);
+                $O_Forms_Ligne->setSelect(1);
+                $O_Forms_Ligne->setForms($O_Forms);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($O_Forms_Ligne);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $O_Ligne = $O_Forms->getLigne();
+                return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
         }
-        catch(EntityNotFoundException $e){
-            error_log($e->getMessage());
+        else
+        {
+            return $this->redirectToRoute('index');
         }
-
-        $O_Ligne = $O_Forms->getLigne();
-        return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
     }
     public function Change_Ligne(Request $request)
     {
-        //$T_Titre = $request->request->get('T_Titre');
-        return new Response('ok', 200, array('Content-Type' => 'text/html'));
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $session->get('utils');
+            if($O_Utils->getAdmin() == 1){
+                $N_Id = $request->request->get('Id');
+                $T_Name = $request->request->get('Name');
+                $Value = $request->request->get('Value');
+                $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
+                $O_Forms_Ligne = $repository->findOneBy(['ID' => $N_Id]);
+                switch($T_Name){
+                    case "T_Titre":
+                        $O_Forms_Ligne->setTitre($Value);
+                    break;
+                    case "B_Obli":
+                        $O_Forms_Ligne->setObli($Value);
+                    break;
+                    case "N_Type":
+                        $O_Forms_Ligne->setType($Value);
+                    break;
+                }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($O_Forms_Ligne);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                return new Response('ok', 200, array('Content-Type' => 'text/html'));
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
     }
     public function Read(Request $request,string $T_Slug)
     {
@@ -86,6 +172,10 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $session->get('utils');
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
         }
         $O_Ligne = $O_Formulaire->getLigne();
         return $this->render('\Formulaire\Modify.Formulaire.html.twig',['formulaire'=>$O_Formulaire,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
@@ -99,7 +189,6 @@ class Forms_Editing extends AbstractController
             $index = rand(0, strlen($characters) - 1); 
             $randomString .= $characters[$index]; 
         } 
-      
         return $randomString; 
     } 
 }

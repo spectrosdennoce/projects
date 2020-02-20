@@ -16,6 +16,9 @@ Change_Ligne:
 Create_Ligne:
     path: /Formulaire/Create_Ligne/
     controller: App\Controller\Forms_Editing::Create_Ligne
+Delete_Ligne:
+    path: /Formulaire/Delete_Ligne/
+    controller: App\Controller\Forms_Editing::Delete_Ligne
 
 #nom de la route:
 #   path: lien url

@@ -26,7 +26,14 @@ class Ligne_Formulaire
      * @ORM\Column(type="integer", nullable=true)
      */
     public $N_Type;
-
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    public $N_Ordre;
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    public $B_Obli;
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
      * @ORM\JoinColumn(name="N_ID_Utils_Crea",referencedColumnName="id", nullable=false)
@@ -38,7 +45,11 @@ class Ligne_Formulaire
      * @ORM\JoinColumn(name="N_ID_Formulaires",referencedColumnName="id", nullable=false)
      */
     public $N_ID_Formulaires;
-
+    /**
+     * @ORM\OneToMany(targetEntity="Assoc_Ligne_Formulaires_Reponses",mappedBy="O_Lignes_Formulaires")
+     * @ORM\JoinColumn(name="Assoc_Ligne_Formulaires_Reponses",referencedColumnName="Lignes_Formulaire")
+     */
+    public $O_Reponses;
     /**
      * @ORM\Column(type="date", nullable=false)
      */
@@ -70,9 +81,21 @@ class Ligne_Formulaire
     {
         $this->N_ID_Utils_Crea = $N_data;
     }
+    function setReponse($O_data)
+    {
+        $this->O_Reponses = $O_data;
+    }
     function setForms($N_data)
     {
         $this->N_ID_Formulaires = $N_data;
+    }
+    function setOrdre($N_data)
+    {
+        $this->N_Ordre = $N_data;
+    }
+    function setObli($B_data)
+    {
+        $this->B_Obli = $B_data;
     }
     function setDateCrea($D_data)
     {
@@ -99,11 +122,21 @@ class Ligne_Formulaire
     function getType(){
         return $this->N_Type;
     }
+    function getReponse()
+    {
+        return $this->O_Reponses;
+    }
     function getIdUtilsCrea(){
         return $this->N_ID_Utils_Crea;
     }
     function getForms(){
-        return $this->N_ID_Formulaire;
+        return $this->N_ID_Formulaires;
+    }
+    function getOrdre(){
+        return $this->N_Ordre;
+    }
+    function getObli(){
+        return $this->B_Obli;
     }
     function getDateCrea(){
         return $this->D_Crea;

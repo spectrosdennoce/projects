@@ -33,15 +33,10 @@ class Formulaire
      * @ORM\JoinColumn(name="Assoc_Formulaires_Groups",referencedColumnName="Formulaire")
      */
     public $O_Groups;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Assoc_Formulaires_Reponses",mappedBy="N_ID_Formulaires")
-     * @ORM\JoinColumn(name="Assoc_Formulaires_Reponses",referencedColumnName="Formulaire")
-     */
-    public $O_Reponses;
     /**
      * @ORM\OneToMany(targetEntity="Ligne_Formulaire",mappedBy="N_ID_Formulaires")
      * @ORM\JoinColumn(name="Ligne_Formulaire",referencedColumnName="Formulaire")
+     * @ORM\OrderBy({"ID" = "ASC"})
      */
     public $O_Ligne;
 
@@ -83,10 +78,6 @@ class Formulaire
     {
         $this->O_Groups = $O_data;
     }
-    function setReponse($O_data)
-    {
-        $this->O_Reponses = $O_data;
-    }
     function setLigne($O_data)
     {
         $this->O_Ligne = $O_data;
@@ -120,10 +111,6 @@ class Formulaire
     function getGroups()
     {
         return $this->O_Groups;
-    }
-    function getReponse()
-    {
-        return $this->O_Reponses;
     }
     function getLigne()
     {

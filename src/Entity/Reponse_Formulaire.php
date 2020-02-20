@@ -26,10 +26,10 @@ class Reponse_Formulaire
     public $N_ID_Utils_Crea;
 
     /**
-     * @ORM\OneToMany(targetEntity="Assoc_Formulaires_Reponses",mappedBy="N_ID_Reponses")
-     * @ORM\JoinColumn(name="Assoc_Formulaires_Reponses",referencedColumnName="Reponse_Formulaire")
+     * @ORM\OneToMany(targetEntity="Assoc_Ligne_Formulaires_Reponses",mappedBy="O_Reponses")
+     * @ORM\JoinColumn(name="Assoc_Ligne_Formulaires_Reponses",referencedColumnName="Reponse_Formulaire")
      */
-    public $O_Forms;
+    public $O_Ligne_Forms;
 
     /**
      * @ORM\Column(type="date", nullable=false)
@@ -54,9 +54,9 @@ class Reponse_Formulaire
     {
         $this->N_ID_Utils_Crea = $N_data;
     }
-    function setForms($O_data)
+    function setLignesForms($O_data)
     {
-        $this->O_Forms = $O_data;
+        $this->O_Ligne_Forms = $O_data;
     }
     function setGroups($O_data)
     {
@@ -84,8 +84,8 @@ class Reponse_Formulaire
     function getIdUtilsCrea(){
         return $this->N_ID_Utils_Crea;
     }
-    function getForm(){
-        return $this->O_Forms;
+    function getLignesForms(){
+        return $this->O_Ligne_Forms;
     }
     function getGroups(){
         return $this->O_Groups;

@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="Assoc_Formulaires_Reponses")
  */
-class Assoc_Formulaires_Reponses
+class Assoc_Ligne_Formulaires_Reponses
 {
     /**
      * @ORM\Id()
@@ -15,15 +15,15 @@ class Assoc_Formulaires_Reponses
     public $ID;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Formulaire",inversedBy="O_Reponses")
-     * @ORM\JoinColumn(name="Formulaire",referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Ligne_Formulaire",inversedBy="O_Reponses")
+     * @ORM\JoinColumn(name="Lignes_Formulaire",referencedColumnName="id")
      */
-    public $N_ID_Formulaires;
+    public $O_Lignes_Formulaires;
     /**
-     * @ORM\ManyToOne(targetEntity="Reponse_Formulaire",inversedBy="O_Forms")
+     * @ORM\ManyToOne(targetEntity="Reponse_Formulaire",inversedBy="O_Ligne_Forms")
      * @ORM\JoinColumn(name="Reponse_Formulaire",referencedColumnName="id")
      */
-    public $N_ID_Reponses;
+    public $O_Reponses;
 
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
@@ -42,17 +42,17 @@ class Assoc_Formulaires_Reponses
     public $D_Dele;
 
     public function __construct(){
-        $this->N_ID_Formulaires = new ArrayCollection();
-        $this->N_ID_Reponses = new ArrayCollection();
+        $this->O_Lignes_Formulaires = new ArrayCollection();
+        $this->O_Reponses = new ArrayCollection();
         $this->N_ID_Utils_Crea = new ArrayCollection();
     }
-    function setIdFormulaires($N_data)
+    function setIdLignesFormulaires($N_data)
     {
-        $this->N_ID_Formulaires = $N_data;
+        $this->O_Lignes_Formulaires = $N_data;
     }
     function setIdReponses($N_data)
     {
-        $this->N_ID_Reponses = $N_data;
+        $this->O_Reponses = $N_data;
     }
     function setIdUtilsCrea($N_data)
     {
@@ -70,11 +70,11 @@ class Assoc_Formulaires_Reponses
     function getID(){
         return $this->ID;
     }
-    function getID_Formulaires(){
-        return $this->N_ID_Formulaires;
+    function getLignesFormulaires(){
+        return $this->O_Lignes_Formulaires;
     }
     function getID_Reponses(){
-        return $this->N_ID_Reponses;
+        return $this->O_Reponses;
     }
     function getIdUtilsCrea(){
         return $this->N_ID_Utils_Crea;

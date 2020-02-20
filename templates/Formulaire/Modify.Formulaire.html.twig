@@ -2,39 +2,49 @@
 {% block javascripts %}
 <script>
 $(document).ready(function(){
-  $("button").click(function(){
-    $.ajax({
+    $("#cloner").click(function(){
+        $.ajax({
         url: "/Formulaire/Create_Ligne/",
         type:"POST",
         data:{
         id: {{ formulaire.getID() }},
         },
         success:function(response) {
-            console.log("OK");
-            setTimeout(
-            function() 
-            {
-                location.reload();
-            }, 0001);
+            console.log("OK"); 	  
+            var htmlString = $( response ).html();
+            $( "#ul-line" ).html(htmlString);
         },
         error:function(){
-            alert("KO");
+            console.log("KO");
         }
-
         });
-
-      });
-
-
-  $("input[type=text] , input[type=date]").focusout(function(){
+    });
+    $('body').on('click', '#Delete', function(){
+        $.ajax({
+            url: "/Formulaire/Delete_Ligne/",
+            type:"POST",
+            data:{
+            id: $(this).attr("data-id"),
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
+    });
+    $('body').on('focusout', 'input[type=text] , input[type=date]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
-  });
-  $("input[type=checkbox] , input[type=radio]").change(function(){
+    });
+    $('body').on('change', 'input[type=checkbox] , input[type=radio]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
-  });
-  $("select").change(function(){
+    });
+    $('body').on('change', 'select', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id : $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).find(':selected').val() } );
-  });
+    });
 });
 </script>
 {% endblock %}
@@ -49,7 +59,7 @@ $(document).ready(function(){
             <div class="card-header">
                 Formulaire
             </div>
-                {{ include('Formulaire/ligne.html.twig') }}
-            <button>clone</button>
+            {{ include('Formulaire/ligne.html.twig') }}
+            <button class='btn btn-primary' id="cloner">clone</button>
         </div>
 {% endblock %}
