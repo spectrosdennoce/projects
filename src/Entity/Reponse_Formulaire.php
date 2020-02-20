@@ -26,10 +26,10 @@ class Reponse_Formulaire
     public $N_ID_Utils_Crea;
 
     /**
-     * @ORM\OneToMany(targetEntity="Assoc_Formulaires_Reponses",mappedBy="N_ID_Reponses")
-     * @ORM\JoinColumn(name="Assoc_Formulaires_Reponses",referencedColumnName="Reponse_Formulaire")
+     * @ORM\OneToMany(targetEntity="Assoc_Ligne_Formulaires_Reponses",mappedBy="O_Reponses")
+     * @ORM\JoinColumn(name="Assoc_Ligne_Formulaires_Reponses",referencedColumnName="Reponse_Formulaire")
      */
-    public $O_Forms;
+    public $O_Ligne_Forms;
 
     /**
      * @ORM\Column(type="date", nullable=false)
@@ -42,7 +42,61 @@ class Reponse_Formulaire
     public $D_Dele;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=false)
      */
     public $B_Visible;
+    
+    function setReponse($T_data)
+    {
+        $this->T_Reponse = $T_data;
+    }
+    function setIdUtilsCrea($N_data)
+    {
+        $this->N_ID_Utils_Crea = $N_data;
+    }
+    function setLignesForms($O_data)
+    {
+        $this->O_Ligne_Forms = $O_data;
+    }
+    function setGroups($O_data)
+    {
+        $this->O_Groups = $O_data;
+    }
+    function setDateCrea($D_data)
+    {
+        $this->D_Crea = new \DateTime($D_data);
+    }
+    function setDateDele($D_data)
+    {
+        $this->D_Dele = new \DateTime($D_data);
+    }
+    function setVisisble($D_data)
+    {
+        $this->B_Visible = $B_Visible;
+    }
+
+    function getID(){
+        return $this->ID;
+    }
+    function getReponse(){
+        return $this->T_Reponse;
+    }
+    function getIdUtilsCrea(){
+        return $this->N_ID_Utils_Crea;
+    }
+    function getLignesForms(){
+        return $this->O_Ligne_Forms;
+    }
+    function getGroups(){
+        return $this->O_Groups;
+    }
+    function getDateCrea(){
+        return $this->D_Crea;
+    }
+    function getDateDele(){
+        return $this->D_Dele;
+    }
+    function getVisible(){
+        return $this->B_Visible;
+    }
 }

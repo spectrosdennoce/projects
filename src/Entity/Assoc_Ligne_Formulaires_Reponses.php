@@ -1,12 +1,11 @@
 <?php
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity()
- * @ORM\Table(name="Assoc_Formulaires_Groups")
+ * @ORM\Table(name="Assoc_Formulaires_Reponses")
  */
-class Assoc_Formulaires_Groups
+class Assoc_Ligne_Formulaires_Reponses
 {
     /**
      * @ORM\Id()
@@ -16,16 +15,15 @@ class Assoc_Formulaires_Groups
     public $ID;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Formulaire",inversedBy="O_Groups")
-     * @ORM\JoinColumn(name="Formulaire",referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Ligne_Formulaire",inversedBy="O_Reponses")
+     * @ORM\JoinColumn(name="Lignes_Formulaire",referencedColumnName="id")
      */
-    public $N_ID_Formulaires;
-
+    public $O_Lignes_Formulaires;
     /**
-     * @ORM\ManyToOne(targetEntity="Groups",inversedBy="O_Forms")
-     * @ORM\JoinColumn(name="Groups",referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Reponse_Formulaire",inversedBy="O_Ligne_Forms")
+     * @ORM\JoinColumn(name="Reponse_Formulaire",referencedColumnName="id")
      */
-    public $N_ID_Groups;
+    public $O_Reponses;
 
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
@@ -37,29 +35,24 @@ class Assoc_Formulaires_Groups
      * @ORM\Column(type="date")
      */
     public $D_Crea;
-    
+
     /**
      * @ORM\Column(type="date", nullable=true)
      */
     public $D_Dele;
-    
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public $B_Visible;
 
     public function __construct(){
-        $this->N_ID_Formulaires = new ArrayCollection();
-        $this->N_ID_Groups = new ArrayCollection();
+        $this->O_Lignes_Formulaires = new ArrayCollection();
+        $this->O_Reponses = new ArrayCollection();
         $this->N_ID_Utils_Crea = new ArrayCollection();
     }
-    function setIdFormulaires($N_data)
+    function setIdLignesFormulaires($N_data)
     {
-        $this->N_ID_Formulaires = $N_data;
+        $this->O_Lignes_Formulaires = $N_data;
     }
-    function setIdGroups($N_data)
+    function setIdReponses($N_data)
     {
-        $this->N_ID_Groups = $N_data;
+        $this->O_Reponses = $N_data;
     }
     function setIdUtilsCrea($N_data)
     {
@@ -77,8 +70,11 @@ class Assoc_Formulaires_Groups
     function getID(){
         return $this->ID;
     }
-    function getIdForm(){
-        return $this->N_ID_Formulaires;
+    function getLignesFormulaires(){
+        return $this->O_Lignes_Formulaires;
+    }
+    function getID_Reponses(){
+        return $this->O_Reponses;
     }
     function getIdUtilsCrea(){
         return $this->N_ID_Utils_Crea;

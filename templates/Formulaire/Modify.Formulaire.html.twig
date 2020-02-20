@@ -1,0 +1,65 @@
+{% extends "Header-Footer.html.twig" %}
+{% block javascripts %}
+<script>
+$(document).ready(function(){
+    $("#cloner").click(function(){
+        $.ajax({
+        url: "/Formulaire/Create_Ligne/",
+        type:"POST",
+        data:{
+        id: {{ formulaire.getID() }},
+        },
+        success:function(response) {
+            console.log("OK"); 	  
+            var htmlString = $( response ).html();
+            $( "#ul-line" ).html(htmlString);
+        },
+        error:function(){
+            console.log("KO");
+        }
+        });
+    });
+    $('body').on('click', '#Delete', function(){
+        $.ajax({
+            url: "/Formulaire/Delete_Ligne/",
+            type:"POST",
+            data:{
+            id: $(this).attr("data-id"),
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
+    });
+    $('body').on('focusout', 'input[type=text] , input[type=date]', function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
+    });
+    $('body').on('change', 'input[type=checkbox] , input[type=radio]', function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
+    });
+    $('body').on('change', 'select', function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id : $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).find(':selected').val() } );
+    });
+});
+</script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Option
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Formulaire
+            </div>
+            {{ include('Formulaire/ligne.html.twig') }}
+            <button class='btn btn-primary' id="cloner">clone</button>
+        </div>
+{% endblock %}

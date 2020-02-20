@@ -1,0 +1,30 @@
+<ul class="list-group" id='ul-line'>
+    {% for Ligne in Lignes %}
+        <li class="list-group-item" id='li-line'>
+        
+            <div class="form-row">
+                <div class="form-group col-md-11">
+                    <div class="input-group mb-3">
+                        <input name="T_Titre" data-id="{{Ligne.getID()}}" value="{{Ligne.getTitre()}}" type="text" class="form-control" placeholder="titre" aria-label="Recipient's username" aria-describedby="basic-addon2"></input>
+                    </div>
+                </div>
+                <div class="form-group col-md-1">
+                    <button id="Delete" class='btn btn-danger' data-id="{{Ligne.getID()}}" ><i class="fa fa-trash"style="color:White" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input name="B_Obli" type="checkbox" class="custom-control-input" id="defaultChecked2" data-id="{{Ligne.getID()}}" {% if Ligne.getObli() == 1 %}checked{% endif %}>
+                <label class="custom-control-label" for="defaultChecked2">Obligatoire ?</label>
+            </div>
+            <select name="N_Type" data-id="{{Ligne.getID()}}" class="custom-select mb-3">
+                <option {% if Ligne.getType() == 1 %} selected {% endif %} value="1">text</option>
+                <option {% if Ligne.getType() == 2 %} selected {% endif %} value="2">date</option>
+                <option {% if Ligne.getType() == 3 %} selected {% endif %} value="3">radio</option>
+                <option{% if Ligne.getType() == 4 %} selected {% endif %}  value="4">checkbox</option> <!--add multiple checkbox and radio-->
+            </select>
+            <div class="input-group mb-3">
+                <input name="none" disabled type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            </div>
+        </li>
+    {% endfor %}
+</ul>

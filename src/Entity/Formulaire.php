@@ -19,7 +19,10 @@ class Formulaire
      * @ORM\Column(type="string", nullable=true, name="t_titre")
      */
     public $T_Titre;
-
+    /**
+     * @ORM\Column(type="boolean", nullable=true, name="b_obligation")
+     */
+    public $B_Obligation;
     /**
      * @ORM\Column(type="string", nullable=false, unique=true, name="t_slug")
      */
@@ -30,12 +33,12 @@ class Formulaire
      * @ORM\JoinColumn(name="Assoc_Formulaires_Groups",referencedColumnName="Formulaire")
      */
     public $O_Groups;
-
     /**
-     * @ORM\OneToMany(targetEntity="Assoc_Formulaires_Reponses",mappedBy="N_ID_Formulaires")
-     * @ORM\JoinColumn(name="Assoc_Formulaires_Reponses",referencedColumnName="Formulaire")
+     * @ORM\OneToMany(targetEntity="Ligne_Formulaire",mappedBy="N_ID_Formulaires")
+     * @ORM\JoinColumn(name="Ligne_Formulaire",referencedColumnName="Formulaire")
+     * @ORM\OrderBy({"ID" = "ASC"})
      */
-    public $O_Reponses;
+    public $O_Ligne;
 
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
@@ -54,17 +57,30 @@ class Formulaire
     public $D_Dele;
     
     /**
-     * @ORM\Column(type="boolean", nullable=true, name="b_visible")
+     * @ORM\Column(type="boolean", nullable=false, name="b_visible")
      */
+    
     public $B_Visible;
 
     function setTitre($T_data)
     {
         $this->T_Titre = $T_data;
     }
+    function setObligation($B_data)
+    {
+        $this->B_Obligation = $B_data;
+    }
     function setIdUtilsCrea($N_data)
     {
         $this->N_ID_Utils_Crea = $N_data;
+    }
+    function setGroups($O_data)
+    {
+        $this->O_Groups = $O_data;
+    }
+    function setLigne($O_data)
+    {
+        $this->O_Ligne = $O_data;
     }
     function setDateCrea($D_data)
     {
@@ -72,7 +88,7 @@ class Formulaire
     }
     function setDateDele($D_data)
     {
-        $this->D_Crea = new \DateTime($D_data);
+        $this->D_Dele = new \DateTime($D_data);
     }
     function setVisible($B_data)
     {
@@ -84,10 +100,21 @@ class Formulaire
     }
 
     function getID(){
-        return $this->id;
+        return $this->ID;
+    }
+    function getObligation(){
+        return $this->B_Obligation;
     }
     function getTitre(){
         return $this->T_Titre;
+    }
+    function getGroups()
+    {
+        return $this->O_Groups;
+    }
+    function getLigne()
+    {
+        return $this->O_Ligne;
     }
     function getIdUtilsCrea(){
         return $this->N_ID_Utils_Crea;
