@@ -1,32 +1,169 @@
 {% extends "Header-Footer.html.twig" %}
     {% block body %}
-        <div class="container">
-            {% if utils.getID() is defined %}
-                {% if utils.getAdmin() == 1 %}
-                    {% include "MenuForAdmin.html.twig" %}
-                {% else %}
-                    {% for formulaire in formulaires %}
-                        {% if loop.index0 % 4 == 0 %}
-                            <div class="row">
-                        {% endif %}
-                        <a class="btn btn-outline-link col-sm-3" href="/Formulaire/Read/{{ formulaire.getSlug() }}" role="button">
-                            <div class="card">
-                                <div class="card-inner">
-                                    <div class="header">
-                                        <h3>{{formulaire.getTitre()}}</h3>
-                                    </div>
-                                    <div class="image">
-                                        <img src="{{ asset('template.png') }}" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <h5>{{formulaire.getIdUtilsCrea().getPrenom()}}</h5>
-                                        <span>{{formulaire.getDateCrea()|date("d/m/Y")}}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    {% endfor %} 
-                {% endif %}
-            {% endif %}
+      <div class="container">
+        {% if utils.getID() is defined %}
+          {% if utils.getAdmin() == 1 %}
+            {% include "MenuForAdmin.html.twig" %}
+          {% else %}
+            {% for formulaire in formulaires %}
+              {% if loop.index0 % 4 == 0 %}
+                <div class="row">
+              {% endif %}
+              <a class="btn btn-outline-link col-sm-3" href="/Formulaire/Read/{{ formulaire.getSlug() }}" role="button">
+                <div class="card">
+                  <div class="card-inner">
+                    <div class="header">
+                      <h3>{{formulaire.getTitre()}}</h3>
+                    </div>
+                    <div class="image">
+                      <img src="{{ asset('template.png') }}" alt="">
+                    </div>
+                    <div class="content">
+                      <h5>{{formulaire.getIdUtilsCrea().getPrenom()}}</h5>
+                      <span>{{formulaire.getDateCrea()|date("d/m/Y")}}</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            {% endfor %} 
+          {% endif %}
+        {% else %}
+        <link rel="stylesheet" href="{{ asset('menu_template.css') }}">
+        <div class="login">
+          <div class="wrap">
+            <!-- RECOVERY -->
+            <div class="recovery">
+              <h2>Password Recovery</h2>
+              <p>Enter either the <strong>email address</strong> or <strong>username</strong> on the account and <strong>click Submit</strong></p>
+              <p>We'll email instructions on how to reset your password.</p>
+              <form class="recovery-form" action="" method="post">
+                <input type="text" class="input" id="user_recover" placeholder="Enter Email or Username Here">
+                <input type="submit" class="button" value="Submit">
+              </form>
+              <p class="mssg">An email has been sent to you with further instructions.</p>
+            </div>
+
+            <div class="content">
+              <div id="slideshow">
+                <div class="one">
+                    <h2><span>EVENTS</span></h2>
+                    <p>Sign up to attend any of hundreds of events nationwide</p>
+                </div>
+              </div>
+            </div>
+            <div class="user">
+              <div class="form-wrap">
+                <div class="tabs">
+                    <h3 class="login-tab"><a class="log-in active" href="#login-tab-content"><span>Login<span></a></h3>
+                  <h3 class="signup-tab"><a class="sign-up" href="#signup-tab-content"><span>Sign Up</span></a></h3>
+                </div>
+                <div class="tabs-content">
+
+                  <!-- TABS CONTENT LOGIN -->
+                  <div id="login-tab-content" class="active">
+                    <form class="login-form" method="POST">
+                      <input type="text" class="input" name="T_Pseudo" autocomplete="off" placeholder="Pseudo ou Email" required="required" value="">
+                      <input type="password" class="input"  name="T_Mdp" autocomplete="off" placeholder="Mot de passe" required="required" value="">
+                      <input type="submit" name="save" class="button" value="login">
+                    </form>
+                    <div class="help-action">
+                      <p><i class="fa fa-arrow-left" aria-hidden="true"></i><a class="forgot" href="#">Forgot your password?</a></p>
+                    </div>
+                  </div>
+                  <!-- TABS CONTENT SIGNUP -->
+                  <div id="signup-tab-content">
+                    <form class="signup-form" method="POST">
+                      <input type="text" class="input" name="T_Pseudo" autocomplete="off" placeholder="Pseudo" required="required" value="">
+                      <input type="text" class="input" name="T_Prenom" autocomplete="off" placeholder="Prénom" required="required" value="">
+                      <input type="text" class="input" name="T_Nom" autocomplete="off" placeholder="Nom" required="required" value="">
+                      <input type="email" class="input" name="T_Email" autocomplete="off" placeholder="Email" required="required" value="">
+                      <input type="password" class="input" id='Password' name="T_Mdp" autocomplete="off" placeholder="Mot de passe" required="required" value="">
+                      <input type="password" class="input" id='ConfirmPassword' name="T_Confirmed_Mdp" autocomplete="off" placeholder="Confirmation mot de passe" required="required" value="">
+                      <span id='msg'></span>
+                      <input type="submit" name="save" id='submit' class="button" value="register" disabled="disabled">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
     {% endblock %}
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+    <script> 
+
+// LOGIN TABS
+$(function() {
+	var tab = $('.tabs h3 a');
+	tab.on('click', function(event) {
+		event.preventDefault();
+		tab.removeClass('active');
+		$(this).addClass('active');
+		tab_content = $(this).attr('href');
+		$('div[id$="tab-content"]').removeClass('active');
+		$(tab_content).addClass('active');
+	});
+});
+
+// CUSTOM JQUERY FUNCTION FOR SWAPPING CLASSES
+(function($) {
+	'use strict';
+	$.fn.swapClass = function(remove, add) {
+		this.removeClass(remove).addClass(add);
+		return this;
+	};
+}(jQuery));
+
+// SHOW/HIDE PANEL ROUTINE (needs better methods)
+// I'll optimize when time permits.
+$(function() {
+	$('.agree,.forgot, .log-in, .sign-up').on('click', function(event) {
+		event.preventDefault();
+		var terms = $('.terms'),
+        recovery = $('.recovery'),
+        close = $('#toggle-terms'),
+        arrow = $('.tabs-content .fa');
+		if ($(this).hasClass('agree') || $(this).hasClass('log-in') && terms.hasClass('open')) {
+			if (terms.hasClass('open')) {
+				terms.swapClass('open', 'closed');
+				close.swapClass('open', 'closed');
+				arrow.swapClass('active', 'inactive');
+			} else {
+				if ($(this).hasClass('log-in')) {
+					return;
+				}
+				terms.swapClass('closed', 'open').scrollTop(0);
+				close.swapClass('closed', 'open');
+				arrow.swapClass('inactive', 'active');
+			}
+		}
+		else if ($(this).hasClass('forgot') || $(this).hasClass('sign-up')) {
+			if (recovery.hasClass('open')) {
+				recovery.swapClass('open', 'closed');
+				close.swapClass('open', 'closed');
+				arrow.swapClass('active', 'inactive');
+			} else {
+				if ($(this).hasClass('sign-up')) {
+					return;
+				}
+				recovery.swapClass('closed', 'open');
+				close.swapClass('closed', 'open');
+				arrow.swapClass('inactive', 'active');
+			}
+		}
+	});
+});
+$(document).ready(function(){
+  $("#Password, #ConfirmPassword").keyup(function(){
+        if ($("#Password").val() != $("#ConfirmPassword").val()) {
+          $("#msg").html("Password do not match").css("color","#eb4034");
+          $("#submit").attr("disabled", true);
+        }else{
+          $("#msg").html("Password matched").css("color","lightgreen");
+          $("#submit").attr("disabled", false);
+      }
+  });
+});
+</script>
+    {% endblock %}

@@ -36,14 +36,28 @@ $(document).ready(function(){
             }
         });
     });
+    $('body').on('change', 'select', function(){
+        $.ajax({
+            url: "/Formulaire/Change_Ligne/",
+            type:"POST",
+            data:{
+                Id_Forms: {{ formulaire.getID() }},Id : $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).find(':selected').val()
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
+    });
     $('body').on('focusout', 'input[type=text] , input[type=date]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
     });
     $('body').on('change', 'input[type=checkbox] , input[type=radio]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
-    });
-    $('body').on('change', 'select', function(){
-        $.post( "/Formulaire/Change_Ligne/", { Id : $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).find(':selected').val() } );
     });
 });
 </script>

@@ -128,6 +128,7 @@ class Forms_Editing extends AbstractController
         if($session->has('utils')){
             $O_Utils = $session->get('utils');
             if($O_Utils->getAdmin() == 1){
+                $N_Id_Forms = $request->request->get('Id_Forms');
                 $N_Id = $request->request->get('Id');
                 $T_Name = $request->request->get('Name');
                 $Value = $request->request->get('Value');
@@ -152,7 +153,10 @@ class Forms_Editing extends AbstractController
                 catch(EntityNotFoundException $e){
                     error_log($e->getMessage());
                 }
-                return new Response('ok', 200, array('Content-Type' => 'text/html'));
+                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
+                $O_Ligne = $O_Forms->getLigne();
+                return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
             }
             else
             {

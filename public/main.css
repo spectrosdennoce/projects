@@ -28,3 +28,21 @@ body {
   .card img{
     width:100%;
   }
+  .bg-purple
+  {
+    background-color: #6f42c1;
+    color:#fff;
+    box-shadow:none;
+  }
+  .bg-purple:hover
+  {
+    background-color: #6f42c1;
+    color:#fff;
+    box-shadow:none;
+  }  
+  .bg-purple:active
+  {
+    background-color: #6f42c1;
+    color:#fff;
+    box-shadow:none;
+  }

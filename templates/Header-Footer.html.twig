@@ -15,35 +15,29 @@
         </head>
     <body>
     {% block javascripts %}{% endblock %}
-    <nav class="navbar navbar-expand navbar-dark bg-primary">
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-                </li>
-            </ul>
-            <div class="form-inline btn-group" role="group">
             {% if utils.getID() is defined %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{utils.getPseudo()}}
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item" data-dismiss="modal" data-toggle="modal" data-target="#forgot_password">Mot de passe oublier</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="/Deconnexion/" type="button" class="dropdown-item">Déconnexion</a>
+                <nav class="navbar navbar-expand navbar-dark bg-purple">
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li class="nav-item active">
+                            <a class="nav-link" href="/">Home</a>
+                            </li>
+                        </ul>
+                        <div class="form-inline btn-group" role="group">
+                            <div class="btn-group">
+                                <button type="button" class="btn bg-purple dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{utils.getPseudo()}}
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="#" class="dropdown-item" data-dismiss="modal" data-toggle="modal" data-target="#forgot_password">Mot de passe oublier</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="/Deconnexion/" type="button" class="dropdown-item">Déconnexion</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            {% else %}
-                <button type="button" class="btn btn-primary mr-sm-2" data-toggle="modal" data-target="#Register">Register</button>
-                <button type="button" class="btn btn-primary my-2 my-sm-0" data-toggle="modal" data-target="#Login">Login</button>
+                </nav>
             {% endif %}
-            </div>
-            {{ include('Utilisateur/Register.html.twig') }}
-            {{ include('Utilisateur/Login.html.twig') }}
-            {{ include('Utilisateur/Forgotpass.html.twig') }}
-        </div>
-    </nav>
     {% block body %}{% endblock %}
     </body>
 </html>
