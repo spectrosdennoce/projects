@@ -4,6 +4,12 @@ index:
 Deconnexion:
     path: /Deconnexion/
     controller: App\Controller\Menu::Deconnexion
+Check_Users:
+    path: /Formulaire/Check_Users/
+    controller: App\Controller\Menu::Check_Users
+Login:
+    path: /Formulaire/Login/
+    controller: App\Controller\Menu::Login
 Create_Formulaire:
     path: /Formulaire/Create/
     controller: App\Controller\Forms_Editing::Creation

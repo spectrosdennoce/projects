@@ -33,12 +33,12 @@
           <div class="wrap">
             <!-- RECOVERY -->
             <div class="recovery">
-              <h2>Password Recovery</h2>
-              <p>Enter either the <strong>email address</strong> or <strong>username</strong> on the account and <strong>click Submit</strong></p>
-              <p>We'll email instructions on how to reset your password.</p>
+              <h2>Mot de Passe Oublier.</h2>
+              <p>Entrez votre <strong>address email</strong> ou <strong>votre pseudonyme</strong> de votre compte.</p>
+              <p>Vous allez recevoir un mail avec vos identifiants si vous possedez un compte.</p>
               <form class="recovery-form" action="" method="post">
-                <input type="text" class="input" id="user_recover" placeholder="Enter Email or Username Here">
-                <input type="submit" class="button" value="Submit">
+                <input type="text" class="input" id="user_recover" placeholder="Email ou Pseudo">
+                <input type="submit" class="button" value="Envoyer">
               </form>
               <p class="mssg">An email has been sent to you with further instructions.</p>
             </div>
@@ -46,8 +46,8 @@
             <div class="content">
               <div id="slideshow">
                 <div class="one">
-                    <h2><span>EVENTS</span></h2>
-                    <p>Sign up to attend any of hundreds of events nationwide</p>
+                    <h2><span>CFAI FORMS</span></h2>
+                    <p>Cet outils vous permets de crée vos propre formulaires et de les diffuser a toute les personnes que vous souhaitez.</p>
                 </div>
               </div>
             </div>
@@ -61,22 +61,25 @@
 
                   <!-- TABS CONTENT LOGIN -->
                   <div id="login-tab-content" class="active">
-                    <form class="login-form" method="POST">
-                      <input type="text" class="input" name="T_Pseudo" autocomplete="off" placeholder="Pseudo ou Email" required="required" value="">
-                      <input type="password" class="input"  name="T_Mdp" autocomplete="off" placeholder="Mot de passe" required="required" value="">
+                    <form class="login-form"  id="login" method="POST">
+                      <input type="text" class="input" name="T_Pseudo" id="pseudo_login" autocomplete="off" placeholder="Pseudo ou Email" required="required" value="">
+                      <input type="password" class="input"  name="T_Mdp" id="mdp_login" autocomplete="off" placeholder="Mot de passe" required="required" value="">
+                      <span id='Login_callback'></span>
                       <input type="submit" name="save" class="button" value="login">
                     </form>
                     <div class="help-action">
-                      <p><i class="fa fa-arrow-left" aria-hidden="true"></i><a class="forgot" href="#">Forgot your password?</a></p>
+                      <p><i class="fa fa-arrow-left" aria-hidden="true"></i><a class="forgot" href="">Forgot your password?</a></p>
                     </div>
                   </div>
                   <!-- TABS CONTENT SIGNUP -->
                   <div id="signup-tab-content">
                     <form class="signup-form" method="POST">
-                      <input type="text" class="input" name="T_Pseudo" autocomplete="off" placeholder="Pseudo" required="required" value="">
+                      <input type="text" class="input" name="T_Pseudo" id="pseudo" autocomplete="off" placeholder="Pseudo" required="required" value="">
+                      <span id='pseudo_callback'></span>
                       <input type="text" class="input" name="T_Prenom" autocomplete="off" placeholder="Prénom" required="required" value="">
                       <input type="text" class="input" name="T_Nom" autocomplete="off" placeholder="Nom" required="required" value="">
-                      <input type="email" class="input" name="T_Email" autocomplete="off" placeholder="Email" required="required" value="">
+                      <input type="email" class="input" name="T_Email" id="email" autocomplete="off" placeholder="Email" required="required" value="">
+                      <span id='email_callback'></span>
                       <input type="password" class="input" id='Password' name="T_Mdp" autocomplete="off" placeholder="Mot de passe" required="required" value="">
                       <input type="password" class="input" id='ConfirmPassword' name="T_Confirmed_Mdp" autocomplete="off" placeholder="Confirmation mot de passe" required="required" value="">
                       <span id='msg'></span>
@@ -92,6 +95,8 @@
     {% endblock %}
     {% block javascripts %}
     <script> 
+
+$(document).ready(function(){
 
 // LOGIN TABS
 $(function() {
@@ -154,7 +159,7 @@ $(function() {
 		}
 	});
 });
-$(document).ready(function(){
+
   $("#Password, #ConfirmPassword").keyup(function(){
         if ($("#Password").val() != $("#ConfirmPassword").val()) {
           $("#msg").html("Password do not match").css("color","#eb4034");
@@ -164,6 +169,51 @@ $(document).ready(function(){
           $("#submit").attr("disabled", false);
       }
   });
+  $('body').on('focusout', '#pseudo , #email', function(){
+      $.ajax({
+          url: "/Formulaire/Check_Users/",
+          type:"POST",
+          data:{
+            Value : $(this).val()
+          },
+          success:function() {
+            console.log("OK");
+            $("#submit").attr("disabled", false);	 
+              $("#pseudo_callback,#email_callback").html('');
+          },
+          error:function(response){
+            $("#submit").attr("disabled", true);
+            
+            if(response.responseJSON.Name == "pseudo")
+            {
+              $("#pseudo_callback").html(response.responseJSON.Error).css("color","#eb4034");
+            }
+            else
+            {
+              $("#email_callback").html(response.responseJSON.Error).css("color","#eb4034");
+            }
+          }
+      });
+  });
+
+    $('#login').submit(function (e) {
+
+        e.preventDefault();
+        $.ajax({
+            url: "/Formulaire/Login/",
+            type:"POST",
+            data:{
+              T_Pseudo : $('#pseudo_login').val(),
+              T_Mdp : $('#mdp_login').val()
+            },
+            success: function (response) {
+              location.reload();
+            },
+            error: function (response) {
+              $("#Login_callback").html(response.responseJSON.Error).css("color","#eb4034");
+            },
+        });
+    });
 });
 </script>
     {% endblock %}
