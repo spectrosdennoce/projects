@@ -25,6 +25,12 @@ Create_Ligne:
 Delete_Ligne:
     path: /Formulaire/Delete_Ligne/
     controller: App\Controller\Forms_Editing::Delete_Ligne
+Clone_Ligne:
+    path: /Formulaire/Clone_Ligne/
+    controller: App\Controller\Forms_Editing::Clone_Ligne
+ChangelineOrder:
+    path: /Formulaire/ChangelineOrder/
+    controller: App\Controller\Forms_Editing::ChangelineOrder
 ChangeInlineOrder:
     path: /Formulaire/ChangeInlineOrder/
     controller: App\Controller\Forms_Editing::ChangeInlineOrder
@@ -34,6 +40,11 @@ Create_InLigne:
 Change_InLigne:
     path: /Formulaire/Change_InLigne/
     controller: App\Controller\Forms_Editing::Change_InLigne
+Delete_InLigne:
+    path: /Formulaire/Delete_InLine/
+    controller: App\Controller\Forms_Editing::Delete_InLine
+    
+
     
 #nom de la route:
 #   path: lien url

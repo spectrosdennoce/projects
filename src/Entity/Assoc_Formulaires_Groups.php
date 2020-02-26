@@ -42,12 +42,14 @@ class Assoc_Formulaires_Groups
      * @ORM\Column(type="date", nullable=true)
      */
     public $D_Dele;
-    
+    /**
+     * @ORM\Column(type="string", nullable=false, unique=true, name="t_slug_view")
+     */
+    public $T_Slug_View;
     /**
      * @ORM\Column(type="boolean")
      */
     public $B_Visible;
-
     public function __construct(){
         $this->N_ID_Formulaires = new ArrayCollection();
         $this->N_ID_Groups = new ArrayCollection();
@@ -73,6 +75,11 @@ class Assoc_Formulaires_Groups
     {
         $this->D_Dele = new \DateTime($D_data);
     }
+    function setSlug($T_data)
+    {
+        $this->T_Slug_View = $T_data;
+    }
+
     function getID(){
         return $this->ID;
     }
@@ -87,5 +94,8 @@ class Assoc_Formulaires_Groups
     }
     function getDateDele(){
         return $this->D_Dele;
+    }
+    function getSlug(){
+        return $this->T_Slug_View;
     }
 }

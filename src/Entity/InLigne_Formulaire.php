@@ -49,7 +49,7 @@ class InLigne_Formulaire
     }
     function setOrdre($N_data)
     {
-        $this->N_Ordre = $N_data;
+        $this->N_Ordre = (($N_data > 0) ? -$N_data : $N_data);
     }
     function setDateCrea($D_data)
     {

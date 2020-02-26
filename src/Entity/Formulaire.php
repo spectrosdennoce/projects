@@ -34,7 +34,7 @@ class Formulaire
     /**
      * @ORM\OneToMany(targetEntity="Ligne_Formulaire",mappedBy="N_ID_Formulaires")
      * @ORM\JoinColumn(name="Ligne_Formulaire",referencedColumnName="Formulaire")
-     * @ORM\OrderBy({"ID" = "ASC"})
+     * @ORM\OrderBy({"N_Ordre" = "ASC"})
      */
     public $O_Ligne;
 

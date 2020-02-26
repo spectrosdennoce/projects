@@ -49,6 +49,7 @@ class Ligne_Formulaire
     /**
      * @ORM\OneToMany(targetEntity="InLigne_Formulaire",mappedBy="O_Ligne")
      * @ORM\JoinColumn(name="InLigne_Formulaire",referencedColumnName="Lignes_Formulaire")
+     * @ORM\OrderBy({"N_Ordre" = "ASC"})
      */
     public $O_Inline;
     /**
@@ -92,7 +93,7 @@ class Ligne_Formulaire
     }
     function setOrdre($N_data)
     {
-        $this->N_Ordre = $N_data;
+        $this->N_Ordre = ($N_data > 0) ? -$N_data : $N_data;
     }
     function setObli($B_data)
     {
@@ -106,9 +107,9 @@ class Ligne_Formulaire
     {
         $this->D_Dele = new \DateTime($D_data);
     }
-    function setVisible($D_data)
+    function setVisible($B_data)
     {
-        $this->B_Visible = $D_data;
+        $this->B_Visible = $B_data;
     }
 
     function getID(){

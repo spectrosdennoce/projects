@@ -1,7 +1,10 @@
-<ul class="list-group" id='ul-line'>
+<ul class="list-group"  id="ul-line">
+<div class="draggable_line" id="Dragger">
     {% for Ligne in Lignes %}
-        <li class="list-group-item" id='li-line'>
-        
+        <li class="list-group-item" id="{{ Ligne.getID() }}">
+            <div class="form-group col-sm-12 d-flex justify-content-center">
+                <i class="fas fa-grip-horizontal handle" style="color:lightgray"></i>
+            </div>
             <div class="form-row">
                 <div class="form-group col-7">
                     <div class="input-group mb-3">
@@ -23,93 +26,94 @@
                             <i class='fa fa-ellipsis-v'></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="" class="dropdown-item" data-dismiss="modal" data-toggle="modal"><i class="fas fa-clone" aria-hidden="true"></i> Cloner</a>
+                            <a href="" id="Clone" class="dropdown-item" data-id="{{Ligne.getID()}}" data-dismiss="modal" data-toggle="modal"><i class="fas fa-clone" aria-hidden="true"></i> Cloner</a>
                             <div class="dropdown-divider"></div>
                             <a href="" id="Delete" class="dropdown-item" data-id="{{Ligne.getID()}}" data-dismiss="modal" data-toggle="modal"><i class="fa fa-trash" aria-hidden="true"></i> Suprimmer</a>
                         </div>
                     </div>
-            </div>
-            <div class="input-group mb-3 list-group">
-                {% if Ligne.getType() == 3 or Ligne.getType() == 4 %}
-                <div class="input-group mb-3 list-group" draggable id="Dragger{{Ligne.getID()}}">
-                    {% for InLine in Ligne.getInLine() %}
-                        <div class="form-row" id="test">
+                </div>
+                <div class="input-group mb-3 list-group">
+                    {% if Ligne.getType() == 3 or Ligne.getType() == 4 %}
+                        <div class="input-group mb-3 list-group draggable_inline" id="Dragger_InLine{{Ligne.getID()}}">
+                            {% for InLine in Ligne.getInLine() %}
+                                <div class="form-row" id="{{ InLine.getID() }}">
+                                    <div class="form-group col-sm-1">
+                                        <i class="fas fa-grip-vertical handle" style="color:lightgray"></i>
+                                    </div>
+                                    <div class="form-group col-sm-1">
+                                        {% if Ligne.getType() == 3 %}
+                                        <i class="far fa-circle"></i>
+                                        {% elseif Ligne.getType() == 4 %}
+                                        <i class="far fa-square"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-sm-9 d-flex justify-content-start">
+                                        <input name="T_Titre" type="text" data-id="{{InLine.getID()}}" value="{{InLine.getTitre()}}" class="form-control change_inligne" autocomplete="off">
+                                    </div>
+                                    <div class="form-group col-sm-1">
+                                        <button id="Delete_Inline" class='btn btn-secondary' data-id="{{InLine.getID()}}"><i class="fa fa-trash"style="color:White" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-row">
                             <div class="form-group col-sm-1">
-                                <i class="fas fa-grip-vertical handle" style="color:lightgray"></i>
+                                    {% if Ligne.getType() == 3 %}
+                                    <i class="far fa-circle"></i>
+                                    {% elseif Ligne.getType() == 4 %}
+                                    <i class="far fa-square"></i>
+                                    {% endif %}
                             </div>
-                            <div class="form-group col-sm-1">
-                                {% if Ligne.getType() == 3 %}
-                                <i class="far fa-circle"></i>
-                                {% elseif Ligne.getType() == 4 %}
-                                <i class="far fa-square"></i>
-                                {% endif %}
-                            </div>
-                            <div class="form-group col-sm-10 d-flex justify-content-start">
-                                <input name="T_Titre" type="text" data-id="{{InLine.getID()}}" value="{{InLine.getTitre()}}" class="form-control change_inligne">
+                            <div class="form-group col-sm-11">
+                                <input name="T_Titre" type="text" data-id="{{Ligne.getID()}}" class="form-control Create_inligne" placeholder="Ajouter une option." autocomplete="off">
                             </div>
                         </div>
-                    {% endfor %}
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-sm-1">
-                                {% if Ligne.getType() == 3 %}
-                                <i class="far fa-circle"></i>
-                                {% elseif Ligne.getType() == 4 %}
-                                <i class="far fa-square"></i>
-                                {% endif %}
+                    {% else %}
+                        <div>
+                            <input name="none" disabled 
+                            {% if Ligne.getType() == 1 %}
+                            type="text" placeholder="Enter Text"
+                            {% elseif Ligne.getType() == 2 %}
+                            type="date"
+                            {% endif %}
+                            class="form-control">
                         </div>
-                        <div class="form-group col-sm-11">
-                            <input name="T_Titre" type="text" data-id="{{Ligne.getID()}}" class="form-control Create_inligne" placeholder="Ajouter une option.">
-                        </div>
-                    </div>
-                {% else %}
-                    <div>
-                        <input name="none" disabled 
-                        {% if Ligne.getType() == 1 %}
-                        type="text" placeholder="Enter Text"
-                        {% elseif Ligne.getType() == 2 %}
-                        type="date"
-                        {% endif %}
-                        class="form-control">
-                    </div>
-                {% endif %}
+                    {% endif %}
+                </div>
             </div>
             <div class="custom-control custom-switch">
                 <input name="B_Obli" type="checkbox" class="custom-control-input" id="defaultChecked{{Ligne.getID()}}" data-id="{{Ligne.getID()}}" {% if Ligne.getObli() == 1 %}checked{% endif %}>
                 <label class="custom-control-label" for="defaultChecked{{Ligne.getID()}}">Obligatoire ?</label>
             </div>
         </li>
-        
-        {% if Ligne.getType() == 3 or Ligne.getType() == 4  %}
-        <script>
-                new Sortable(Dragger{{Ligne.getID()}}, {
-                    handle: '.handle',
-                    animation: 150
-                });
-        </script>
-        {% endif %}
-        <script>
-        $(document).ready(function(){
-            {% if Ligne.getType() == 3 or Ligne.getType() == 4  %}
-                new Sortable(Dragger{{Ligne.getID()}}, {
-                    handle: '.handle',
-                    animation: 150
-                });
-            {% endif %}
-            $('.draggable').sortable({
-                update: function(event, ui) {
-                    console.log( $(this).sortable("toArray") );
-                    $.ajax({
-                    data: $(this).sortable('toArray'),
-                    type: 'POST',
-                    url: '/Formulaire/ChangeInlineOrder/', 
-                    success: function(data) {
-                        console.log(data);
-                    }
-                    });
-                }
-            });
-        });
-        </script>
     {% endfor %}
+    </div>
+    {% for Ligne in Lignes %}
+        {% if Ligne.getType() == 3 or Ligne.getType() == 4  %}
+            <script>
+                new Sortable(Dragger_InLine{{Ligne.getID()}}, {
+                    handle: '.handle',
+                    animation: 150
+                });
+            </script>
+        {% endif %}
+    {% endfor %}
+    
+    <script>
+        new Sortable(Dragger, {
+            handle: '.handle',
+            animation: 150
+        });
+        
+        $('.draggable_line').sortable({
+            update: function(event, ui) {
+                $.post( "/Formulaire/ChangelineOrder/", { data : $(this).sortable('toArray') } );
+            }
+        });
+        $('.draggable_inline').sortable({
+            update: function(event, ui) {
+                $.post( "/Formulaire/ChangeInlineOrder/", { data : $(this).sortable('toArray') } );
+            }
+        });
+    </script>
 </ul>

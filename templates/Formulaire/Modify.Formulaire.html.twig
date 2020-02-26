@@ -36,12 +36,51 @@ $(document).ready(function(){
             }
         });
     });
+    $('body').on('click', '#Clone', function(){
+        $.ajax({
+            url: "/Formulaire/Clone_Ligne/",
+            type:"POST",
+            data:{
+            Id_Forms: {{ formulaire.getID() }},
+            id: $(this).attr("data-id"),
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
+    });
+    $('body').on('click', '#Delete_Inline', function(){
+        $.ajax({
+            url: "/Formulaire/Delete_InLine/",
+            type:"POST",
+            data:{
+            Id_Forms: {{ formulaire.getID() }},
+            id: $(this).attr("data-id"),
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
+    });
     $('body').on('change', 'select', function(){
         $.ajax({
             url: "/Formulaire/Change_Ligne/",
             type:"POST",
             data:{
-                Id_Forms: {{ formulaire.getID() }},Id : $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).find(':selected').val()
+                Id_Forms: {{ formulaire.getID() }},
+                Id : $(this).attr("data-id"),
+                Name : $(this).attr("name"),
+                Value : $(this).find(':selected').val()
             },
             success:function(response) {
                 console.log("OK"); 	  
@@ -59,7 +98,9 @@ $(document).ready(function(){
             url: "/Formulaire/Create_InLigne/",
             type:"POST",
             data:{
-                Id_Forms: {{ formulaire.getID() }},Id_Ligne: $(this).attr("data-id"), Value : $(this).val()
+                Id_Forms: {{ formulaire.getID() }},
+                Id_Ligne: $(this).attr("data-id"),
+                Value : $(this).val()
             },
             success:function(response) {
                 console.log("OK"); 	  
@@ -80,7 +121,6 @@ $(document).ready(function(){
     $('body').on('change', '.change_inligne', function(){
         $.post( "/Formulaire/Change_InLigne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Value : $(this).val() } );
     });
-
 });
 </script>
 {% endblock %}
