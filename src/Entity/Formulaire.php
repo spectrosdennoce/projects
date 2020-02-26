@@ -14,7 +14,6 @@ class Formulaire
      * @ORM\Column(type="integer")
      */
     public $ID;
-
     /**
      * @ORM\Column(type="string", nullable=true, name="t_titre")
      */
@@ -27,7 +26,6 @@ class Formulaire
      * @ORM\Column(type="string", nullable=false, unique=true, name="t_slug")
      */
     public $T_Slug;
-
     /**
      * @ORM\OneToMany(targetEntity="Assoc_Formulaires_Groups",mappedBy="N_ID_Formulaires")
      * @ORM\JoinColumn(name="Assoc_Formulaires_Groups",referencedColumnName="Formulaire")

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Utils;
 use App\Entity\Formulaire;
 use App\Entity\Ligne_Formulaire;
+use App\Entity\InLigne_Formulaire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -99,7 +100,7 @@ class Forms_Editing extends AbstractController
                 $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
                 $O_Forms_Ligne->setObli(0);
                 $O_Forms_Ligne->setType(1);
-                $O_Forms_Ligne->setSelect(1);
+                $O_Forms_Ligne->setOrdre(0);
                 $O_Forms_Ligne->setForms($O_Forms);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($O_Forms_Ligne);
@@ -194,6 +195,85 @@ class Forms_Editing extends AbstractController
             $randomString .= $characters[$index]; 
         } 
         return $randomString; 
-    } 
+    }
+    function ChangeInlineOrder(Request $request) {
+        
+        return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+    }
+    function Create_InLigne(Request $request) {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            if($O_Utils->getAdmin() == 1){
+                $N_Id_Forms = $request->request->get('Id_Forms');
+                $N_Id_Ligne = $request->request->get('Id_Ligne');
+                $Value = $request->request->get('Value');
+                $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
+                $O_Forms_Ligne = $repository->findOneBy(['ID' => $N_Id_Ligne]);
+                $O_Forms_InLigne = new InLigne_Formulaire;
+                $O_Forms_InLigne->setDateCrea(date('d-m-Y'));
+                $O_Forms_InLigne->setTitre($Value);
+                $O_Forms_InLigne->setIdUtilsCrea($O_Utils);
+                $O_Forms_InLigne->setLigne($O_Forms_Ligne);
+                $O_Forms_InLigne->setOrdre(0);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($O_Forms_InLigne);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
+                $O_Ligne = $O_Forms->getLigne();
+                return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
+    function Change_InLigne(Request $request) {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            if($O_Utils->getAdmin() == 1){
+                $N_Id_Forms = $request->request->get('Id_Forms');
+                $N_Id = $request->request->get('Id');
+                $Value = $request->request->get('Value');
+                $repository = $this->getDoctrine()->getRepository(InLigne_Formulaire::class);
+                $O_Forms_InLigne = $repository->findOneBy(['ID' => $N_Id]);
+                $O_Forms_InLigne->setTitre($Value);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($O_Forms_InLigne);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
+                $O_Ligne = $O_Forms->getLigne();
+                return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
 }
 ?>

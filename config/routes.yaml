@@ -25,7 +25,16 @@ Create_Ligne:
 Delete_Ligne:
     path: /Formulaire/Delete_Ligne/
     controller: App\Controller\Forms_Editing::Delete_Ligne
-
+ChangeInlineOrder:
+    path: /Formulaire/ChangeInlineOrder/
+    controller: App\Controller\Forms_Editing::ChangeInlineOrder
+Create_InLigne:
+    path: /Formulaire/Create_InLigne/
+    controller: App\Controller\Forms_Editing::Create_InLigne
+Change_InLigne:
+    path: /Formulaire/Change_InLigne/
+    controller: App\Controller\Forms_Editing::Change_InLigne
+    
 #nom de la route:
 #   path: lien url
 #   controller: chemin controller :: nom fonction

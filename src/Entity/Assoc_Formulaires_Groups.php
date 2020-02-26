@@ -73,7 +73,6 @@ class Assoc_Formulaires_Groups
     {
         $this->D_Dele = new \DateTime($D_data);
     }
-
     function getID(){
         return $this->ID;
     }

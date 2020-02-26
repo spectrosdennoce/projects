@@ -2,7 +2,7 @@
 {% block javascripts %}
 <script>
 $(document).ready(function(){
-    $("#cloner").click(function(){
+    $("#New_line").click(function(){
         $.ajax({
         url: "/Formulaire/Create_Ligne/",
         type:"POST",
@@ -53,12 +53,34 @@ $(document).ready(function(){
             }
         });
     });
-    $('body').on('focusout', 'input[type=text] , input[type=date]', function(){
-        $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
+    
+    $('body').on('change', '.Create_inligne', function(){
+        $.ajax({
+            url: "/Formulaire/Create_InLigne/",
+            type:"POST",
+            data:{
+                Id_Forms: {{ formulaire.getID() }},Id_Ligne: $(this).attr("data-id"), Value : $(this).val()
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
+    });
+    $('body').on('focusout', '.change_ligne , input[type=date]', function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
     });
     $('body').on('change', 'input[type=checkbox] , input[type=radio]', function(){
-        $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
+        $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
     });
+    $('body').on('change', '.change_inligne', function(){
+        $.post( "/Formulaire/Change_InLigne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Value : $(this).val() } );
+    });
+
 });
 </script>
 {% endblock %}
@@ -74,6 +96,6 @@ $(document).ready(function(){
                 Formulaire
             </div>
             {{ include('Formulaire/ligne.html.twig') }}
-            <button class='btn btn-primary' id="cloner">clone</button>
+            <button class='btn btn-primary' id="New_line">Ajouter ligne</button>
         </div>
 {% endblock %}
