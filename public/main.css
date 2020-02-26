@@ -45,3 +45,6 @@ body {
     color:#fff;
     box-shadow:none;
   }
+  .handle{
+    cursor: grab;
+  }
