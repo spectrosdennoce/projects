@@ -6,25 +6,7 @@
             {% include "MenuForAdmin.html.twig" %}
           {% else %}
             {% for formulaire in formulaires %}
-              {% if loop.index0 % 4 == 0 %}
-                <div class="row">
-              {% endif %}
-              <a class="btn btn-outline-link col-sm-3" href="/Formulaire/Read/{{ formulaire.getSlug() }}" role="button">
-                <div class="card">
-                  <div class="card-inner">
-                    <div class="header">
-                      <h3>{{formulaire.getTitre()}}</h3>
-                    </div>
-                    <div class="image">
-                      <img src="{{ asset('template.png') }}" alt="">
-                    </div>
-                    <div class="content">
-                      <h5>{{formulaire.getIdUtilsCrea().getPrenom()}}</h5>
-                      <span>{{formulaire.getDateCrea()|date("d/m/Y")}}</span>
-                    </div>
-                  </div>
-                </div>
-              </a>
+              {% include "Menu_Loop_Form.html.twig" %}
             {% endfor %} 
           {% endif %}
         {% else %}
@@ -40,7 +22,9 @@
                 <input type="text" class="input" id="user_recover" placeholder="Email ou Pseudo">
                 <input type="submit" class="button" value="Envoyer">
               </form>
-              <p class="mssg">An email has been sent to you with further instructions.</p>
+              <div class="form-wrap">
+                <p><a class="forgot" href="">Retour</a></p>
+              </div>
             </div>
 
             <div class="content">
@@ -54,7 +38,7 @@
             <div class="user">
               <div class="form-wrap">
                 <div class="tabs">
-                    <h3 class="login-tab"><a class="log-in active" href="#login-tab-content"><span>Login<span></a></h3>
+                  <h3 class="login-tab"><a class="log-in active" href="#login-tab-content"><span>Login<span></a></h3>
                   <h3 class="signup-tab"><a class="sign-up" href="#signup-tab-content"><span>Sign Up</span></a></h3>
                 </div>
                 <div class="tabs-content">
@@ -68,7 +52,7 @@
                       <input type="submit" name="save" class="button" value="login">
                     </form>
                     <div class="help-action">
-                      <p><i class="fa fa-arrow-left" aria-hidden="true"></i><a class="forgot" href="">Forgot your password?</a></p>
+                      <p><a class="forgot" href="">Forgot your password?</a></p>
                     </div>
                   </div>
                   <!-- TABS CONTENT SIGNUP -->
@@ -97,7 +81,9 @@
     <script> 
 
 $(document).ready(function(){
+$(function() {
 
+});
 // LOGIN TABS
 $(function() {
 	var tab = $('.tabs h3 a');

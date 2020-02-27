@@ -121,6 +121,9 @@ $(document).ready(function(){
     $('body').on('change', '.change_inligne', function(){
         $.post( "/Formulaire/Change_InLigne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Value : $(this).val() } );
     });
+    $('body').on('change', '.change_Forms', function(){
+        $.post( "/Formulaire/Change_Forms/", { Id_Forms: {{ formulaire.getID() }}, Value : $(this).val() } );
+    });
 });
 </script>
 {% endblock %}
@@ -130,6 +133,14 @@ $(document).ready(function(){
             <div class="card-header">
                 Option
             </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="form-group">
+                        <p>Titre du Formulaire</p>
+                        <input name="T_Titre" value="{{ formulaire.getTitre() }}" type="text" class="form-control change_Forms" placeholder="titre" aria-label="Titre"></input>
+                    </div>
+                </li>
+            </ul>
         </div>
         <div class="card">
             <div class="card-header">

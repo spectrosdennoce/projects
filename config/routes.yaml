@@ -13,6 +13,9 @@ Login:
 Create_Formulaire:
     path: /Formulaire/Create/
     controller: App\Controller\Forms_Editing::Creation
+Change_Forms:
+    path: /Formulaire/Change_Forms/
+    controller: App\Controller\Forms_Editing::Change_Forms
 Read_Formulaire:
     path: /Formulaire/Read/{T_Slug}
     controller: App\Controller\Forms_Editing::Read
