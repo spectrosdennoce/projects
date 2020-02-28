@@ -13,6 +13,9 @@ Login:
 Create_Formulaire:
     path: /Formulaire/Create/
     controller: App\Controller\Forms_Editing::Creation
+Save_Img:
+    path: /Formulaire/Save_Img/
+    controller: App\Controller\Forms_Editing::Save_Img
 Change_Forms:
     path: /Formulaire/Change_Forms/
     controller: App\Controller\Forms_Editing::Change_Forms

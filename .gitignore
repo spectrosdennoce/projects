@@ -16,5 +16,4 @@
 ###< symfony/phpunit-bridge ###
 .env
 .vscode/settings.json
-composer.lock
-composer.lock
+public/img/

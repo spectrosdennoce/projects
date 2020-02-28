@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-inner">
             <div class="image" id="img{{formulaire.getId()}}">
-                <img src="{{ asset('template.png') }}" alt="" >
+                <img src="{{ asset("img/" ~ formulaire.getSlug() ~ ".png") }}" alt="">
             </div>
             <div class="content">
                 <h5>{{formulaire.getTitre()}}</h5>

@@ -13,6 +13,7 @@ $(document).ready(function(){
             console.log("OK"); 	  
             var htmlString = $( response ).html();
             $( "#ul-line" ).html(htmlString);
+            sendscreen();
         },
         error:function(){
             console.log("KO");
@@ -30,6 +31,7 @@ $(document).ready(function(){
                 console.log("OK"); 	  
                 var htmlString = $( response ).html();
                 $( "#ul-line" ).html(htmlString);
+                sendscreen();
             },
             error:function(){
                 console.log("KO");
@@ -48,6 +50,7 @@ $(document).ready(function(){
                 console.log("OK"); 	  
                 var htmlString = $( response ).html();
                 $( "#ul-line" ).html(htmlString);
+                sendscreen();
             },
             error:function(){
                 console.log("KO");
@@ -66,6 +69,7 @@ $(document).ready(function(){
                 console.log("OK"); 	  
                 var htmlString = $( response ).html();
                 $( "#ul-line" ).html(htmlString);
+                sendscreen();
             },
             error:function(){
                 console.log("KO");
@@ -86,6 +90,7 @@ $(document).ready(function(){
                 console.log("OK"); 	  
                 var htmlString = $( response ).html();
                 $( "#ul-line" ).html(htmlString);
+                sendscreen();
             },
             error:function(){
                 console.log("KO");
@@ -106,6 +111,7 @@ $(document).ready(function(){
                 console.log("OK"); 	  
                 var htmlString = $( response ).html();
                 $( "#ul-line" ).html(htmlString);
+                sendscreen();
             },
             error:function(){
                 console.log("KO");
@@ -114,16 +120,28 @@ $(document).ready(function(){
     });
     $('body').on('focusout', '.change_ligne , input[type=date]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
+                sendscreen();
     });
     $('body').on('change', 'input[type=checkbox] , input[type=radio]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
+                sendscreen();
     });
     $('body').on('change', '.change_inligne', function(){
         $.post( "/Formulaire/Change_InLigne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Value : $(this).val() } );
+                sendscreen();
     });
     $('body').on('change', '.change_Forms', function(){
         $.post( "/Formulaire/Change_Forms/", { Id_Forms: {{ formulaire.getID() }}, Value : $(this).val() } );
+                sendscreen();
     });
+    function sendscreen(){
+        html2canvas(document.querySelector("body"),{
+            dpi: 144}
+            ).then(canvas => {
+            $.post( "/Formulaire/Save_Img/", { T_Slug: "{{app.request.get('T_Slug')}}",base64: canvas.toDataURL() } );
+        });
+    }
+    sendscreen();
 });
 </script>
 {% endblock %}

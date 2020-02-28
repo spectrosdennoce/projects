@@ -8,6 +8,7 @@ use App\Entity\Ligne_Formulaire;
 use App\Entity\InLigne_Formulaire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 class Forms_Editing extends AbstractController
@@ -36,7 +37,6 @@ class Forms_Editing extends AbstractController
         $O_Forms_Ligne->setVisible(1);
         $O_Forms_Ligne->setObli(0);
         $O_Forms_Ligne->setType(1);
-        $O_Forms_Ligne->setSelect(1);
         $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
         $O_Forms_Ligne->setForms($O_Forms);
 
@@ -51,7 +51,27 @@ class Forms_Editing extends AbstractController
             error_log($e->getMessage());
         }
         //redirige vers Menu.html.twig
-        return $this->redirectToRoute('index');
+        return $this->redirect("/Formulaire/Read/$T_Slug");
+    }
+    public function Save_Img(Request $request){
+        
+        $T_Slug = $request->request->get('T_Slug');
+        $data = $request->request->get('base64');
+        list($type, $data) = explode(';', $data);
+        list(, $data)      = explode(',', $data);
+        $data = base64_decode($data);
+        
+        $destination_img = 'destination .jpg';
+        try {
+            $file = new Filesystem();
+            $file->mkdir($_SERVER['DOCUMENT_ROOT']."/img", 0755);
+            $file->remove($_SERVER['DOCUMENT_ROOT'].'/img/'.$T_Slug.".png");
+            $file->appendToFile($_SERVER['DOCUMENT_ROOT'].'/img/'.$T_Slug.".png", $data);
+        }
+        catch(EntityNotFoundException $e){
+            return new Response('KO', 403 , array('Content-Type' => 'text/html'));
+        }
+        return new Response('OK', 200 , array('Content-Type' => 'text/html'));
     }
     public function Change_Forms(Request $request) {
         $repository = $this->getDoctrine()->getRepository(Utils::class);
