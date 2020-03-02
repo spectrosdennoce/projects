@@ -87,5 +87,25 @@
             </div>
         </li>
     {% endfor %}
-    </div>
+</div>
+<script>
+$(document).ready(function(){
+    $('.draggable_line').sortable({
+        handle: '.handle',
+        axis: 'y',
+        animation: 150,
+        update: function(event, ui) {
+            $.post( "/Formulaire/ChangelineOrder/", { data : $(this).sortable('toArray') } );
+        }
+    });
+    $('.draggable_inline').sortable({
+        handle: '.handle',
+        axis: 'y',
+        animation: 150,
+        update: function(event, ui) {
+            $.post( "/Formulaire/ChangeInlineOrder/", { data : $(this).sortable('toArray') } );
+        }
+    });
+});
+</script>
 </ul>
