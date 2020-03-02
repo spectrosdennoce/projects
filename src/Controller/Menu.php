@@ -11,8 +11,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 class Menu extends AbstractController
 {
-    public function index(Request $request)
+    public function index(Request $request, \Swift_Mailer $mailer)
     {
+        /*$message = (new \Swift_Message('Hello Email'))
+        ->setFrom('forms.projet.bts@gmail.com')
+        ->setTo('mikail2652@hotmail.fr')
+        ->setBody(
+            $this->renderView(
+                'test.txt.twig',
+            ),
+            'text/html'
+        )
+    ;
+
+    $mailer->send($message);
+
+*/
         $O_Utils = NULL;
         $O_Formulaires = NULL;
         //call login et register function
