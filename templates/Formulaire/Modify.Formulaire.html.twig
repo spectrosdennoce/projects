@@ -97,8 +97,7 @@ $(document).ready(function(){
             }
         });
     });
-    
-    $('body').on('change', '.Create_inligne', function(){
+    $('body').on('focusout', '.Create_inligne', function(){
         $.ajax({
             url: "/Formulaire/Create_InLigne/",
             type:"POST",
@@ -135,12 +134,31 @@ $(document).ready(function(){
                 sendscreen();
     });
     function sendscreen(){
-        html2canvas(document.querySelector("body"),{
+        html2canvas(document.querySelector(".container"),{
             dpi: 144}
             ).then(canvas => {
             $.post( "/Formulaire/Save_Img/", { T_Slug: "{{app.request.get('T_Slug')}}",base64: canvas.toDataURL() } );
         });
     }
+    
+        $('.draggable_line').sortable({
+            handle: '.handle',
+            axis: 'y',
+            animation: 150,
+            update: function(event, ui) {
+                $.post( "/Formulaire/ChangelineOrder/", { data : $(this).sortable('toArray') } );
+                sendscreen();
+            }
+        });
+        $('.draggable_inline').sortable({
+            handle: '.handle',
+            axis: 'y',
+            animation: 150,
+            update: function(event, ui) {
+                $.post( "/Formulaire/ChangeInlineOrder/", { data : $(this).sortable('toArray') } );
+                sendscreen();
+            }
+        });
     sendscreen();
 });
 </script>

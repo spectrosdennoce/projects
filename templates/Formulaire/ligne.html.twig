@@ -88,32 +88,4 @@
         </li>
     {% endfor %}
     </div>
-    {% for Ligne in Lignes %}
-        {% if Ligne.getType() == 3 or Ligne.getType() == 4  %}
-            <script>
-                new Sortable(Dragger_InLine{{Ligne.getID()}}, {
-                    handle: '.handle',
-                    animation: 150
-                });
-            </script>
-        {% endif %}
-    {% endfor %}
-    
-    <script>
-        new Sortable(Dragger, {
-            handle: '.handle',
-            animation: 150
-        });
-        
-        $('.draggable_line').sortable({
-            update: function(event, ui) {
-                $.post( "/Formulaire/ChangelineOrder/", { data : $(this).sortable('toArray') } );
-            }
-        });
-        $('.draggable_inline').sortable({
-            update: function(event, ui) {
-                $.post( "/Formulaire/ChangeInlineOrder/", { data : $(this).sortable('toArray') } );
-            }
-        });
-    </script>
 </ul>
