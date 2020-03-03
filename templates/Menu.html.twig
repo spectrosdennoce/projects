@@ -3,9 +3,7 @@
       <div class="container">
         {% if utils.getID() is defined %}
           {% if utils.getAdmin() == 1 %}
-            {% for formulaire in formulaires %}
               {% include "MenuForAdmin.html.twig" %}
-            {% endfor %} 
           {% else %}
             {% for formulaire in formulaires %}
               {% include "Menu_Loop_Form.html.twig" %}
@@ -132,7 +130,6 @@ $(function() {
 		}
 	});
 });
-
   $("#Password, #ConfirmPassword").keyup(function(){
         if ($("#Password").val() != $("#ConfirmPassword").val()) {
           $("#msg").html("Password do not match").css("color","#eb4034");
