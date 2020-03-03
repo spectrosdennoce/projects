@@ -3,7 +3,9 @@
       <div class="container">
         {% if utils.getID() is defined %}
           {% if utils.getAdmin() == 1 %}
-            {% include "MenuForAdmin.html.twig" %}
+            {% for formulaire in formulaires %}
+              {% include "MenuForAdmin.html.twig" %}
+            {% endfor %} 
           {% else %}
             {% for formulaire in formulaires %}
               {% include "Menu_Loop_Form.html.twig" %}
@@ -38,7 +40,7 @@
             <div class="user">
               <div class="form-wrap">
                 <div class="tabs">
-                  <h3 class="login-tab"><a class="log-in active" href="#login-tab-content"><span>Login<span></a></h3>
+                  <h3 class="login-tab"><a class="log-in active"><span>Login<span></a></h3>
                   <!--<h3 class="signup-tab"><a class="sign-up" href="#signup-tab-content"><span>Sign Up</span></a></h3>-->
                 </div>
                 <div class="tabs-content">
@@ -81,21 +83,6 @@
     <script> 
 
 $(document).ready(function(){
-$(function() {
-
-});
-// LOGIN TABS
-$(function() {
-	var tab = $('.tabs h3 a');
-	tab.on('click', function(event) {
-		event.preventDefault();
-		tab.removeClass('active');
-		$(this).addClass('active');
-		tab_content = $(this).attr('href');
-		$('div[id$="tab-content"]').removeClass('active');
-		$(tab_content).addClass('active');
-	});
-});
 
 // CUSTOM JQUERY FUNCTION FOR SWAPPING CLASSES
 (function($) {

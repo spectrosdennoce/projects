@@ -36,11 +36,6 @@ class Assoc_Ligne_Formulaires_Reponses
      */
     public $D_Crea;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    public $D_Dele;
-
     public function __construct(){
         $this->O_Lignes_Formulaires = new ArrayCollection();
         $this->O_Reponses = new ArrayCollection();
@@ -62,10 +57,6 @@ class Assoc_Ligne_Formulaires_Reponses
     {
         $this->D_Crea = new \DateTime($D_data);
     }
-    function setDateDele($D_data)
-    {
-        $this->D_Dele = new \DateTime($D_data);
-    }
 
     function getID(){
         return $this->ID;
@@ -81,8 +72,5 @@ class Assoc_Ligne_Formulaires_Reponses
     }
     function getDateCrea(){
         return $this->D_Crea;
-    }
-    function getDateDele(){
-        return $this->D_Dele;
     }
 }

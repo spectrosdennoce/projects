@@ -13,20 +13,6 @@ class Menu extends AbstractController
 {
     public function index(Request $request, \Swift_Mailer $mailer)
     {
-        /*$message = (new \Swift_Message('Hello Email'))
-        ->setFrom('forms.projet.bts@gmail.com')
-        ->setTo('mikail2652@hotmail.fr')
-        ->setBody(
-            $this->renderView(
-                'test.txt.twig',
-            ),
-            'text/html'
-        )
-    ;
-
-    $mailer->send($message);
-
-*/
         $O_Utils = NULL;
         $O_Formulaires = NULL;
         //call login et register function
@@ -44,7 +30,7 @@ class Menu extends AbstractController
             $repository = $this->getDoctrine()->getRepository(Formulaire::class);
             if($O_Utils->getAdmin() == 1)
             {
-                $O_Formulaires = $repository->findAll();
+                $O_Formulaires = $repository->findBy(array('B_Visible' => 1 ));
             }
             else{
                 //get all formulaire by groups
@@ -54,7 +40,7 @@ class Menu extends AbstractController
                     if($O_Group->getDelegue()){
                         foreach ($O_Forms as $O_Form)
                         {
-                            if($O_Form->getIdForm()->getVisible()==true){
+                            if($O_Form->getIdForm()->getVisible()==1){
                                 $O_Formulaires[] = $O_Form->getIdForm();
                             }
                         }
@@ -200,3 +186,21 @@ class Menu extends AbstractController
                     dd($test->getIdForm()->getSlug());
                 }
             }*/
+
+
+
+           // mail
+        /*$message = (new \Swift_Message('Hello Email'))
+        ->setFrom('forms.projet.bts@gmail.com')
+        ->setTo('mikail2652@hotmail.fr')
+        ->setBody(
+            $this->renderView(
+                'test.txt.twig',
+            ),
+            'text/html'
+        )
+    ;
+
+    $mailer->send($message);
+
+*/

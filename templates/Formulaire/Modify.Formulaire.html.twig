@@ -20,6 +20,22 @@ $(document).ready(function(){
         }
         });
     });
+    $("#Delete_Forms").click(function(){
+        $.ajax({
+        url: "/Formulaire/Delete_Forms/",
+        type:"POST",
+        data:{
+        Id_Forms: {{ formulaire.getID() }},
+        },
+        success:function(response) {
+            console.log("OK"); 	 
+            $(location).attr('href', 'http://projet_bts.com:777/') 
+        },
+        error:function(){
+            console.log("KO");
+        }
+        });
+    });
     $('body').on('click', '#Delete', function(){
         $.ajax({
             url: "/Formulaire/Delete_Ligne/",
@@ -155,6 +171,11 @@ $(document).ready(function(){
                     <div class="form-group">
                         <p>Titre du Formulaire</p>
                         <input name="T_Titre" value="{{ formulaire.getTitre() }}" type="text" class="form-control change_Forms" placeholder="titre" aria-label="Titre"></input>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="form-group d-flex justify-content-end">
+                        <button class='btn btn-danger' id="Delete_Forms">Suprimer Formulaire</button>
                     </div>
                 </li>
             </ul>

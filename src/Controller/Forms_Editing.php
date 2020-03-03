@@ -79,12 +79,43 @@ class Forms_Editing extends AbstractController
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
             if($O_Utils->getAdmin() == 1){
-                $N_Id = $request->request->get('Id_Forms');
+                $N_Id_Forms = $request->request->get('Id_Forms');
                 $Value = $request->request->get('Value');
                 $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-                $O_Forms = $repository->findOneBy(['ID' => $N_Id]);
+                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
                 $O_Forms->setTitre($Value);
                 $em = $this->getDoctrine()->getManager();
+                $em->persist($O_Forms);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                return new Response('OK', 200 , array('Content-Type' => 'text/html'));
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
+    public function Delete_Forms(Request $request) {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            $N_Id_Forms = $request->request->get('Id_Forms');
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils == $O_Forms->getIdUtilsCrea()){
+                $em = $this->getDoctrine()->getManager();
+                $O_Forms->setDateDele(date('d-m-Y'));
+                $O_Forms->setVisible(0);
                 $em->persist($O_Forms);
                 try {
                     $em->flush();

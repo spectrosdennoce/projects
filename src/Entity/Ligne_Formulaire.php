@@ -57,16 +57,6 @@ class Ligne_Formulaire
      */
     public $D_Crea;
     
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    public $D_Dele;
-    
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    public $B_Visible;
-    
     function setTitre($T_data)
     {
         $this->T_Titre = $T_data;
@@ -103,14 +93,6 @@ class Ligne_Formulaire
     {
         $this->D_Crea = new \DateTime($D_data);
     }
-    function setDateDele($D_data)
-    {
-        $this->D_Dele = new \DateTime($D_data);
-    }
-    function setVisible($B_data)
-    {
-        $this->B_Visible = $B_data;
-    }
 
     function getID(){
         return $this->ID;
@@ -143,11 +125,5 @@ class Ligne_Formulaire
     }
     function getDateCrea(){
         return $this->D_Crea;
-    }
-    function getDateDele(){
-        return $this->D_Dele;
-    }
-    function getVisible(){
-        return $this->B_Visible;
     }
 }

@@ -19,6 +19,9 @@ Save_Img:
 Change_Forms:
     path: /Formulaire/Change_Forms/
     controller: App\Controller\Forms_Editing::Change_Forms
+Delete_Forms:
+    path: /Formulaire/Delete_Forms/
+    controller: App\Controller\Forms_Editing::Delete_Forms
 Read_Formulaire:
     path: /Formulaire/Read/{T_Slug}
     controller: App\Controller\Forms_Editing::Read

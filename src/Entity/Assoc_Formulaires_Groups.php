@@ -37,11 +37,6 @@ class Assoc_Formulaires_Groups
      * @ORM\Column(type="date")
      */
     public $D_Crea;
-    
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    public $D_Dele;
     /**
      * @ORM\Column(type="string", nullable=false, unique=true, name="t_slug_view")
      */
@@ -71,10 +66,6 @@ class Assoc_Formulaires_Groups
     {
         $this->D_Crea = new \DateTime($D_data);
     }
-    function setDateDele($D_data)
-    {
-        $this->D_Dele = new \DateTime($D_data);
-    }
     function setSlug($T_data)
     {
         $this->T_Slug_View = $T_data;
@@ -91,9 +82,6 @@ class Assoc_Formulaires_Groups
     }
     function getDateCrea(){
         return $this->D_Crea;
-    }
-    function getDateDele(){
-        return $this->D_Dele;
     }
     function getSlug(){
         return $this->T_Slug_View;

@@ -1,20 +1,18 @@
-{% for formulaire in formulaires %}
-    {% include "Menu_Loop_Form.html.twig" %}
-    {% if loop.last %}
-        <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
-            <div class="card">
-                <div class="card-inner">
-                    <div class="header">
-                        <h3>Crée Formulaire</h3>
-                    </div>
-                    <div class="image">
-                        <img src="{{ asset('plus.png') }}" alt="">
-                    </div>
-                </div> 
-            </div>
-        </a>
-    {% endif %}
-    {% if loop.index0 % 4 == 3 or loop.last %}
-    </div>
-    {% endif %}
-{% endfor %}
+{% include "Menu_Loop_Form.html.twig" %}
+{% if loop.last %}
+    <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
+        <div class="card">
+            <div class="card-inner">
+                <div class="header">
+                    <h3>Crée Formulaire</h3>
+                </div>
+                <div class="image">
+                    <img src="{{ asset('plus.png') }}" alt="">
+                </div>
+            </div> 
+        </div>
+    </a>
+{% endif %}
+{% if loop.index0 % 4 == 3 or loop.last %}
+</div>
+{% endif %}
