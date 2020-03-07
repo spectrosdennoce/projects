@@ -41,11 +41,6 @@ class Assoc_Utilisateurs_Groups
      * @ORM\Column(type="date")
      */
     public $D_Crea;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    public $D_Dele;
     
     public function __construct(){
         $this->N_ID_Groups = new ArrayCollection();
@@ -72,10 +67,6 @@ class Assoc_Utilisateurs_Groups
     {
         $this->D_Crea = new \DateTime($D_data);
     }
-    function setDateDele($D_data)
-    {
-        $this->D_Dele = new \DateTime($D_data);
-    }
 
     function getID(){
         return $this->ID;
@@ -94,8 +85,5 @@ class Assoc_Utilisateurs_Groups
     }
     function getDateCrea(){
         return $this->D_Crea;
-    }
-    function getDateDele(){
-        return $this->D_Dele;
     }
 }

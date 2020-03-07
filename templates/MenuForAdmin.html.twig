@@ -1,26 +1,6 @@
+
 {% for formulaire in formulaires %}
-    {% if loop.index0 % 4 == 0 %}
-        <div class="row">
-    {% endif %}
-    <a class="btn btn-outline-link col-sm-3" href="/Formulaire/Read/{{ formulaire.getSlug() }}" role="button">
-        <div class="card">
-            <div class="card-inner">
-                <div class="header">
-                    <h3>{{formulaire.getTitre()}}</h3>
-                </div>
-                <div class="image">
-                    <img src="{{ asset('template.png') }}" alt="">
-                </div>
-                <div class="content">
-                    <h5>{{formulaire.getIdUtilsCrea().getPrenom()}}</h5>
-                    <span>{{formulaire.getDateCrea()|date("d/m/Y")}}</span>
-                </div>
-            </div>
-        </div>
-    </a>
-    {% if loop.index0 % 4 > 3 and loop.last %}
-        <div class="row">
-    {% endif %}
+    {% include "Menu_Loop_Form.html.twig" %}
     {% if loop.last %}
         <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
             <div class="card">
@@ -35,10 +15,21 @@
             </div>
         </a>
     {% endif %}
-    {% if loop.index0 % 4 > 3 and loop.last %}
-        </div>
-    {% endif %}
     {% if loop.index0 % 4 == 3 or loop.last %}
     </div>
     {% endif %}
-{% endfor %}
+{% endfor %} 
+{% if formulaires is empty %}
+    <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
+        <div class="card">
+            <div class="card-inner">
+                <div class="header">
+                    <h3>Crée Formulaire</h3>
+                </div>
+                <div class="image">
+                    <img src="{{ asset('plus.png') }}" alt="">
+                </div>
+            </div> 
+        </div>
+    </a>
+{% endif %}

@@ -2,7 +2,7 @@
 {% block javascripts %}
 <script>
 $(document).ready(function(){
-    $("#cloner").click(function(){
+    $("#New_line").click(function(){
         $.ajax({
         url: "/Formulaire/Create_Ligne/",
         type:"POST",
@@ -13,6 +13,23 @@ $(document).ready(function(){
             console.log("OK"); 	  
             var htmlString = $( response ).html();
             $( "#ul-line" ).html(htmlString);
+            sendscreen();
+        },
+        error:function(){
+            console.log("KO");
+        }
+        });
+    });
+    $("#Delete_Forms").click(function(){
+        $.ajax({
+        url: "/Formulaire/Delete_Forms/",
+        type:"POST",
+        data:{
+        Id_Forms: {{ formulaire.getID() }},
+        },
+        success:function(response) {
+            console.log("OK"); 	 
+            $(location).attr('href', '/') 
         },
         error:function(){
             console.log("KO");
@@ -30,21 +47,116 @@ $(document).ready(function(){
                 console.log("OK"); 	  
                 var htmlString = $( response ).html();
                 $( "#ul-line" ).html(htmlString);
+                sendscreen();
             },
             error:function(){
                 console.log("KO");
             }
         });
     });
-    $('body').on('focusout', 'input[type=text] , input[type=date]', function(){
-        $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
+    $('body').on('click', '#Clone', function(){
+        $.ajax({
+            url: "/Formulaire/Clone_Ligne/",
+            type:"POST",
+            data:{
+            Id_Forms: {{ formulaire.getID() }},
+            id: $(this).attr("data-id"),
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+                sendscreen();
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
     });
-    $('body').on('change', 'input[type=checkbox] , input[type=radio]', function(){
-        $.post( "/Formulaire/Change_Ligne/", { Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
+    $('body').on('click', '#Delete_Inline', function(){
+        $.ajax({
+            url: "/Formulaire/Delete_InLine/",
+            type:"POST",
+            data:{
+            Id_Forms: {{ formulaire.getID() }},
+            id: $(this).attr("data-id"),
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+                sendscreen();
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
     });
     $('body').on('change', 'select', function(){
-        $.post( "/Formulaire/Change_Ligne/", { Id : $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).find(':selected').val() } );
+        $.ajax({
+            url: "/Formulaire/Change_Ligne/",
+            type:"POST",
+            data:{
+                Id_Forms: {{ formulaire.getID() }},
+                Id : $(this).attr("data-id"),
+                Name : $(this).attr("name"),
+                Value : $(this).find(':selected').val()
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+                sendscreen();
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
     });
+    $('body').on('focusout', '.Create_inligne', function(){
+        $.ajax({
+            url: "/Formulaire/Create_InLigne/",
+            type:"POST",
+            data:{
+                Id_Forms: {{ formulaire.getID() }},
+                Id_Ligne: $(this).attr("data-id"),
+                Value : $(this).val()
+            },
+            success:function(response) {
+                console.log("OK"); 	  
+                var htmlString = $( response ).html();
+                $( "#ul-line" ).html(htmlString);
+                sendscreen();
+            },
+            error:function(){
+                console.log("KO");
+            }
+        });
+    });
+    $('body').on('focusout', '.change_ligne , input[type=date]', function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
+                sendscreen();
+    });
+    $('body').on('change', 'input[type=checkbox] , input[type=radio]', function(){
+        $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
+                sendscreen();
+    });
+    $('body').on('change', '.change_inligne', function(){
+        $.post( "/Formulaire/Change_InLigne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Value : $(this).val() } );
+                sendscreen();
+    });
+    $('body').on('change', '.change_Forms', function(){
+        $.post( "/Formulaire/Change_Forms/", { Id_Forms: {{ formulaire.getID() }}, Value : $(this).val() } );
+                sendscreen();
+    });
+    function sendscreen(){
+        html2canvas(document.querySelector(".container"),{
+            dpi: 144}
+            ).then(canvas => {
+            $.post( "/Formulaire/Save_Img/", { T_Slug: "{{app.request.get('T_Slug')}}",base64: canvas.toDataURL() } );
+        });
+    }
+    sendscreen();
 });
 </script>
 {% endblock %}
@@ -54,12 +166,25 @@ $(document).ready(function(){
             <div class="card-header">
                 Option
             </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="form-group">
+                        <p>Titre du Formulaire</p>
+                        <input name="T_Titre" value="{{ formulaire.getTitre() }}" type="text" class="form-control change_Forms" placeholder="titre" aria-label="Titre"></input>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="form-group d-flex justify-content-end">
+                        <button class='btn btn-danger' id="Delete_Forms">Suprimer Formulaire</button>
+                    </div>
+                </li>
+            </ul>
         </div>
         <div class="card">
             <div class="card-header">
                 Formulaire
             </div>
             {{ include('Formulaire/ligne.html.twig') }}
-            <button class='btn btn-primary' id="cloner">clone</button>
+            <button class='btn btn-primary' id="New_line">Ajouter ligne</button>
         </div>
 {% endblock %}

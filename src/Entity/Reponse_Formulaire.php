@@ -35,16 +35,6 @@ class Reponse_Formulaire
      * @ORM\Column(type="date", nullable=false)
      */
     public $D_Crea;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    public $D_Dele;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    public $B_Visible;
     
     function setReponse($T_data)
     {
@@ -66,14 +56,6 @@ class Reponse_Formulaire
     {
         $this->D_Crea = new \DateTime($D_data);
     }
-    function setDateDele($D_data)
-    {
-        $this->D_Dele = new \DateTime($D_data);
-    }
-    function setVisisble($D_data)
-    {
-        $this->B_Visible = $B_Visible;
-    }
 
     function getID(){
         return $this->ID;
@@ -92,11 +74,5 @@ class Reponse_Formulaire
     }
     function getDateCrea(){
         return $this->D_Crea;
-    }
-    function getDateDele(){
-        return $this->D_Dele;
-    }
-    function getVisible(){
-        return $this->B_Visible;
     }
 }

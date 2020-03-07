@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 class Menu extends AbstractController
 {
-    public function index(Request $request)
+    public function index(Request $request, \Swift_Mailer $mailer)
     {
         $O_Utils = NULL;
         $O_Formulaires = NULL;
@@ -20,16 +20,17 @@ class Menu extends AbstractController
         self::Register($request);
         self::ForgotPass($request);
         //check si utils connecter
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
         if($session->has('utils')){
-            $O_Utils = $session->get('utils');
+            $O_Utils = $repository->find($session->get('utils'));
             $O_Groups = $O_Utils->getGroups();
             //get all formulaire
             // a changer ajouter condition pour delegué
             $repository = $this->getDoctrine()->getRepository(Formulaire::class);
             if($O_Utils->getAdmin() == 1)
             {
-                $O_Formulaires = $repository->findAll();
+                $O_Formulaires = $repository->findBy(array('B_Visible' => 1 ));
             }
             else{
                 //get all formulaire by groups
@@ -39,7 +40,7 @@ class Menu extends AbstractController
                     if($O_Group->getDelegue()){
                         foreach ($O_Forms as $O_Form)
                         {
-                            if($O_Form->getIdForm()->getVisible()==true){
+                            if($O_Form->getIdForm()->getVisible()==1){
                                 $O_Formulaires[] = $O_Form->getIdForm();
                             }
                         }
@@ -50,33 +51,49 @@ class Menu extends AbstractController
         //call twig
         return $this->render('Menu.html.twig',['formulaires'=>$O_Formulaires,'utils'=>$O_Utils]);
     }
+    
+    public function Check_Users(Request $request)
+    {
+        $T_Value = $request->request->get('Value');
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        if($repository->findOneBy(['T_Pseudo' => $T_Value]))
+        {
+            return new Response('{"Etat":"KO","Name":"pseudo","Error":"Pseudo Déjà utiliser!"}', 403 , array('Content-Type' => 'application/json'));
+        }
+        else if($repository->findOneBy(['T_Email' => $T_Value]))
+        {
+            return new Response('{"Etat":"KO","Name":"email","Error":"Email Déjà utiliser!"}', 403 , array('Content-Type' => 'application/json'));
+        }
+        return new Response('OK', 200 , array('Content-Type' => 'text/plain'));
+
+    }
     public function Login(Request $request)
     {
-        if($request->request->get('save') == 'login')
+        //get session active
+        $session = $request->getSession();
+        //get post data
+        $T_Pseudo = $request->request->get('T_Pseudo');
+        $T_Mdp = $request->request->get('T_Mdp');
+        //call classe utils
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $O_Utils = null;
+        //check si utilisateur existe dans la bdd
+        if($repository->findOneBy(['T_Pseudo' => $T_Pseudo]))
         {
-            //get session active
-            $session = $request->getSession();
-            //get post data
-            $T_Pseudo = $request->request->get('T_Pseudo');
-            $T_Mdp = $request->request->get('T_Mdp');
-            //call classe utils
-            $repository = $this->getDoctrine()->getRepository(Utils::class);
-            //check si utilisateur existe dans la bdd
-            if($repository->findOneBy(['T_Pseudo' => $T_Pseudo]))
-            {
-                $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
-            }
-            else
-            {
-                $O_Utils = $repository->findOneBy(['T_Email' => $T_Pseudo]);
-            }
-            if($O_Utils){
-                //check password et set session utils
-                if(password_verify($T_Mdp,$O_Utils->getMdp())){
-                    $session->set('utils', $O_Utils);
-                }
+            $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
+        }
+        else if($repository->findOneBy(['T_Email' => $T_Pseudo]))
+        {
+            $O_Utils = $repository->findOneBy(['T_Email' => $T_Pseudo]);
+        }
+        if($O_Utils){
+            //check password et set session utils
+            if(password_verify($T_Mdp,$O_Utils->getMdp())){
+                $session->set('utils', $O_Utils);
+                return new Response('OK', 200 , array('Content-Type' => 'text/plain'));
             }
         }
+        return new Response('{"Etat":"KO","Name":"login","Error":"Identifiant incorrect!"}', 403 , array('Content-Type' => 'application/json'));
     }
     public function Register(Request $request)
     {
@@ -169,3 +186,21 @@ class Menu extends AbstractController
                     dd($test->getIdForm()->getSlug());
                 }
             }*/
+
+
+
+           // mail
+        /*$message = (new \Swift_Message('Hello Email'))
+        ->setFrom('forms.projet.bts@gmail.com')
+        ->setTo('mikail2652@hotmail.fr')
+        ->setBody(
+            $this->renderView(
+                'test.txt.twig',
+            ),
+            'text/html'
+        )
+    ;
+
+    $mailer->send($message);
+
+*/

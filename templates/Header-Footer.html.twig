@@ -3,47 +3,45 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}PROJECT BTS{% endblock %}</title>
-        <script src="{{ asset('popper.js') }}"></script>
+        <script src="{{ asset('jquery.min.js') }}"></script>
+        <script src="{{ asset('jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('popper.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('bootstrap.css') }}">
-        <script src="{{ asset('jquerry.js') }}"></script>
+        <script src="{{ asset('bootstrap.min.js') }}"></script>
+        <script src="{{ asset('Sortable.min.js') }}"></script>
+        <script src="{{ asset('html2canvas.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('fontawesome/css/fontawesome.css') }}">
         <link rel="stylesheet" href="{{ asset('fontawesome/css/brands.css') }}">
+        <link rel="stylesheet" href="{{ asset('fontawesome/css/regular.css') }}">
         <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
         <link rel="stylesheet" href="{{ asset('main.css') }}">
-        <script src="{{ asset('bootstrap.js') }}"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        </head>
+    </head>
     <body>
     {% block javascripts %}{% endblock %}
-    <nav class="navbar navbar-expand navbar-dark bg-primary">
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-                </li>
-            </ul>
-            <div class="form-inline btn-group" role="group">
             {% if utils.getID() is defined %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{utils.getPseudo()}}
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item" data-dismiss="modal" data-toggle="modal" data-target="#forgot_password">Mot de passe oublier</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="/Deconnexion/" type="button" class="dropdown-item">Déconnexion</a>
+                <nav class="navbar navbar-expand navbar-dark bg-purple">
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li class="nav-item active">
+                            <a class="nav-link" href="/">Home</a>
+                            </li>
+                        </ul>
+                        <div class="form-inline btn-group" role="group">
+                            <div class="btn-group">
+                                <button type="button" class="btn bg-purple dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{utils.getPseudo()}}
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="#" class="dropdown-item" data-dismiss="modal" data-toggle="modal" data-target="#forgot_password">Mot de passe oublier</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="/Deconnexion/" type="button" class="dropdown-item">Déconnexion</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            {% else %}
-                <button type="button" class="btn btn-primary mr-sm-2" data-toggle="modal" data-target="#Register">Register</button>
-                <button type="button" class="btn btn-primary my-2 my-sm-0" data-toggle="modal" data-target="#Login">Login</button>
+                </nav>
             {% endif %}
-            </div>
-            {{ include('Utilisateur/Register.html.twig') }}
-            {{ include('Utilisateur/Login.html.twig') }}
-            {{ include('Utilisateur/Forgotpass.html.twig') }}
-        </div>
-    </nav>
     {% block body %}{% endblock %}
     </body>
 </html>
