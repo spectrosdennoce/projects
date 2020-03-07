@@ -77,11 +77,10 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            if($O_Utils->getAdmin() == 1){
-                $N_Id_Forms = $request->request->get('Id_Forms');
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $Value = $request->request->get('Value');
-                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
                 $O_Forms->setTitre($Value);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($O_Forms);
@@ -108,10 +107,9 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            $N_Id_Forms = $request->request->get('Id_Forms');
             $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-            $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
-            if($O_Utils->getAdmin() == 1 | $O_Utils == $O_Forms->getIdUtilsCrea()){
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $em = $this->getDoctrine()->getManager();
                 $O_Forms->setDateDele(date('d-m-Y'));
                 $O_Forms->setVisible(0);
@@ -156,10 +154,10 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            if($O_Utils->getAdmin() == 1){
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $O_Forms_Ligne = new Ligne_Formulaire;
-                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-                $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
                 $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
                 $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
                 $O_Forms_Ligne->setObli(0);
@@ -193,10 +191,10 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            if($O_Utils->getAdmin() == 1){
-                $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
-                $O_Forms_Ligne = $repository->findOneBy(['ID' => $request->request->get('id')]);
-                $O_Forms = $O_Forms_Ligne->getForms();
+            $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
+            $O_Forms_Ligne = $repository->findOneBy(['ID' => $request->request->get('id')]);
+            $O_Forms = $O_Forms_Ligne->getForms();
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $em = $this->getDoctrine()->getManager();
                 foreach($O_Forms_Ligne->getInLine() as $O_Forms_InLigne) {
                     $em->remove($O_Forms_InLigne);
@@ -229,9 +227,9 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            if($O_Utils->getAdmin() == 1){
-                
-                $N_Id_Forms = $request->request->get('Id_Forms');
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
                 $O_Forms_Ligne = $repository->findOneBy(['ID' => $request->request->get('id')]);
                 
@@ -263,8 +261,6 @@ class Forms_Editing extends AbstractController
                     error_log($e->getMessage());
                 }
 
-                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
                 $O_Ligne = $O_Forms->getLigne();
                 return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
             }
@@ -283,8 +279,9 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $session->get('utils');
-            if($O_Utils->getAdmin() == 1){
-                $N_Id_Forms = $request->request->get('Id_Forms');
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $N_Id = $request->request->get('Id');
                 $T_Name = $request->request->get('Name');
                 $Value = $request->request->get('Value');
@@ -309,8 +306,6 @@ class Forms_Editing extends AbstractController
                 catch(EntityNotFoundException $e){
                     error_log($e->getMessage());
                 }
-                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
                 $O_Ligne = $O_Forms->getLigne();
                 return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
             }
@@ -330,12 +325,13 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            if($O_Utils->getAdmin() == 1){
-                $A_Ordre = array_reverse($request->request->get('data'));
-                for($i=0;$i < count($A_Ordre);$i++){
-                    $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
-                    $O_Forms_Ligne = $repository->findOneBy(['ID' => $A_Ordre[$i]]);
-                    $O_Forms_Ligne->setOrdre($i);
+            $A_Ordre = array_reverse($request->request->get('data'));
+            for($i=0;$i < count($A_Ordre);$i++){
+                $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
+                $O_Forms_Ligne = $repository->findOneBy(['ID' => $A_Ordre[$i]]);
+                $O_Forms_Ligne->setOrdre($i);
+                $O_Forms = $O_Forms_Ligne->getForms();
+                if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($O_Forms_Ligne);
                     try {
@@ -344,12 +340,12 @@ class Forms_Editing extends AbstractController
                     catch(EntityNotFoundException $e){
                         error_log($e->getMessage());
                     }
+                    return new Response('OK', 200 , array('Content-Type' => 'text/html'));
                 }
-                return new Response('OK', 200 , array('Content-Type' => 'text/html'));
-            }
-            else
-            {
-                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+                else
+                {
+                    return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+                }
             }
         }
         else
@@ -374,27 +370,29 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            if($O_Utils->getAdmin() == 1){
                 $A_Ordre = array_reverse($request->request->get('data'));
                 for($i=0;$i < count($A_Ordre);$i++){
                     $repository = $this->getDoctrine()->getRepository(InLigne_Formulaire::class);
                     $O_Forms_InLigne = $repository->findOneBy(['ID' => $A_Ordre[$i]]);
-                    $O_Forms_InLigne->setOrdre($i);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($O_Forms_InLigne);
-                    try {
-                        $em->flush();
+                    $O_Forms_Ligne = $O_Forms_InLigne->getLigne();
+                    $O_Forms = $O_Forms_Ligne->getForms();
+                    if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                        $O_Forms_InLigne->setOrdre($i);
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($O_Forms_InLigne);
+                        try {
+                            $em->flush();
+                        }
+                        catch(EntityNotFoundException $e){
+                            error_log($e->getMessage());
+                        }
                     }
-                    catch(EntityNotFoundException $e){
-                        error_log($e->getMessage());
+                    else
+                    {
+                        return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
                     }
                 }
                 return new Response('OK', 200 , array('Content-Type' => 'text/html'));
-            }
-            else
-            {
-                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
-            }
         }
         else
         {
@@ -406,8 +404,9 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            if($O_Utils->getAdmin() == 1){
-                $N_Id_Forms = $request->request->get('Id_Forms');
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' =>  $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $N_Id_Ligne = $request->request->get('Id_Ligne');
                 $Value = $request->request->get('Value');
                 $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
@@ -426,8 +425,6 @@ class Forms_Editing extends AbstractController
                 catch(EntityNotFoundException $e){
                     error_log($e->getMessage());
                 }
-                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
                 $O_Ligne = $O_Forms->getLigne();
                 return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
             }
@@ -446,8 +443,9 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            if($O_Utils->getAdmin() == 1){
-                $N_Id_Forms = $request->request->get('Id_Forms');
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $N_Id = $request->request->get('Id');
                 $Value = $request->request->get('Value');
                 $repository = $this->getDoctrine()->getRepository(InLigne_Formulaire::class);
@@ -461,8 +459,6 @@ class Forms_Editing extends AbstractController
                 catch(EntityNotFoundException $e){
                     error_log($e->getMessage());
                 }
-                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
                 $O_Ligne = $O_Forms->getLigne();
                 return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
             }
@@ -482,8 +478,9 @@ class Forms_Editing extends AbstractController
         $session = $request->getSession();
         if($session->has('utils')){
             $O_Utils = $repository->find($session->get('utils'));
-            $N_Id_Forms = $request->request->get('Id_Forms');
-            if($O_Utils->getAdmin() == 1){
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                 $repository = $this->getDoctrine()->getRepository(InLigne_Formulaire::class);
                 $O_Forms_InLigne = $repository->findOneBy(['ID' => $request->request->get('id')]);
                 $em = $this->getDoctrine()->getManager();
@@ -494,8 +491,6 @@ class Forms_Editing extends AbstractController
                 catch(EntityNotFoundException $e){
                     error_log($e->getMessage());
                 }
-                $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-                $O_Forms = $repository->findOneBy(['ID' => $N_Id_Forms]);
                 $O_Ligne = $O_Forms->getLigne();
                 return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
             }

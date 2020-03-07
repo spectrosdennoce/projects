@@ -2,13 +2,7 @@
     {% block body %}
       <div class="container">
         {% if utils.getID() is defined %}
-          {% if utils.getAdmin() == 1 %}
               {% include "MenuForAdmin.html.twig" %}
-          {% else %}
-            {% for formulaire in formulaires %}
-              {% include "Menu_Loop_Form.html.twig" %}
-            {% endfor %} 
-          {% endif %}
         {% else %}
         <link rel="stylesheet" href="{{ asset('menu_template.css') }}">
         <div class="login">

@@ -137,7 +137,7 @@ $(document).ready(function(){
         $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
                 sendscreen();
     });
-    $('body').on('change', 'input[type=checkbox] , input[type=radio]', function(){
+    $('body').on('change', 'input[type=checkbox]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
                 sendscreen();
     });

@@ -1,9 +1,12 @@
-
 {% if loop.index0 % 4 == 0 %}
     <div class="row">
 {% endif %}
 <a class="btn btn-outline-link col-sm-3" href="/Formulaire/Read/{{ formulaire.getSlug() }}" role="button">
-    <div class="card">
+    {% if formulaire.getVisible() == 1 %}
+        <div class="card">
+    {% else %}
+        <div class="card bg-red">
+    {% endif %}
         <div class="card-inner">
             <div class="image" id="img{{formulaire.getId()}}">
                 <img src="{{ asset("img/" ~ formulaire.getSlug() ~ ".png") }}" alt="">

@@ -7,6 +7,8 @@ use App\Entity\Formulaire;
 use App\Entity\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 class Menu extends AbstractController
@@ -30,11 +32,11 @@ class Menu extends AbstractController
             $repository = $this->getDoctrine()->getRepository(Formulaire::class);
             if($O_Utils->getAdmin() == 1)
             {
-                $O_Formulaires = $repository->findBy(array('B_Visible' => 1 ));
+                $O_Formulaires = $repository->findAll();
             }
             else{
-                //get all formulaire by groups
-                foreach ($O_Groups as $O_Group)
+                $O_Formulaires = $repository->findBy(array('N_ID_Utils_Crea' => $O_Utils ));
+                /*foreach ($O_Groups as $O_Group)
                 {
                     $O_Forms = $O_Group->getIdGroups()->getForms();
                     if($O_Group->getDelegue()){
@@ -45,7 +47,8 @@ class Menu extends AbstractController
                             }
                         }
                     }
-                }
+                }*/
+                //formulaire reponse a cree et linker a sa
             }
         }
         //call twig

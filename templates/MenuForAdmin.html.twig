@@ -1,7 +1,6 @@
-
 {% for formulaire in formulaires %}
     {% include "Menu_Loop_Form.html.twig" %}
-    {% if loop.last %}
+    {% if loop.last and utils.getAdmin() == 1 %}
         <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
             <div class="card">
                 <div class="card-inner">
@@ -19,7 +18,7 @@
     </div>
     {% endif %}
 {% endfor %} 
-{% if formulaires is empty %}
+{% if formulaires is empty and utils.getAdmin() == 1 %}
     <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
         <div class="card">
             <div class="card-inner">

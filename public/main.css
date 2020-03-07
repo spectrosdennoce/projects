@@ -40,6 +40,12 @@ body {
     width:100%;
     height:200px;
   }
+  .bg-red
+  {
+    background-color: rgb(209, 106, 106);
+    color:#fff;
+    box-shadow:none;
+  }
   .bg-purple
   {
     background-color: #6f42c1;
