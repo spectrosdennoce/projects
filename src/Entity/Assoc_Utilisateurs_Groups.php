@@ -12,78 +12,85 @@ class Assoc_Utilisateurs_Groups
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    public $ID;
+    private $ID;
 
     /**
      * @ORM\ManyToOne(targetEntity="Groups",inversedBy="O_Utils")
      * @ORM\JoinColumn(name="N_ID_Groups",referencedColumnName="id")
      */
-    public $N_ID_Groups;
-
+    private $N_ID_Groups;
+    
     /**
      * @ORM\ManyToOne(targetEntity="Utils",inversedBy="O_Groups")
      * @ORM\JoinColumn(name="N_ID_Utils",referencedColumnName="id")
      */
-    public $N_ID_Utils;
+    private $N_ID_Utils;
 
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
      * @ORM\JoinColumn(name="N_ID_Utils_Crea",referencedColumnName="id")
      */
-    public $N_ID_Utils_Crea;
+    private $N_ID_Utils_Crea;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    public $B_Deleguer;
+    private $B_Deleguer;
 
     /**
      * @ORM\Column(type="date")
      */
-    public $D_Crea;
+    private $D_Crea;
     
-    public function __construct(){
+    public function __construct()
+    {
         $this->N_ID_Groups = new ArrayCollection();
         $this->N_ID_Utils = new ArrayCollection();
         $this->N_ID_Utils_Crea = new ArrayCollection();
     }
-    function setIdGroups($T_data)
+    public function setIdGroups($T_data)
     {
         $this->N_ID_Groups = $T_data;
     }
-    function setIdUtils($T_data)
+    public function setIdUtils($T_data)
     {
         $this->N_ID_Utils = $T_data;
     }
-    function setIdUtilsCrea($N_data)
+    public function setIdUtilsCrea($N_data)
     {
         $this->N_ID_Utils_Crea = $N_data;
     }
-    function setDelegue($B_data)
+    public function setDelegue($B_data)
     {
         $this->B_Deleguer = $B_data;
     }
-    function setDateCrea($D_data)
+    public function setDateCrea($D_data)
     {
         $this->D_Crea = new \DateTime($D_data);
     }
 
-    function getID(){
+    public function getID()
+    {
         return $this->ID;
     }
-    function getIdGroups(){
+    public function getIdGroups()
+    {
         return $this->N_ID_Groups;
     }
-    function getIdUtils(){
+    public function getIdUtils()
+    {
         return $this->N_ID_Utils;
     }
-    function getIdUtilsCrea(){
+    public function getIdUtilsCrea()
+    {
         return $this->N_ID_Utils_Crea;
     }
-    function getDelegue(){
+    public function getDelegue()
+    {
         return $this->B_Deleguer;
     }
-    function getDateCrea(){
+    public function getDateCrea()
+    {
         return $this->D_Crea;
     }
 }

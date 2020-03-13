@@ -12,70 +12,79 @@ class InLigne_Formulaire
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    public $ID;
+    private $ID;
 
     /**
      * @ORM\Column(name="t_titre",type="string", nullable=true)
      */
-    public $T_Titre;
+    private $T_Titre;
+
     /**
      * @ORM\Column(name="n_ordre", type="integer", nullable=true)
      */
-    public $N_Ordre;
+    private $N_Ordre;
+
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
      * @ORM\JoinColumn(name="N_ID_Utils_Crea",referencedColumnName="id", nullable=false)
      */
-    public $N_ID_Utils_Crea;
+    private $N_ID_Utils_Crea;
     
     /**
      * @ORM\ManyToOne(targetEntity="Ligne_Formulaire",inversedBy="O_Inline")
      * @ORM\JoinColumn(name="Ligne_Formulaire",referencedColumnName="id")
      */
-    public $O_Ligne;
+    private $O_Ligne;
+
     /**
      * @ORM\Column(name="d_crea",type="date", nullable=false)
      */
-    public $D_Crea;
+    private $D_Crea;
     
     
-    function setTitre($T_data)
+    public function setTitre($T_data)
     {
         $this->T_Titre = $T_data;
     }
-    function setIdUtilsCrea($N_data)
+    public function setIdUtilsCrea($N_data)
     {
         $this->N_ID_Utils_Crea = $N_data;
     }
-    function setOrdre($N_data)
+    public function setOrdre($N_data)
     {
         $this->N_Ordre = (($N_data > 0) ? -$N_data : $N_data);
     }
-    function setDateCrea($D_data)
+    public function setDateCrea($D_data)
     {
         $this->D_Crea = new \DateTime($D_data);
     }
-    function setLigne($O_data)
+    public function setLigne($O_data)
     {
         $this->O_Ligne = $O_data;
     }
 
-    function getID(){
+    public function getID()
+    {
         return $this->ID;
     }
-    function getLigne(){
+    public function getLigne()
+    {
         return $this->O_Ligne;
     }
-    function getTitre(){
+    public function getTitre()
+    {
         return $this->T_Titre;
     }
-    function getIdUtilsCrea(){
+    public function getIdUtilsCrea()
+    {
         return $this->N_ID_Utils_Crea;
     }
-    function getOrdre(){
+    public function getOrdre()
+    {
         return $this->N_Ordre;
     }
-    function getDateCrea(){
+    public function getDateCrea()
+    {
         return $this->D_Crea;
     }
 }

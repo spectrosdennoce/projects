@@ -10,9 +10,8 @@ $(document).ready(function(){
         id: {{ formulaire.getID() }},
         },
         success:function(response) {
-            console.log("OK"); 	  
-            var htmlString = $( response ).html();
-            $( "#ul-line" ).html(htmlString);
+            console.log("OK");
+            $( "#ul-line" ).html(response);
             sendscreen();
         },
         error:function(){
@@ -36,6 +35,22 @@ $(document).ready(function(){
         }
         });
     });
+    $("#Restore_Forms").click(function(){
+        $.ajax({
+        url: "/Formulaire/Restore_Forms/",
+        type:"POST",
+        data:{
+        id: {{ formulaire.getID() }},
+        },
+        success:function(response) {
+            console.log("OK");
+            $("body").html(response);
+        },
+        error:function(){
+            console.log("KO");
+        }
+        });
+    });
     $('body').on('click', '#Delete', function(){
         $.ajax({
             url: "/Formulaire/Delete_Ligne/",
@@ -45,8 +60,7 @@ $(document).ready(function(){
             },
             success:function(response) {
                 console.log("OK"); 	  
-                var htmlString = $( response ).html();
-                $( "#ul-line" ).html(htmlString);
+                $( "#ul-line" ).html(response);
                 sendscreen();
             },
             error:function(){
@@ -64,8 +78,7 @@ $(document).ready(function(){
             },
             success:function(response) {
                 console.log("OK"); 	  
-                var htmlString = $( response ).html();
-                $( "#ul-line" ).html(htmlString);
+                $( "#ul-line" ).html(response);
                 sendscreen();
             },
             error:function(){
@@ -83,8 +96,7 @@ $(document).ready(function(){
             },
             success:function(response) {
                 console.log("OK"); 	  
-                var htmlString = $( response ).html();
-                $( "#ul-line" ).html(htmlString);
+                $( "#ul-line" ).html(response);
                 sendscreen();
             },
             error:function(){
@@ -104,8 +116,7 @@ $(document).ready(function(){
             },
             success:function(response) {
                 console.log("OK"); 	  
-                var htmlString = $( response ).html();
-                $( "#ul-line" ).html(htmlString);
+                $( "#ul-line" ).html(response);
                 sendscreen();
             },
             error:function(){
@@ -124,8 +135,7 @@ $(document).ready(function(){
             },
             success:function(response) {
                 console.log("OK"); 	  
-                var htmlString = $( response ).html();
-                $( "#ul-line" ).html(htmlString);
+                $( "#ul-line" ).html(response);
                 sendscreen();
             },
             error:function(){
@@ -135,19 +145,15 @@ $(document).ready(function(){
     });
     $('body').on('focusout', '.change_ligne , input[type=date]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
-                sendscreen();
     });
     $('body').on('change', 'input[type=checkbox]', function(){
         $.post( "/Formulaire/Change_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).prop('checked') } );
-                sendscreen();
     });
     $('body').on('change', '.change_inligne', function(){
         $.post( "/Formulaire/Change_InLigne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Value : $(this).val() } );
-                sendscreen();
     });
     $('body').on('change', '.change_Forms', function(){
         $.post( "/Formulaire/Change_Forms/", { Id_Forms: {{ formulaire.getID() }}, Value : $(this).val() } );
-                sendscreen();
     });
     function sendscreen(){
         html2canvas(document.querySelector(".container"),{
@@ -172,10 +178,46 @@ $(document).ready(function(){
                         <p>Titre du Formulaire</p>
                         <input name="T_Titre" value="{{ formulaire.getTitre() }}" type="text" class="form-control change_Forms" placeholder="titre" aria-label="Titre"></input>
                     </div>
+                    <div class="container mb-3">
+                        <div class="row">
+                            <div class="form-group col-sm-6 d-flex justify-content-center">
+                                <button class='btn btn-primary' id="Add_Utils_diffusion">Ajouter Utilisateur</button><!-- a reflechire pour integration -->
+                            </div>
+                            <div class="form-group col-sm-6 d-flex justify-content-center">
+                                <button class='btn btn-primary' id="Add_Groups_diffusion">Ajouter Groupe</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-11">
+                            <select class="custom-select"><!-- a faire controller -->
+                                <option>choose ur god!</option>
+                                {% if utils.getAdmin == 1 %}
+                                    {% for group in AllGroups %}
+                                        <option>{{ group.getTitre() }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for groups in utils.getGroups() %}
+                                        {% if groups.getDelegue == 1 %}
+                                            {% set group = groups.getIdGroups() %}
+                                            <option>{{ group.getTitre() }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            </div>
+                            <div class="form-group col-sm-1">
+                                <button id="Delete_Groupe" class='btn btn-secondary' data-id=""><i class="fa fa-trash"style="color:White" aria-hidden="true"></i></button><!-- a faire controller -->
+                            </div>
+                        </div>
+                    </div>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group d-flex justify-content-end">
-                        <button class='btn btn-danger' id="Delete_Forms">Suprimer Formulaire</button>
+                        {% if formulaire.getVisible() == 1 %} 
+                            <button class='btn btn-danger' id="Delete_Forms">Suprimer Formulaire</button>
+                        {% else %}
+                            <button class='btn btn-success' id="Restore_Forms">Restorer Formulaire</button>
+                        {% endif %}
                     </div>
                 </li>
             </ul>

@@ -12,67 +12,66 @@ class Reponse_Formulaire
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    public $ID;
+    private $ID;
 
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    public $T_Reponse;
+    private $T_Reponse;
 
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
      * @ORM\JoinColumn(name="N_ID_Utils_Crea",referencedColumnName="id", nullable=false)
      */
-    public $N_ID_Utils_Crea;
+    private $N_ID_Utils_Crea;
 
     /**
      * @ORM\OneToMany(targetEntity="Assoc_Ligne_Formulaires_Reponses",mappedBy="O_Reponses")
-     * @ORM\JoinColumn(name="Assoc_Ligne_Formulaires_Reponses",referencedColumnName="Reponse_Formulaire")
      */
-    public $O_Ligne_Forms;
+    private $O_Ligne_Forms;
 
     /**
      * @ORM\Column(type="date", nullable=false)
      */
-    public $D_Crea;
+    private $D_Crea;
     
-    function setReponse($T_data)
+    public function setReponse($T_data)
     {
         $this->T_Reponse = $T_data;
     }
-    function setIdUtilsCrea($N_data)
+    public function setIdUtilsCrea($N_data)
     {
         $this->N_ID_Utils_Crea = $N_data;
     }
-    function setLignesForms($O_data)
+    public function setLignesForms($O_data)
     {
         $this->O_Ligne_Forms = $O_data;
     }
-    function setGroups($O_data)
+    public function setGroups($O_data)
     {
         $this->O_Groups = $O_data;
     }
-    function setDateCrea($D_data)
+    public function setDateCrea($D_data)
     {
         $this->D_Crea = new \DateTime($D_data);
     }
 
-    function getID(){
+    public function getID(){
         return $this->ID;
     }
-    function getReponse(){
+    public function getReponse(){
         return $this->T_Reponse;
     }
-    function getIdUtilsCrea(){
+    public function getIdUtilsCrea(){
         return $this->N_ID_Utils_Crea;
     }
-    function getLignesForms(){
+    public function getLignesForms(){
         return $this->O_Ligne_Forms;
     }
-    function getGroups(){
+    public function getGroups(){
         return $this->O_Groups;
     }
-    function getDateCrea(){
+    public function getDateCrea(){
         return $this->D_Crea;
     }
 }

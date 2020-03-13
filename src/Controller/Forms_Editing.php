@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utils;
 use App\Entity\Formulaire;
+use App\Entity\Groups;
 use App\Entity\Ligne_Formulaire;
 use App\Entity\InLigne_Formulaire;
 use Symfony\Component\HttpFoundation\Response;
@@ -132,21 +133,58 @@ class Forms_Editing extends AbstractController
             return $this->redirectToRoute('index');
         }
     }
-    public function Read(Request $request,string $T_Slug)
-    {
-        $O_Utils = null;
-        $repository = $this->getDoctrine()->getRepository(Formulaire::class);
-        $O_Formulaire = $repository->findOneBy(['T_Slug' => $T_Slug]);
+    
+    public function Restore_Forms(Request $request) {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
         if($session->has('utils')){
-            $O_Utils = $session->get('utils');
+            $O_Utils = $repository->find($session->get('utils'));
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                $em = $this->getDoctrine()->getManager();
+                $O_Forms->setDateDele(null);
+                $O_Forms->setVisible(1);
+                $em->persist($O_Forms);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $repository = $this->getDoctrine()->getRepository(Groups::class);
+                $O_Groups = $repository->findAll();
+                $O_Ligne = $O_Forms->getLigne();
+                return $this->render('\Formulaire\Modify.Formulaire.html.twig',['formulaire'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils,'AllGroups'=>$O_Groups]);
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
         }
         else
         {
             return $this->redirectToRoute('index');
         }
-        $O_Ligne = $O_Formulaire->getLigne();
-        return $this->render('\Formulaire\Modify.Formulaire.html.twig',['formulaire'=>$O_Formulaire,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
+    }
+    public function Read(Request $request,string $T_Slug)
+    {
+        $O_Utils = null;
+        $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+        $O_Forms = $repository->findOneBy(['T_Slug' => $T_Slug]);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $repository = $this->getDoctrine()->getRepository(Utils::class);
+            $O_Utils = $repository->find($session->get('utils'));
+            $repository = $this->getDoctrine()->getRepository(Groups::class);
+            $O_Groups = $repository->findAll();
+            $O_Ligne = $O_Forms->getLigne();
+            return $this->render('\Formulaire\Modify.Formulaire.html.twig',['formulaire'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils,'AllGroups'=>$O_Groups]);
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
     }
     public function Create_Ligne(Request $request)
     {

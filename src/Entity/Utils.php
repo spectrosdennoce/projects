@@ -16,47 +16,47 @@ class Utils
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    public $ID;
+    private $ID;
 
     /**
      * @ORM\Column(type="string", nullable=false, name="t_nom")
      */
-    public $T_Nom;
+    private $T_Nom;
 
     /**
      * @ORM\Column(type="string", nullable=false, unique=true, name="t_pseudo", unique=true)
      */
-    public $T_Pseudo;
+    private $T_Pseudo;
 
     /**
      * @ORM\Column(type="string", nullable=false, name="t_prenom")
      */
-    public $T_Prenom;
+    private $T_Prenom;
+
     /**
      * @ORM\OneToMany(targetEntity="Assoc_Utilisateurs_Groups",mappedBy="N_ID_Utils")
-     * @ORM\JoinColumn(name="Assoc_Utilisateurs_Groups",referencedColumnName="Utils")
      */
-    public $O_Groups;
+    private $O_Groups;
+
     /**
      * @ORM\Column(type="string", nullable=false, name="t_email", unique=true)
      */
-    public $T_Email;
+    private $T_Email;
 
     /**
      * @ORM\Column(type="string", nullable=false, name="t_mdp")
      */
-    public $T_Mdp;
+    private $T_Mdp;
 
     /**
      * @ORM\Column(type="boolean", nullable=false, name="b_admin")
      */
-    public $B_Admin;
+    private $B_Admin;
 
     /**
      * @ORM\Column(type="date", nullable=false, name="d_crea")
      */
-    public $D_Crea;
-
+    private $D_Crea;
     
     public function setNom($T_data)
     {
@@ -90,6 +90,7 @@ class Utils
     {
         $this->D_Crea = new \DateTime($D_data);
     }
+
     public function getID()
     {
         return $this->ID;
@@ -122,7 +123,7 @@ class Utils
     {
         return $this->D_Crea;
     }
-    function getGroups()
+    public function getGroups()
     {
         return $this->O_Groups;
     }

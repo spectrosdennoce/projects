@@ -22,6 +22,9 @@ Change_Forms:
 Delete_Forms:
     path: /Formulaire/Delete_Forms/
     controller: App\Controller\Forms_Editing::Delete_Forms
+Restore_Forms:
+    path: /Formulaire/Restore_Forms/
+    controller: App\Controller\Forms_Editing::Restore_Forms
 Read_Formulaire:
     path: /Formulaire/Read/{T_Slug}
     controller: App\Controller\Forms_Editing::Read

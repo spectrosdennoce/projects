@@ -13,120 +13,131 @@ class Formulaire
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    public $ID;
+    private $ID;
+
     /**
      * @ORM\Column(type="string", nullable=true, name="t_titre")
      */
-    public $T_Titre;
+    private $T_Titre;
+
     /**
      * @ORM\Column(type="boolean", nullable=true, name="b_obligation")
      */
-    public $B_Obligation;
+    private $B_Obligation;
+
     /**
      * @ORM\Column(type="string", nullable=false, unique=true, name="t_slug")
      */
-    public $T_Slug;
+    private $T_Slug;
+
     /**
      * @ORM\OneToMany(targetEntity="Assoc_Formulaires_Groups",mappedBy="N_ID_Formulaires")
-     * @ORM\JoinColumn(name="Assoc_Formulaires_Groups",referencedColumnName="Formulaire")
      */
-    public $O_Groups;
+    private $O_Groups;
+
     /**
      * @ORM\OneToMany(targetEntity="Ligne_Formulaire",mappedBy="N_ID_Formulaires")
-     * @ORM\JoinColumn(name="Ligne_Formulaire",referencedColumnName="Formulaire")
+     * @ORM\JoinColumn(name="Ligne_Formulaire",referencedColumnName="id")
      * @ORM\OrderBy({"N_Ordre" = "ASC"})
      */
-    public $O_Ligne;
+    private $O_Ligne;
 
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
      * @ORM\JoinColumn(name="N_ID_Utils_Crea",referencedColumnName="id", nullable=false)
      */
-    public $N_ID_Utils_Crea;
+    private $N_ID_Utils_Crea;
 
     /**
      * @ORM\Column(type="date", nullable=false, name="d_crea")
      */
-    public $D_Crea;
+    private $D_Crea;
     
     /**
      * @ORM\Column(type="date", nullable=true, name="d_dele")
      */
-    public $D_Dele;
+    private $D_Dele;
     
     /**
      * @ORM\Column(type="boolean", nullable=false, name="b_visible")
      */
-    
-    public $B_Visible;
+    private $B_Visible;
 
-    function setTitre($T_data)
+    public function setTitre($T_data)
     {
         $this->T_Titre = $T_data;
     }
-    function setObligation($B_data)
+    public function setObligation($B_data)
     {
         $this->B_Obligation = $B_data;
     }
-    function setIdUtilsCrea($N_data)
+    public function setIdUtilsCrea($N_data)
     {
         $this->N_ID_Utils_Crea = $N_data;
     }
-    function setGroups($O_data)
+    public function setGroups($O_data)
     {
         $this->O_Groups = $O_data;
     }
-    function setLigne($O_data)
+    public function setLigne($O_data)
     {
         $this->O_Ligne = $O_data;
     }
-    function setDateCrea($D_data)
+    public function setDateCrea($D_data)
     {
         $this->D_Crea = new \DateTime($D_data);
     }
-    function setDateDele($D_data)
+    public function setDateDele($D_data)
     {
         $this->D_Dele = new \DateTime($D_data);
     }
-    function setVisible($B_data)
+    public function setVisible($B_data)
     {
         $this->B_Visible = $B_data;
     }
-    function setSlug($T_data)
+    public function setSlug($T_data)
     {
         $this->T_Slug = $T_data;
     }
 
-    function getID(){
+    public function getID()
+    {
         return $this->ID;
     }
-    function getObligation(){
+    public function getObligation()
+    {
         return $this->B_Obligation;
     }
-    function getTitre(){
+    public function getTitre()
+    {
         return $this->T_Titre;
     }
-    function getGroups()
+    public function getGroups()
     {
         return $this->O_Groups;
     }
-    function getLigne()
+    public function getLigne()
     {
         return $this->O_Ligne;
     }
-    function getIdUtilsCrea(){
+    public function getIdUtilsCrea()
+    {
         return $this->N_ID_Utils_Crea;
     }
-    function getDateCrea(){
+    public function getDateCrea()
+    {
         return $this->D_Crea;
     }
-    function getDateDele(){
+    public function getDateDele()
+    {
         return $this->D_Dele;
     }
-    function getVisible(){
+    public function getVisible()
+    {
         return $this->B_Visible;
     }
-    function getSlug(){
+    public function getSlug()
+    {
         return $this->T_Slug;
     }
 }

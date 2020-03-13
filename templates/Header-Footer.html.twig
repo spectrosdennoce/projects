@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="{{ asset('fontawesome/css/regular.css') }}">
         <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
         <link rel="stylesheet" href="{{ asset('main.css') }}">
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
     <body>
@@ -30,10 +31,13 @@
                         <div class="form-inline btn-group" role="group">
                             <div class="btn-group">
                                 <button type="button" class="btn bg-purple dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{utils.getPseudo()}}
+                                    {{ utils.getPseudo() }}
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="#" class="dropdown-item" data-dismiss="modal" data-toggle="modal" data-target="#forgot_password">Mot de passe oublier</a>
+                                    {% if utils.getAdmin() == 1 %}
+                                        <a href="/Admin/Menu/" class="dropdown-item">Paramétrage</a>
+                                    {% endif %}
+                                    <a href="" class="dropdown-item">Mot de passe oublier</a>
                                     <div class="dropdown-divider"></div>
                                     <a href="/Deconnexion/" type="button" class="dropdown-item">Déconnexion</a>
                                 </div>
