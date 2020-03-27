@@ -1,0 +1,70 @@
+<ul class="list-group" id="ul-head">
+    <li class="list-group-item">
+        <div class="form-group">
+            <p>Titre du Formulaire</p>
+            <input name="T_Titre" value="{{ formulaire.getTitre() }}" type="text" class="form-control change_Forms" placeholder="titre" aria-label="Titre"></input>
+        </div>
+        <div class="container mb-3">
+            <div class="row">
+                <div class="form-group col-sm-6 d-flex justify-content-center">
+                    <!-- <button class='btn btn-primary' id="Add_Utils_diffusion">Ajouter Utilisateur</button>--><!-- a reflechire pour integration -->
+                </div>
+                <div class="form-group col-sm-6 d-flex justify-content-center">
+                    <button class='btn btn-primary' id="Add_Groups_diffusion">Ajouter Groupe</button>
+                </div>
+            </div>
+            {% if groups is not null %}
+                {% for assoc_group in groups %}
+                    <div class="row">
+                        <div class="form-group col-sm-11">
+                        <select id='selectGroups' data-id={{ assoc_group.getID() }} class="custom-select" autocomplete="off">
+                            <option selected disabled hidden>{% if assoc_group.getIdGroups() is not null %}{{ assoc_group.getIdGroups().getTitre() }}{% endif %}</option>
+                            {% if utils.getAdmin == 1 %}
+                                {% for group in AllGroups %}
+                                    <option value="{{ group.getID() }}">{{ group.getTitre() }}</option>
+                                {% endfor %}
+                            {% else %}
+                                {% if utils.getGroups() != null %}
+                                    {% for groups in utils.getGroups() %}
+                                        {% if groups.getDelegue == 1 %}
+                                            {% set group = groups.getIdGroups() %}
+                                            {% if assoc_group.getIdGroups() == group %}
+                                                <option disabled>{{ group.getTitre() }}</option>
+                                            {% else %}
+                                                <option value={{ group.getID() }}>{{ group.getTitre() }}</option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <option disabled>pas de Groups vous est Associer</option>
+                                {% endif %}
+                            {% endif %}
+                        </select>
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <button id="Delete_Groups_diffusion" class='btn btn-secondary' data-id={{assoc_group.getID()}}><i class="fa fa-trash"style="color:White" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </li>
+    <li class="list-group-item">
+        <div class="row">
+            <div class="form-group col-sm-6  d-flex justify-content-start">
+                {% if formulaire.getValide() == 1 %} 
+                    <button class='btn btn-warning' id="Unvalider_Forms">Annuler Validation Formulaire</button>
+                {% else %}
+                    <button class='btn btn-success' id="Valider_Forms">Valider Formulaire</button>
+                {% endif %}
+            </div>
+            <div class="form-group col-sm-6  d-flex justify-content-end">
+                {% if formulaire.getVisible() == 1 %} 
+                    <button class='btn btn-danger' id="Delete_Forms">Suprimer Formulaire</button>
+                {% else %}
+                    <button class='btn btn-success' id="Restore_Forms">Restorer Formulaire</button>
+                {% endif %}
+            </div>
+        </div>
+    </li>
+</ul>

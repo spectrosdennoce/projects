@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Assoc_Formulaires_Groups;
 use App\Entity\Utils;
 use App\Entity\Formulaire;
 use App\Entity\Groups;
@@ -34,6 +35,7 @@ class Forms_Editing extends AbstractController
         $O_Forms->setDateCrea(date('d-m-Y'));
         $O_Forms->setSlug($T_Slug);
         $O_Forms->setVisible(1);
+        $O_Forms->setValide(0);
         $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
         $O_Forms_Ligne->setObli(0);
         $O_Forms_Ligne->setType(1);
@@ -133,7 +135,76 @@ class Forms_Editing extends AbstractController
             return $this->redirectToRoute('index');
         }
     }
-    
+    public function Valider_Forms(Request $request) {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                $em = $this->getDoctrine()->getManager();
+                $O_Forms->setDateVali(date('d-m-Y'));
+                $O_Forms->setValide(1);
+                $em->persist($O_Forms);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $repository = $this->getDoctrine()->getRepository(Groups::class);
+                $O_Groups = $repository->findAll();
+                $O_Assoc_Groups = $O_Forms->getGroups();
+                $O_Ligne = $O_Forms->getLigne();
+                return $this->render('\Formulaire\header.html.twig',['formulaire'=>$O_Forms,'utils'=>$O_Utils,'groups'=>$O_Assoc_Groups,'AllGroups'=>$O_Groups]);
+            
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
+    public function Unvalider_Forms(Request $request) {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                $em = $this->getDoctrine()->getManager();
+                $O_Forms->setDateVali(null);
+                $O_Forms->setValide(0);
+                $em->persist($O_Forms);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $repository = $this->getDoctrine()->getRepository(Groups::class);
+                $O_Groups = $repository->findAll();
+                $O_Assoc_Groups = $O_Forms->getGroups();
+                $O_Ligne = $O_Forms->getLigne();
+                return $this->render('\Formulaire\header.html.twig',['formulaire'=>$O_Forms,'utils'=>$O_Utils,'groups'=>$O_Assoc_Groups,'AllGroups'=>$O_Groups]);
+            
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
     public function Restore_Forms(Request $request) {
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
@@ -154,8 +225,9 @@ class Forms_Editing extends AbstractController
                 }
                 $repository = $this->getDoctrine()->getRepository(Groups::class);
                 $O_Groups = $repository->findAll();
+                $O_Assoc_Groups = $O_Forms->getGroups();
                 $O_Ligne = $O_Forms->getLigne();
-                return $this->render('\Formulaire\Modify.Formulaire.html.twig',['formulaire'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils,'AllGroups'=>$O_Groups]);
+                return $this->render('\Formulaire\header.html.twig',['formulaire'=>$O_Forms,'utils'=>$O_Utils,'groups'=>$O_Assoc_Groups,'AllGroups'=>$O_Groups]);
             }
             else
             {
@@ -178,8 +250,9 @@ class Forms_Editing extends AbstractController
             $O_Utils = $repository->find($session->get('utils'));
             $repository = $this->getDoctrine()->getRepository(Groups::class);
             $O_Groups = $repository->findAll();
+            $O_Assoc_Groups = $O_Forms->getGroups();
             $O_Ligne = $O_Forms->getLigne();
-            return $this->render('\Formulaire\Modify.Formulaire.html.twig',['formulaire'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils,'AllGroups'=>$O_Groups]);
+            return $this->render('\Formulaire\Modify.Formulaire.html.twig',['formulaire'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils,'groups'=>$O_Assoc_Groups,'AllGroups'=>$O_Groups]);
         }
         else
         {
@@ -272,13 +345,15 @@ class Forms_Editing extends AbstractController
                 $O_Forms_Ligne = $repository->findOneBy(['ID' => $request->request->get('id')]);
                 
                 $O_New_Forms_Ligne = new Ligne_Formulaire;
+                $O_New_Forms_Ligne->setTitre($O_Forms_Ligne->getTitre());
                 $O_New_Forms_Ligne->setObli($O_Forms_Ligne->getObli());
                 $O_New_Forms_Ligne->setType($O_Forms_Ligne->getType());
-                $O_New_Forms_Ligne->setOrdre($O_Forms_Ligne->getOrdre());
+                $O_New_Forms_Ligne->setOrdre($O_Forms_Ligne->getOrdre()+1);
                 $O_New_Forms_Ligne->setForms($O_Forms_Ligne->getForms());
                 $O_New_Forms_Ligne->setDateCrea(date('d-m-Y'));
                 $O_New_Forms_Ligne->setIdUtilsCrea($O_Utils);
                 $em = $this->getDoctrine()->getManager();
+                $A_New_Forms_InLigne = null;
                 foreach($O_Forms_Ligne->getInLine() as $O_Forms_InLigne) {
                     $O_New_Forms_InLigne = new InLigne_Formulaire;
                     $O_New_Forms_InLigne->setTitre($O_Forms_InLigne->getTitre());
@@ -290,7 +365,9 @@ class Forms_Editing extends AbstractController
                     $em->persist($O_New_Forms_InLigne);
                     $A_New_Forms_InLigne[] = $O_New_Forms_InLigne;
                 }
-                $O_New_Forms_Ligne->setInline($A_New_Forms_InLigne);
+                if($A_New_Forms_InLigne != null){
+                    $O_New_Forms_Ligne->setInline($A_New_Forms_InLigne);
+                }
                 $em->persist($O_New_Forms_Ligne);
                 try {
                     $em->flush();
@@ -531,6 +608,119 @@ class Forms_Editing extends AbstractController
                 }
                 $O_Ligne = $O_Forms->getLigne();
                 return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
+    public function Add_Groups_diffusion(Request $request) {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' =>  $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                $T_Slug = $this->getRandString(15);
+                $O_Assoc_Groups = $this->getDoctrine()->getRepository(Assoc_Formulaires_Groups::class);
+                while($O_Assoc_Groups->findOneBy(['T_Slug_View' => $T_Slug])){
+                    $T_Slug = $this->getRandString(15);
+                }
+                $O_Forms_Group = new Assoc_Formulaires_Groups;
+                $O_Forms_Group->setDateCrea(date('d-m-Y'));
+                $O_Forms_Group->setVisible(0);
+                $O_Forms_Group->setSlug($T_Slug);
+                $O_Forms_Group->setIdUtilsCrea($O_Utils);
+                $O_Forms_Group->setIdFormulaires($O_Forms);
+                $O_Forms_Group->setIdGroups(null);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($O_Forms_Group);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $repository = $this->getDoctrine()->getRepository(Groups::class);
+                $O_Groups = $repository->findAll();
+                $O_Assoc_Groups = $O_Forms->getGroups();
+                return $this->render('\Formulaire\header.html.twig',['formulaire'=>$O_Forms,'utils'=>$O_Utils,'groups'=>$O_Assoc_Groups,'AllGroups'=>$O_Groups]);
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
+    public function Change_Groups_diffusion(Request $request) {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                $repository = $this->getDoctrine()->getRepository(Groups::class);
+                $O_Groups = $repository->findOneBy(['ID' => $request->request->get('Value')]);
+                $repository = $this->getDoctrine()->getRepository(Assoc_Formulaires_Groups::class);
+                $O_Assoc_Groups = $repository->findOneBy(['ID' => $request->request->get('id')]);
+                $O_Assoc_Groups->setIdGroups($O_Groups);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($O_Assoc_Groups);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $repository = $this->getDoctrine()->getRepository(Groups::class);
+                $O_Groups = $repository->findAll();
+                $O_Assoc_Groups = $O_Forms->getGroups();
+                return $this->render('\Formulaire\header.html.twig',['formulaire'=>$O_Forms,'utils'=>$O_Utils,'groups'=>$O_Assoc_Groups,'AllGroups'=>$O_Groups]);
+            }
+            else
+            {
+                return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
+            }
+        }
+        else
+        {
+            return $this->redirectToRoute('index');
+        }
+    }
+    public function Delete_Groups_diffusion(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Utils::class);
+        $session = $request->getSession();
+        if($session->has('utils')){
+            $O_Utils = $repository->find($session->get('utils'));
+            $repository = $this->getDoctrine()->getRepository(Formulaire::class);
+            $O_Forms = $repository->findOneBy(['ID' => $request->request->get('Id_Forms')]);
+            if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                $repository = $this->getDoctrine()->getRepository(Assoc_Formulaires_Groups::class);
+                $O_Assoc_Groups = $repository->findOneBy(['ID' => $request->request->get('id')]);
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($O_Assoc_Groups);
+                try {
+                    $em->flush();
+                }
+                catch(EntityNotFoundException $e){
+                    error_log($e->getMessage());
+                }
+                $repository = $this->getDoctrine()->getRepository(Groups::class);
+                $O_Groups = $repository->findAll();
+                $O_Assoc_Groups = $O_Forms->getGroups();
+                return $this->render('\Formulaire\header.html.twig',['formulaire'=>$O_Forms,'utils'=>$O_Utils,'groups'=>$O_Assoc_Groups,'AllGroups'=>$O_Groups]);
             }
             else
             {

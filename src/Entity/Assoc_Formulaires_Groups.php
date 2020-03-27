@@ -70,6 +70,10 @@ class Assoc_Formulaires_Groups
     {
         $this->D_Crea = new \DateTime($D_data);
     }
+    public function setVisible($B_data)
+    {
+        $this->B_Visible = $B_data;
+    }
     public function setSlug($T_data)
     {
         $this->T_Slug_View = $T_data;
@@ -83,6 +87,10 @@ class Assoc_Formulaires_Groups
     {
         return $this->N_ID_Formulaires;
     }
+    public function getIdGroups()
+    {
+        return $this->N_ID_Groups;
+    }
     public function getIdUtilsCrea()
     {
         return $this->N_ID_Utils_Crea;
@@ -90,6 +98,10 @@ class Assoc_Formulaires_Groups
     public function getDateCrea()
     {
         return $this->D_Crea;
+    }
+    public function getVisible()
+    {
+        return $this->B_Visible;
     }
     public function getSlug()
     {

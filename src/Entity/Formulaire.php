@@ -52,6 +52,11 @@ class Formulaire
      * @ORM\Column(type="date", nullable=false, name="d_crea")
      */
     private $D_Crea;
+
+    /**
+     * @ORM\Column(type="date", nullable=false, name="d_vali")
+     */
+    private $D_Vali;
     
     /**
      * @ORM\Column(type="date", nullable=true, name="d_dele")
@@ -62,6 +67,11 @@ class Formulaire
      * @ORM\Column(type="boolean", nullable=false, name="b_visible")
      */
     private $B_Visible;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, name="b_valide")
+     */
+    private $B_Valide;
 
     public function setTitre($T_data)
     {
@@ -87,6 +97,10 @@ class Formulaire
     {
         $this->D_Crea = new \DateTime($D_data);
     }
+    public function setDateVali($D_data)
+    {
+        $this->D_Vali = new \DateTime($D_data);
+    }
     public function setDateDele($D_data)
     {
         $this->D_Dele = new \DateTime($D_data);
@@ -94,6 +108,10 @@ class Formulaire
     public function setVisible($B_data)
     {
         $this->B_Visible = $B_data;
+    }
+    public function setValide($B_data)
+    {
+        $this->B_Valide = $B_data;
     }
     public function setSlug($T_data)
     {
@@ -128,6 +146,10 @@ class Formulaire
     {
         return $this->D_Crea;
     }
+    public function getDateVali()
+    {
+        return $this->D_Vali;
+    }
     public function getDateDele()
     {
         return $this->D_Dele;
@@ -135,6 +157,10 @@ class Formulaire
     public function getVisible()
     {
         return $this->B_Visible;
+    }
+    public function getValide()
+    {
+        return $this->B_Valide;
     }
     public function getSlug()
     {

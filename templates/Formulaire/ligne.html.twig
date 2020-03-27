@@ -13,7 +13,7 @@
                 </div>
                 
                 <div class="form-group col-4">
-                    <select name="N_Type" data-id="{{Ligne.getID()}}" class="custom-select mb-3">
+                    <select id="selectinline" name="N_Type" data-id="{{Ligne.getID()}}" class="custom-select mb-3">
                         <option {% if Ligne.getType() == 1 %} selected {% endif %} value="1">text</option>
                         <option {% if Ligne.getType() == 2 %} selected {% endif %} value="2">date</option>
                         <option {% if Ligne.getType() == 3 %} selected {% endif %} value="3">radio</option>

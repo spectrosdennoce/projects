@@ -55,9 +55,23 @@ Change_InLigne:
 Delete_InLigne:
     path: /Formulaire/Delete_InLine/
     controller: App\Controller\Forms_Editing::Delete_InLine
-    
+Add_Groups_diffusion:
+    path: /Formulaire/Add_Groups_diffusion/
+    controller: App\Controller\Forms_Editing::Add_Groups_diffusion
+Change_Groups_diffusion:
+    path: /Formulaire/Change_Groups_diffusion/
+    controller: App\Controller\Forms_Editing::Change_Groups_diffusion
+Delete_Groups_diffusion:
+    path: /Formulaire/Delete_Groups_diffusion/
+    controller: App\Controller\Forms_Editing::Delete_Groups_diffusion
+Valider_Forms:
+    path: /Formulaire/Valider_Forms/
+    controller: App\Controller\Forms_Editing::Valider_Forms
+Unvalider_Forms:
+    path: /Formulaire/Unvalider_Forms/
+    controller: App\Controller\Forms_Editing::Unvalider_Forms
 
-    
+
 #nom de la route:
 #   path: lien url
 #   controller: chemin controller :: nom fonction

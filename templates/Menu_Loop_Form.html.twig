@@ -2,8 +2,10 @@
     <div class="row">
 {% endif %}
 <a class="btn btn-outline-link col-sm-3" href="/Formulaire/Read/{{ formulaire.getSlug() }}" role="button">
-    {% if formulaire.getVisible() == 1 %}
+    {% if formulaire.getVisible() == 1 and formulaire.getValide() == 0 %}
         <div class="card">
+    {% elseif formulaire.getValide() == 1 and formulaire.getVisible() == 1  %}
+        <div class="card bg-green">
     {% else %}
         <div class="card bg-red">
     {% endif %}

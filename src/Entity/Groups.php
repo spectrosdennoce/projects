@@ -81,7 +81,7 @@ class Groups
 
     public function getID()
     {
-        return $this->id;
+        return $this->ID;
     }
     public function getTitre()
     {

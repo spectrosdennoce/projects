@@ -20,7 +20,7 @@ class Menu extends AbstractController
         //call login et register function
         self::Login($request);
         self::Register($request);
-        self::ForgotPass($request);
+        //self::ForgotPass($request);
         //check si utils connecter
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
@@ -81,13 +81,16 @@ class Menu extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $O_Utils = null;
         //check si utilisateur existe dans la bdd
-        if($repository->findOneBy(['T_Pseudo' => $T_Pseudo]))
+        if($T_Pseudo)
         {
-            $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
-        }
-        else if($repository->findOneBy(['T_Email' => $T_Pseudo]))
-        {
-            $O_Utils = $repository->findOneBy(['T_Email' => $T_Pseudo]);
+            if($repository->findOneBy(['T_Pseudo' => $T_Pseudo]))
+            {
+                $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
+            }
+            else if($repository->findOneBy(['T_Email' => $T_Pseudo]))
+            {
+                $O_Utils = $repository->findOneBy(['T_Email' => $T_Pseudo]);
+            }
         }
         if($O_Utils){
             //check password et set session utils
