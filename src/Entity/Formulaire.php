@@ -31,6 +31,11 @@ class Formulaire
     private $T_Slug;
 
     /**
+     * @ORM\Column(type="string", nullable=false, unique=true, name="t_slug_view")
+     */
+    private $T_Slug_View;
+
+    /**
      * @ORM\OneToMany(targetEntity="Assoc_Formulaires_Groups",mappedBy="N_ID_Formulaires")
      */
     private $O_Groups;
@@ -117,6 +122,10 @@ class Formulaire
     {
         $this->T_Slug = $T_data;
     }
+    public function setSlugView($T_data)
+    {
+        $this->T_Slug_View = $T_data;
+    }
 
     public function getID()
     {
@@ -165,5 +174,9 @@ class Formulaire
     public function getSlug()
     {
         return $this->T_Slug;
+    }
+    public function getSlugView()
+    {
+        return $this->T_Slug_View;
     }
 }

@@ -20,7 +20,7 @@ class Assoc_Ligne_Formulaires_Reponses
      */
     private $O_Lignes_Formulaires;
     /**
-     * @ORM\ManyToOne(targetEntity="Reponse_Formulaire",inversedBy="O_Ligne_Forms")
+     * @ORM\OneToOne(targetEntity="Reponse_Formulaire",inversedBy="O_Ligne_Forms")
      * @ORM\JoinColumn(name="Reponse_Formulaire",referencedColumnName="id")
      */
     private $O_Reponses;

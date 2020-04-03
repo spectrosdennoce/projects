@@ -23,8 +23,12 @@ class Forms_Editing extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Formulaire::class);
         //call unique slug
         $T_Slug = $this->getRandString(15);
+        $T_Slug_View = $this->getRandString(15);
         while($repository->findOneBy(['T_Slug' => $T_Slug])){
             $T_Slug = $this->getRandString(15);
+        }
+        while($repository->findOneBy(['T_Slug_View' => $T_Slug_View])){
+            $T_Slug_View = $this->getRandString(15);
         }
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         //get session actif
@@ -34,6 +38,7 @@ class Forms_Editing extends AbstractController
         $O_Forms->setIdUtilsCrea($O_Utils);
         $O_Forms->setDateCrea(date('d-m-Y'));
         $O_Forms->setSlug($T_Slug);
+        $O_Forms->setSlugView($T_Slug_View);
         $O_Forms->setVisible(1);
         $O_Forms->setValide(0);
         $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
@@ -135,7 +140,7 @@ class Forms_Editing extends AbstractController
             return $this->redirectToRoute('index');
         }
     }
-    public function Valider_Forms(Request $request) {
+    public function Valider_Forms(Request $request, \Swift_Mailer $mailer) {
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
         if($session->has('utils')){
@@ -153,9 +158,14 @@ class Forms_Editing extends AbstractController
                 catch(EntityNotFoundException $e){
                     error_log($e->getMessage());
                 }
+                $O_Assoc_Groups = $O_Forms->getGroups();
+                foreach($O_Assoc_Groups as $O_Assoc_Group){
+                    foreach($O_Assoc_Group->getIdGroups()->getUtils() as $O_Utils_mailer){
+                        $this->Send_mail('Reponse Formulaire','Bonjour vous avez été invité a repondre a ce formulaire <a href="http://projet_bts.com:777/Formulaire/Reponse/'.$O_Forms->getSlugView().'">ici</a>',$O_Utils_mailer->getIdUtils()->getEmail(),$mailer);
+                    }
+                }
                 $repository = $this->getDoctrine()->getRepository(Groups::class);
                 $O_Groups = $repository->findAll();
-                $O_Assoc_Groups = $O_Forms->getGroups();
                 $O_Ligne = $O_Forms->getLigne();
                 return $this->render('\Formulaire\header.html.twig',['formulaire'=>$O_Forms,'utils'=>$O_Utils,'groups'=>$O_Assoc_Groups,'AllGroups'=>$O_Groups]);
             
@@ -169,6 +179,17 @@ class Forms_Editing extends AbstractController
         {
             return $this->redirectToRoute('index');
         }
+    }
+    private function Send_mail($titre,$desc,$dest,$mailer)
+    {
+        $message = new \Swift_Message($titre);
+        $message->setFrom('forms.projet.bts@gmail.com');
+        $message->setTo($dest);
+        $message->setBody($desc,'text/html');
+        $type = $message->getHeaders()->get('Content-Type');
+        $type->setParameter('charset', 'utf-8');
+
+        $mailer->send($message);
     }
     public function Unvalider_Forms(Request $request) {
         $repository = $this->getDoctrine()->getRepository(Utils::class);
@@ -309,7 +330,7 @@ class Forms_Editing extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 foreach($O_Forms_Ligne->getInLine() as $O_Forms_InLigne) {
                     $em->remove($O_Forms_InLigne);
-                  }
+                }
                 $em->remove($O_Forms_Ligne);
                 try {
                     $em->flush();
@@ -317,7 +338,6 @@ class Forms_Editing extends AbstractController
                 catch(EntityNotFoundException $e){
                     error_log($e->getMessage());
                 }
-
                 $O_Ligne = $O_Forms->getLigne();
                 return $this->render('Formulaire/ligne.html.twig',['formulaires'=>$O_Forms,'Lignes'=>$O_Ligne,'utils'=>$O_Utils]);
             }
@@ -444,9 +464,9 @@ class Forms_Editing extends AbstractController
             for($i=0;$i < count($A_Ordre);$i++){
                 $repository = $this->getDoctrine()->getRepository(Ligne_Formulaire::class);
                 $O_Forms_Ligne = $repository->findOneBy(['ID' => $A_Ordre[$i]]);
-                $O_Forms_Ligne->setOrdre($i);
                 $O_Forms = $O_Forms_Ligne->getForms();
-                if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                if($O_Utils->getAdmin() == 1 || $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                    $O_Forms_Ligne->setOrdre($i);
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($O_Forms_Ligne);
                     try {
@@ -455,13 +475,13 @@ class Forms_Editing extends AbstractController
                     catch(EntityNotFoundException $e){
                         error_log($e->getMessage());
                     }
-                    return new Response('OK', 200 , array('Content-Type' => 'text/html'));
                 }
                 else
                 {
                     return new Response('KO PAS LE DROIT', 403 , array('Content-Type' => 'text/html'));
                 }
             }
+            return new Response('OK', 200 , array('Content-Type' => 'text/html'));
         }
         else
         {
@@ -491,7 +511,7 @@ class Forms_Editing extends AbstractController
                     $O_Forms_InLigne = $repository->findOneBy(['ID' => $A_Ordre[$i]]);
                     $O_Forms_Ligne = $O_Forms_InLigne->getLigne();
                     $O_Forms = $O_Forms_Ligne->getForms();
-                    if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
+                    if($O_Utils->getAdmin() == 1 || $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
                         $O_Forms_InLigne->setOrdre($i);
                         $em = $this->getDoctrine()->getManager();
                         $em->persist($O_Forms_InLigne);
@@ -627,15 +647,10 @@ class Forms_Editing extends AbstractController
             $repository = $this->getDoctrine()->getRepository(Formulaire::class);
             $O_Forms = $repository->findOneBy(['ID' =>  $request->request->get('Id_Forms')]);
             if($O_Utils->getAdmin() == 1 | $O_Utils->getID() == $O_Forms->getIdUtilsCrea()->getID()){
-                $T_Slug = $this->getRandString(15);
                 $O_Assoc_Groups = $this->getDoctrine()->getRepository(Assoc_Formulaires_Groups::class);
-                while($O_Assoc_Groups->findOneBy(['T_Slug_View' => $T_Slug])){
-                    $T_Slug = $this->getRandString(15);
-                }
                 $O_Forms_Group = new Assoc_Formulaires_Groups;
                 $O_Forms_Group->setDateCrea(date('d-m-Y'));
                 $O_Forms_Group->setVisible(0);
-                $O_Forms_Group->setSlug($T_Slug);
                 $O_Forms_Group->setIdUtilsCrea($O_Utils);
                 $O_Forms_Group->setIdFormulaires($O_Forms);
                 $O_Forms_Group->setIdGroups(null);

@@ -37,11 +37,6 @@ class Assoc_Formulaires_Groups
      * @ORM\Column(type="date")
      */
     private $D_Crea;
-    
-    /**
-     * @ORM\Column(type="string", nullable=false, unique=true, name="t_slug_view")
-     */
-    private $T_Slug_View;
 
     /**
      * @ORM\Column(type="boolean")
@@ -74,10 +69,6 @@ class Assoc_Formulaires_Groups
     {
         $this->B_Visible = $B_data;
     }
-    public function setSlug($T_data)
-    {
-        $this->T_Slug_View = $T_data;
-    }
 
     public function getID()
     {
@@ -102,9 +93,5 @@ class Assoc_Formulaires_Groups
     public function getVisible()
     {
         return $this->B_Visible;
-    }
-    public function getSlug()
-    {
-        return $this->T_Slug_View;
     }
 }

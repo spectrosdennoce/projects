@@ -70,7 +70,9 @@ Valider_Forms:
 Unvalider_Forms:
     path: /Formulaire/Unvalider_Forms/
     controller: App\Controller\Forms_Editing::Unvalider_Forms
-
+Response_Formulaire:
+    path: /Formulaire/Reponse/{T_Slug_View}
+    controller: App\Controller\Forms_Response::Form_Vue
 
 #nom de la route:
 #   path: lien url

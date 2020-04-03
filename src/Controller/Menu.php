@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 class Menu extends AbstractController
 {
-    public function index(Request $request, \Swift_Mailer $mailer)
+    public function index(Request $request)
     {
         $O_Utils = NULL;
         $O_Formulaires = NULL;
@@ -25,6 +25,10 @@ class Menu extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
         if($session->has('utils')){
+            if($request->query->has('T_Slug_View')){
+                $T_Slug_View = $request->query->get('T_Slug_View');
+                return $this->redirect('http://projet_bts.com:777/Formulaire/Reponse/'.$T_Slug_View);
+            }
             $O_Utils = $repository->find($session->get('utils'));
             $O_Groups = $O_Utils->getGroups();
             //get all formulaire

@@ -20,8 +20,8 @@ class Ligne_Formulaire
     private $T_Titre;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    * @ORM\Column(name="n_ordre",type="integer", nullable=true)
+    */
     private $N_Ordre;
 
     /**
@@ -89,7 +89,7 @@ class Ligne_Formulaire
     }
     public function setOrdre($N_data)
     {
-        $this->N_Ordre = ($N_data > 0) ? -$N_data : $N_data;
+        $this->N_Ordre = (($N_data > 0) ? -$N_data : $N_data);
     }
     public function setObli($B_data)
     {

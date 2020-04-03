@@ -1,0 +1,42 @@
+<ul class="list-group"  id="ul-line">
+    {% for Ligne in Lignes %}
+        <li class="list-group-item" id="{{ Ligne.getID() }}">
+            <div class="form-row">
+                <h5>{{Ligne.getTitre()}} {% if Ligne.getObli() == 1 %} <i class="fas fa-exclamation-triangle" style="color:red;"></i> {% endif %} </h5> 
+            </div>
+                {% if Ligne.getType() == 3 or Ligne.getType() == 4 %}
+                <div class="form-group d-flex justify-content-center">
+                    {% for InLine in Ligne.getInLine() %}
+                    <div class="form-check form-check-inline">
+                        <input name="{{ Ligne.getId() }}" id="{{ InLine.getId() }}" class="form-check-input"
+                        {% if Ligne.getType() == 3 %} type="radio" {% endif %}
+                        {% if Ligne.getType() == 4 %} type="checkbox" {% endif %}
+                        {% for Reponse in Reponses %}
+                            {% if InLine.getId() == Reponse.getReponse() %} checked {% endif %}
+                        {% endfor %}
+                        require={{ Ligne.getObli() }}
+                        autocomplete="off">
+                    <label class="form-check-label" for="{{ InLine.getId() }}">{{ InLine.getTitre() }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="form-group row">
+                    <input name="{{ Ligne.getId() }}" id="{{Ligne.getId()}}"
+                    {% if Ligne.getType() == 1 %} type="text" 
+                        {% for Reponse in Reponses %}
+                            {% if  Ligne.getId() == Reponse.getLignesForms().getId() %}value="{{ Reponse.getLignesForms().getReponse() }}" {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if Ligne.getType() == 2 %} type="date" 
+                        {% for Reponse in Reponses %}
+                            {% if  Ligne.getId() == Reponse.getLignesForms().getId() %}value="{{ Reponse.getLignesForms().getReponse()|date("d/m/Y") }}" {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    class="form-control change_ligne" 
+                    ></input>
+                </div>
+                {% endif %}
+        </li>
+    {% endfor %}
+</ul>

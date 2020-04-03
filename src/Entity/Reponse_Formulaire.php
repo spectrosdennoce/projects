@@ -26,7 +26,7 @@ class Reponse_Formulaire
     private $N_ID_Utils_Crea;
 
     /**
-     * @ORM\OneToMany(targetEntity="Assoc_Ligne_Formulaires_Reponses",mappedBy="O_Reponses")
+     * @ORM\OneToOne(targetEntity="Assoc_Ligne_Formulaires_Reponses",mappedBy="O_Reponses")
      */
     private $O_Ligne_Forms;
 

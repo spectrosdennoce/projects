@@ -27,8 +27,8 @@ $(document).ready(function(){
         Id_Forms: {{ formulaire.getID() }},
         },
         success:function(response) {
-            console.log("OK"); 	 
-            $(location).attr('href', '/') 
+            console.log("OK");
+            $(location).attr('href', '/')
         },
         error:function(){
             console.log("KO");
@@ -204,7 +204,7 @@ $(document).ready(function(){
             },
             success:function(response) {
                 console.log("OK");
-                $( "#ul-head" ).html(response);
+                $( "#ul-line" ).html(response);
                 sendscreen();
             },
             error:function(){
