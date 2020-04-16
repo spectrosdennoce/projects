@@ -5,17 +5,7 @@
         <div class="card-header">
         {{ formulaire.getTitre() }}
         </div>
-        <form id="login" method="POST">
-            {{ include('Formulaire/Response_ligne.html.twig') }}
-            <button class='btn btn-success col-sm-12' id="Valide">Valider Reponse</button>
-        </form>
+        {{ include('Formulaire/Response_ligne.html.twig') }}
     </div>
 </div>
-{% endblock %}
-{% block javascript %}
-<script>
-    $('body').on('focusout', '.change_reponse_ligne', function(){
-        $.post( "/Formulaire/Change_Reponse_Ligne/", { Id_Forms: {{ formulaire.getID() }},Id: $(this).attr("data-id"), Name : $(this).attr("name"), Value : $(this).val() } );
-    });
-</script>
 {% endblock %}

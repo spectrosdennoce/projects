@@ -1,11 +1,12 @@
 <?php
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity()
- * @ORM\Table(name="Assoc_Formulaires_Reponses")
+ * @ORM\Table(name="Response_Ligne")
  */
-class Assoc_Ligne_Formulaires_Reponses
+class Response_Ligne
 {
     /**
      * @ORM\Id()
@@ -15,39 +16,47 @@ class Assoc_Ligne_Formulaires_Reponses
     private $ID;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Ligne_Formulaire",inversedBy="O_Reponses")
-     * @ORM\JoinColumn(name="Lignes_Formulaire",referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Ligne_Formulaire",inversedBy="O_Ligne_Reponses")
+     * @ORM\JoinColumn(name="N_Id_Ligne",referencedColumnName="id")
      */
-    private $O_Lignes_Formulaires;
+    private $N_Id_Ligne;
+
     /**
-     * @ORM\OneToOne(targetEntity="Reponse_Formulaire",inversedBy="O_Ligne_Forms")
-     * @ORM\JoinColumn(name="Reponse_Formulaire",referencedColumnName="id")
+     * @ORM\Column(type="string", nullable=false)
      */
-    private $O_Reponses;
+    private $T_Reponse;
 
     /**
      * @ORM\ManyToOne(targetEntity="Utils")
      * @ORM\JoinColumn(name="N_ID_Utils_Crea",referencedColumnName="id")
      */
     private $N_ID_Utils_Crea;
-
+ 
     /**
      * @ORM\Column(type="date")
      */
     private $D_Crea;
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $B_Vali;
 
     public function __construct(){
-        $this->O_Lignes_Formulaires = new ArrayCollection();
-        $this->O_Reponses = new ArrayCollection();
+        $this->N_Id_Ligne = new ArrayCollection();
         $this->N_ID_Utils_Crea = new ArrayCollection();
     }
     public function setIdLignesFormulaires($N_data)
     {
-        $this->O_Lignes_Formulaires = $N_data;
+        $this->N_Id_Ligne = $N_data;
     }
-    public function setIdReponses($N_data)
+    public function setReponse($N_data)
     {
-        $this->O_Reponses = $N_data;
+        $this->T_Reponse = $N_data;
+    }
+    public function setVali($B_data)
+    {
+        $this->B_Vali = $B_data;
     }
     public function setIdUtilsCrea($N_data)
     {
@@ -62,13 +71,13 @@ class Assoc_Ligne_Formulaires_Reponses
     {
         return $this->ID;
     }
-    public function getLignesFormulaires()
+    public function getLignesForms()
     {
-        return $this->O_Lignes_Formulaires;
+        return $this->N_Id_Ligne;
     }
-    public function getID_Reponses()
+    public function getReponse()
     {
-        return $this->O_Reponses;
+        return $this->T_Reponse;
     }
     public function getIdUtilsCrea()
     {
@@ -77,5 +86,9 @@ class Assoc_Ligne_Formulaires_Reponses
     public function getDateCrea()
     {
         return $this->D_Crea;
+    }
+    public function getVali()
+    {
+        return $this->B_Vali;
     }
 }

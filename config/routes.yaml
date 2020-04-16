@@ -73,6 +73,13 @@ Unvalider_Forms:
 Response_Formulaire:
     path: /Formulaire/Reponse/{T_Slug_View}
     controller: App\Controller\Forms_Response::Form_Vue
+Change_Reponse_Ligne:
+    path: /Formulaire/Change_Reponse_Ligne/
+    controller: App\Controller\Forms_Response::Change_Reponse_Ligne
+Change_State_Ligne:
+    path: /Formulaire/Change_State_Ligne/
+    controller: App\Controller\Forms_Response::Change_State_Ligne
+
 
 #nom de la route:
 #   path: lien url

@@ -42,9 +42,10 @@ class Ligne_Formulaire
     private $N_ID_Formulaires;
 
     /**
-     * @ORM\OneToMany(targetEntity="Assoc_Ligne_Formulaires_Reponses",mappedBy="O_Lignes_Formulaires")
+     * @ORM\OneToMany(targetEntity="Response_Ligne",mappedBy="N_Id_Ligne")
+     * @ORM\JoinColumn(name="Response_Ligne",referencedColumnName="id")
      */
-    private $O_Reponses;
+    private $O_Ligne_Reponses;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -73,7 +74,7 @@ class Ligne_Formulaire
     }
     public function setReponse($O_data)
     {
-        $this->O_Reponses = $O_data;
+        $this->O_Ligne_Reponses = $O_data;
     }
     public function setType($N_data)
     {
@@ -110,7 +111,7 @@ class Ligne_Formulaire
     }
     public function getReponse()
     {
-        return $this->O_Reponses;
+        return $this->O_Ligne_Reponses;
     }
     public function getInline()
     {
