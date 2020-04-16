@@ -56,8 +56,18 @@ class Utils
      * @ORM\Column(type="date", nullable=false, name="d_crea")
      */
     public $D_Crea;
-
     
+        // ...
+    /**
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $activation_token;
+
+    /**
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $reset_token;
+
     public function setNom($T_data)
     {
         $this->T_Nom = $T_data;
@@ -90,6 +100,7 @@ class Utils
     {
         $this->D_Crea = new \DateTime($D_data);
     }
+
     public function getID()
     {
         return $this->ID;
@@ -126,4 +137,5 @@ class Utils
     {
         return $this->O_Groups;
     }
+
 }

@@ -18,7 +18,7 @@ class Menu extends AbstractController
         //call login et register function
         self::Login($request);
         self::Register($request);
-        self::ForgotPass($request);
+        self::oublipass($request);
         //check si utils connecter
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $session = $request->getSession();
@@ -78,14 +78,14 @@ class Menu extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Utils::class);
         $O_Utils = null;
         //check si utilisateur existe dans la bdd
-        if($repository->findOneBy(['T_Pseudo' => $T_Pseudo]))
-        {
-            $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
-        }
-        else if($repository->findOneBy(['T_Email' => $T_Pseudo]))
-        {
-            $O_Utils = $repository->findOneBy(['T_Email' => $T_Pseudo]);
-        }
+            if($repository->findOneBy(['T_Pseudo' => $T_Pseudo]))
+            {
+                $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
+            }
+            else if($repository->findOneBy(['T_Email' => $T_Pseudo]))
+            {
+                $O_Utils = $repository->findOneBy(['T_Email' => $T_Pseudo]);
+            }
         if($O_Utils){
             //check password et set session utils
             if(password_verify($T_Mdp,$O_Utils->getMdp())){
@@ -95,7 +95,9 @@ class Menu extends AbstractController
         }
         return new Response('{"Etat":"KO","Name":"login","Error":"Identifiant incorrect!"}', 403 , array('Content-Type' => 'application/json'));
     }
-    public function Register(Request $request)
+    
+    // un admin qui dois enregistrer un éléves 
+    public function Register(Request $request) 
     {
         if($request->request->get('save') == 'register')
         {
@@ -121,6 +123,8 @@ class Menu extends AbstractController
                 $O_Utils->setDateCrea(date('d-m-Y'));
                 //1 = pas admin
                 $O_Utils->setAdmin(1);
+                //Génére le token et l'enregistre
+                $O_Utils ->setActivationToken(md5(uniqid()));
                 //actualliser bdd
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($O_Utils);
@@ -129,11 +133,106 @@ class Menu extends AbstractController
                 $repository = $this->getDoctrine()->getRepository(Utils::class);
                 $O_Utils = $repository->findOneBy(['T_Pseudo' => $T_Pseudo]);
                 $session->set('utils', $O_Utils);
+
+                //rajout pout mail 
+                $message = (new \Swift_Message('Bienvenue'))
+                // On attribue l'expéditeur
+                ->setFrom('forms.projet.bts@gmail.com')
+                // On attribue le destinataire
+                ->setTo($T_Email->getEmail())
+                // On crée le texte avec la vue
+                ->setBody(
+                    $this->renderView(
+                        'Utilisateurs/activation.html.twig', ['token' => $T_Email->getActivationToken()]
+                    ),
+                    'text/html'
+                );
+                
+                $mailer->send($message);
+
             }
         }
     }
+    
+    //Faire la route d'activation
+    public function activation ($token, Utils $T_Email)
+    {
+        //on recherche si un utilisateur existe dans la base de données 
+        $O_Utils= $T_Email->findOneBy(['activation_token' => $token]);
 
+        if(!$O_Utils)
+        {
+            //error
+            throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
+        }
+        // On supprime le token 
+        $O_Utils->setActivationToken(null);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($O_Utils);
+        $em->flush();
 
+        // On génère un message
+        $this->addFlash('message', 'Utilisateur activé avec succès');
+      
+        return $this->redirectToRoute('index');
+    }
+
+    public function oublipass(Request $request)
+    {
+        //formulaire d'oublie de mdp 
+        //si le formulaire est valide ou recupere l'email sinon en renvoie un message d'erreur
+        /*
+        if ($O_Forms->isSubmitted() && $O_Forms->isValid()) {
+            // On récupère les données
+            $O_Utils = $O_Forms->getData();
+            // On cherche un utilisateur ayant cet e-mail
+            $O_Utils = $repository->findOneBy(['T_Email' => $T_Email]);
+        
+        // Si l'utilisateur n'existe pas
+        if ($T_Email === null) {
+            // On envoie une alerte disant que l'adresse e-mail est inconnue
+            $this->addFlash('danger', 'Cette adresse e-mail est inconnue');
+            return $this->redirectToRoute('index');
+     }
+     */
+
+        // On génère un token qui permetra d'avoir le lien "en absolue dans le twig" 
+        $token = $tokenGenerator->generateToken();
+
+        // écrire le token en base de données
+        try{
+            $O_Utils->setResetToken($token);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($O_Utils);
+            $em->flush();
+        } catch (\Exception $e) {
+            $this->addFlash('warning', $e->getMessage());
+            return $this->redirectToRoute('index');
+        }
+
+        // On génère l'URL de réinitialisation de mot de passe
+        $url = $this->generateUrl('app_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $message = (new \Swift_Message('Mot de passe oublié'))
+            ->setFrom('forms.projet.bts@gmail.com')
+            ->setTo($T_Email->getEmail())
+            ->setBody(
+                //prvisoire
+                'Utilisateurs/ChangePassword.html.twig',
+            )
+        ;
+
+        $mailer->send($message);
+
+        // msg de confirmation
+        $this->addFlash('message', 'E-mail de réinitialisation du mot de passe envoyé !');
+        return $this->redirectToRoute('index');
+    }
+
+        //return $this->render('Utilisateurs/ChangePassword.html.twig',['emailForm' => $form->createView()]);
+    //}
+
+   /* //a supprimer ?? 
     public function ForgotPass(Request $request)
     {
         if($request->request->get('save') == 'Forgot_Pass')
@@ -168,13 +267,13 @@ class Menu extends AbstractController
             }
         }
     }
+*/
     public function Deconnexion(Request $request)
     {
         $request->getSession()->clear();
         return $this->redirectToRoute('index');
     }
 }
-
 
 
 //methode get fomulaire by association
@@ -190,12 +289,12 @@ class Menu extends AbstractController
 
 
            // mail
-        /*$message = (new \Swift_Message('Hello Email'))
+       /*$message = (new \Swift_Message('Hello Email'))
         ->setFrom('forms.projet.bts@gmail.com')
-        ->setTo('mikail2652@hotmail.fr')
+        ->setTo('amelie.guerin@formation-technologique.Fr')
         ->setBody(
             $this->renderView(
-                'test.txt.twig',
+                'Utilisateur/mail.html.twig',
             ),
             'text/html'
         )

@@ -11,8 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 class Forms_Editing extends AbstractController
 {
+
     public function Creation(Request $request)
     {
         //create formulaire
@@ -34,7 +40,7 @@ class Forms_Editing extends AbstractController
         $O_Forms->setSlug($T_Slug);
         $O_Forms->setVisible(1);
         $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
-        $O_Forms_Ligne->setVisible(1);
+        //$O_Forms_Ligne->setVisible(1);
         $O_Forms_Ligne->setObli(0);
         $O_Forms_Ligne->setType(1);
         $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
@@ -162,7 +168,7 @@ class Forms_Editing extends AbstractController
                 $repository = $this->getDoctrine()->getRepository(Formulaire::class);
                 $O_Forms = $repository->findOneBy(['ID' => $request->request->get('id')]);
                 $O_Forms_Ligne->setDateCrea(date('d-m-Y'));
-                $O_Forms_Ligne->setVisible(1);
+                //$O_Forms_Ligne->setVisible(1);
                 $O_Forms_Ligne->setIdUtilsCrea($O_Utils);
                 $O_Forms_Ligne->setObli(0);
                 $O_Forms_Ligne->setType(1);
@@ -238,7 +244,7 @@ class Forms_Editing extends AbstractController
                 $O_Forms_Ligne = $repository->findOneBy(['ID' => $request->request->get('id')]);
                 
                 $O_New_Forms_Ligne = new Ligne_Formulaire;
-                $O_New_Forms_Ligne->setVisible($O_Forms_Ligne->getVisible());
+                //$O_New_Forms_Ligne->setVisible($O_Forms_Ligne->getVisible());
                 $O_New_Forms_Ligne->setObli($O_Forms_Ligne->getObli());
                 $O_New_Forms_Ligne->setType($O_Forms_Ligne->getType());
                 $O_New_Forms_Ligne->setOrdre($O_Forms_Ligne->getOrdre());
@@ -512,5 +518,5 @@ class Forms_Editing extends AbstractController
             return $this->redirectToRoute('index');
         }
     }
+
 }
-?>

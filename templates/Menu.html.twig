@@ -3,9 +3,7 @@
       <div class="container">
         {% if utils.getID() is defined %}
           {% if utils.getAdmin() == 1 %}
-            {% for formulaire in formulaires %}
               {% include "MenuForAdmin.html.twig" %}
-            {% endfor %} 
           {% else %}
             {% for formulaire in formulaires %}
               {% include "Menu_Loop_Form.html.twig" %}

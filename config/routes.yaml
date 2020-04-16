@@ -52,7 +52,7 @@ Change_InLigne:
 Delete_InLigne:
     path: /Formulaire/Delete_InLine/
     controller: App\Controller\Forms_Editing::Delete_InLine
-    
+
 
     
 #nom de la route:
