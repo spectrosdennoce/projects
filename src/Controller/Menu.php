@@ -39,7 +39,19 @@ class Menu extends AbstractController
                 $O_Formulaires = $repository->findAll();
             }
             else{
-                $O_Formulaires = $repository->findBy(array('N_ID_Utils_Crea' => $O_Utils ));
+                
+                
+                $O_Forms = $repository->findBy(array('B_Valide' => 1,'B_Visible' => 1));
+                foreach($O_Forms as $A_Forms)
+                {
+                    foreach($A_Forms->getGroups() as $A_Form){
+                        foreach($O_Utils->getGroups() as $O_Util){
+                            if($A_Form->getIdGroups() == $O_Util->getIdGroups()){
+                                $O_Formulaires[] = $A_Forms;
+                            }
+                        }
+                    }
+                }
                 /*foreach ($O_Groups as $O_Group)
                 {
                     $O_Forms = $O_Group->getIdGroups()->getForms();

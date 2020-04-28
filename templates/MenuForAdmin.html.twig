@@ -1,5 +1,43 @@
+{% if utils.getAdmin() == 1 %}
+<br>
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a 
+    
+    {% if app.request.get("nav") == 'admin' or app.request.get("nav") == null %}
+        class="nav-item nav-link active"
+        aria-selected="true"
+    {% else %}
+        class="nav-item nav-link"
+        aria-selected="false"
+    {% endif %}
+
+     id="nav-Admin-tab" href="?nav=admin" role="tab" aria-controls="nav-Admin">Admin</a>
+    <a 
+    
+    {% if app.request.get("nav") == 'utils' %}
+        class="nav-item nav-link active"
+        aria-selected="true"
+    {% else %}
+        class="nav-item nav-link"
+        aria-selected="false"
+    {% endif %}
+     id="nav-Utils-tab"  href="?nav=utils" role="tab" aria-controls="nav-Utils">Utils</a>
+  </div>
+</nav>
+{% endif %}
 {% for formulaire in formulaires %}
-    {% include "Menu_Loop_Form.html.twig" %}
+
+    {% if app.request.get("nav") == 'admin' or app.request.get("nav") == null and utils.getAdmin() == 1 %}
+        {% include "Menu_Loop_Admin.html.twig" %}
+    {% else %}
+        {% include "Menu_Loop_Util.html.twig" %}
+    {% endif %}
+
+    {% if loop.index0 % 4 > 3 and loop.last %}
+        </div>
+    {% endif %}
+
     {% if loop.last and utils.getAdmin() == 1 %}
         <a href=" {{ path('Create_Formulaire') }} " class="btn btn-outline-link col-sm-3">
             <div class="card">

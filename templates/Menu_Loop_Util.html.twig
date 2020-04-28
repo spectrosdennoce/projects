@@ -1,0 +1,48 @@
+{% if loop.index0 % 4 == 0 %}
+    <div class="row">
+{% endif %}
+<a class="btn btn-outline-link col-sm-3" href="/Formulaire/Reponse/{{ formulaire.getSlugView() }}" role="button">
+    {% if utils.getAdmin() == 1 %}
+        {% if formulaire.getVisible() == 1 and formulaire.getValide() == 0 %}
+            <div class="card">
+        {% elseif formulaire.getValide() == 1 and formulaire.getVisible() == 1  %}
+            <div class="card bg-green">
+        {% else %}
+            <div class="card bg-red">
+        {% endif %}
+    {% else %}
+        {% set Lignes_form = formulaire.getLigne() %}
+        {% set B_Vali = 0 %}
+        {% for Reponse_Lign in Lignes_form[0].getReponse() %}
+            {% if Reponse_Lign.getVali() == true and Reponse_Lign.getIdUtilsCrea() == utils %}
+                {% set B_Vali = 1 %}
+            {% endif %}
+        {% endfor %}
+        <div 
+        {% if B_Vali == 1 %}
+        class="card bg-green"
+        {% elseif formulaire.getValide() == 1 %}
+        class="card"
+        {% else %}
+        class="card bg-red"
+        {% endif %}
+        >
+    {% endif %}
+        <div class="card-inner">
+            <div class="image" id="img{{formulaire.getId()}}">
+                <img src="{{ asset("img/" ~ formulaire.getSlug() ~ ".png") }}" alt="">
+            </div>
+            <div class="content">
+                <h5>{{formulaire.getTitre()}}</h5>
+                <p>
+                    Crée par : {{formulaire.getIdUtilsCrea().getPrenom()}}
+                    <br>
+                    Crée le : {{formulaire.getDateCrea()|date("d/m/Y")}}
+                </p>
+            </div>
+        </div>
+    </div>
+</a>
+{% if loop.index0 % 4 > 3 and loop.last %}
+    </div>
+{% endif %}
