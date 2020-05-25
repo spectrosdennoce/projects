@@ -59,7 +59,7 @@ class Formulaire
     private $D_Crea;
 
     /**
-     * @ORM\Column(type="date", nullable=false, name="d_vali")
+     * @ORM\Column(type="date", nullable=true, name="d_vali")
      */
     private $D_Vali;
     
